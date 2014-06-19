@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'Syncopate';
+    src: url('../fonts/Syncopate-Bold.ttf');
+    src: url('../fonts/Syncopate-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Anonymous Pro';
+    src: url('../fonts/Anonymous_Pro/AnonymousPro-Bold.ttf');
+    src: url('../fonts/Anonymous_Pro/AnonymousPro-Bold.ttf') format('truetype');
+}
+
+.user-panel > .lda_svg_logo > svg {
+    margin-left: 10px;
+}
+
+.user-header > .lda_svg_logo > svg {
+    margin-top: 20px;
+}
+
+svg > path {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+svg > .fish {
+    fill: #dddddd;
+    stroke: #888888;
+    stroke-width: 3;
+}
+
+svg > .signal {
+    fill: none;
+    stroke: #1f8dff;
+    stroke-width: 5;
+}
+
+svg > text {
+    fill: #1f8dff;
+}
+
+svg > .lda {
+    font-size: 150px;
+    font-family: Syncopate;
+}
+
+svg > .lda_nonabbrv {
+    font-size: 32px;
+    font-family: Anonymous Pro;
+}
+
+.relay_indicator {
+    height: 40px;
+    width: 40px;
+    margin-bottom: 20px;
+    border: 2px solid #000000;
+    border-radius: 6px;
+    line-height: 38px;
+    vertical-align: middle;
+    text-align: center;
+    align-content: center;
+}

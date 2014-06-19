@@ -1,0 +1,28 @@
+﻿.vis.timeline .item {
+    padding: 0px;
+}
+
+.vis.timeline .item.range, .vis.timeline .item.rangeoverflow {
+    height: 21px;
+    bottom: 4px !important;
+}
+
+.vis.timeline .item.range .content {
+    height: 21px;
+    line-height: 21px;
+}
+
+.vis.timeline .labelset .vlabel .inner {
+    padding: 0px;
+}
+
+.vis.timeline .labelset .vlabel .inner > button {
+    padding: 4px 4px 4px 4px;
+    text-align: right;
+    width: 90px;
+}
+
+.vis.timeline .foreground > .vis_group_disabled > div {
+    text-shadow: 0px 0px 3px #1A1A1A;      
+    opacity: 0.3;
+}
