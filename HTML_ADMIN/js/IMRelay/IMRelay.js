@@ -1,5 +1,14 @@
 $(document).ready(function () {
 
+    $("a#feeder_settings_button").click(function () {
+
+
+        
+    });    
+
+
+    /*
+
     $("a#relay_list_tabbutton").click(function () {
 
         for (var r = 0; r < 16; r++) {
@@ -103,16 +112,16 @@ $(document).ready(function () {
 
             add_event_to_relay_list(relay_nr, start_time, end_time);
             timeline_add(start_date, end_date, content_string);
-            /*if (relay_nr < 10) {
-                timeline_add(start_date, end_date, content_string, "0" + relay_nr);
-            } else {
-                timeline_add(start_date, end_date, content_string, relay_nr);
-            }*/
-        } /* else { */
+            //if (relay_nr < 10) {
+            //    timeline_add(start_date, end_date, content_string, "0" + relay_nr);
+            //} else {
+            //    timeline_add(start_date, end_date, content_string, relay_nr);
+            //}
+        } // else {
 
-            /* error message */
+            // error message
             //$("label#status_text").text("Error in format").hide().fadeIn("slow");
-        /*}*/
+        //}
     });
 
     $("button#reset").click(function () {
@@ -138,6 +147,7 @@ $(document).ready(function () {
         jsobject.send(cmd_str, relay_nr);
     });
 
+    */
 });
 
 function relay_indicator_control(relay_number, active) {

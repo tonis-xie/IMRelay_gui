@@ -182,7 +182,7 @@ $(function () {
         var string_dataset2 = JSON.parse(tem_5513);
         groups.update(string_dataset2);
 
-        for (var cntr_var_temp = 0; cntr_var_temp < 8; cntr_var_temp++) {
+        for (var cntr_var_temp = 0; cntr_var_temp < 16; cntr_var_temp++) {
 
 
             console.log(string_dataset2[cntr_var_temp].className);
