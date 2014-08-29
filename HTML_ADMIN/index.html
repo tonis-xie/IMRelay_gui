@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>IMRelay | Dashboard</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>    
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- bootstrap 3.0.2 -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- font Awesome -->
@@ -19,17 +19,17 @@
     <!-- iCheck for checkboxes and radio inputs -->
     <link href="css/iCheck/all.css" rel="stylesheet" type="text/css" />
     <!-- CHAP timeline -->
-    <link rel="stylesheet" href="css/timeline/timeline.css">        
-    <link href="css/vis/vis.css" rel="stylesheet" type="text/css" />  
-    <link href="css/vis/vis_timeline_theme.css" rel="stylesheet" type="text/css" />  
+    <link rel="stylesheet" href="css/timeline/timeline.css">
+    <link href="css/vis/vis.css" rel="stylesheet" type="text/css" />
+    <link href="css/vis/vis_timeline_theme.css" rel="stylesheet" type="text/css" />
     <script src="js/plugins/vis/vis.js"></script>
     <!-- Digital Clock http://tutorialzine.com/2013/06/digital-clock/ -->
     <link href="css/digitalclock/digitalclock.css" rel="stylesheet" />
     <!-- Theme style -->
     <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
-    <link href="css/IMRelay.css" rel="stylesheet" type="text/css" />        
+    <link href="css/IMRelay.css" rel="stylesheet" type="text/css" />
 </head>
-<body class="skin-blue">
+<body class="skin-blue fixed">
     <!-- header logo: style can be found in header.less -->
     <header class="header">
         <a href="index_example.html" class="logo">
@@ -264,7 +264,7 @@
                     </li>
                     <li>
                         <a href="relay_list.html">
-                            <i class="fa fa-th"></i> 
+                            <i class="fa fa-th"></i>
                             <span>Relays</span>
                         </a>
                     </li>
@@ -299,6 +299,8 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
+                            <li><a href="#" data-theme="blue" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Blue</a></li>
+                            <li><a href="#" data-theme="black" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Black</a></li>
                             <li><a href="#" data-theme="default" class="theme-link"><i class="fa fa-angle-double-right"></i> Default</a></li>
                             <li><a href="#" data-theme="cyborg" class="theme-link"><i class="fa fa-angle-double-right"></i> Cyborg</a></li>
                             <li><a href="#" data-theme="darkly" class="theme-link"><i class="fa fa-angle-double-right"></i> Darkly</a></li>
@@ -417,7 +419,7 @@
                     <section class="col-lg-12">
                         <div class="panel panel-primary" id="vis_timeline"></div>
                     </section>
-                   
+
                     <!-- Add/edit timeline event modal -->
                     <div class="modal fade" id="vis_timeline_event_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -438,7 +440,6 @@
                     </div>
 
                 </div><!-- /.row (main row) -->
-
                 <!-- Relay stat boxes -->
                 <div class="row">
                     <div class="col-lg-3 col-xs-6">
@@ -515,30 +516,23 @@
     <!-- iCheck -->
     <script src="js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
     <!-- CHAP timeline -->
-    <script src="js/plugins/timeline/timeline.js" type="text/javascript"></script>       
+    <script src="js/plugins/timeline/timeline.js" type="text/javascript"></script>
     <!-- Digital Clock http://tutorialzine.com/2013/06/digital-clock/ -->
     <script src="js/plugins/digitalclock/digitalclock.js"></script>
 
     <!-- IMRelay App -->
     <script src="js/IMRelay/IMRelay_datetime.js"></script>
     <script src="js/IMRelay/IMRelay_jqueryknob.js"></script>
-    <script src="js/IMRelay/IMRelay_timeline.js"></script>
+    <script src="js/IMRelay/IMRelay_timeline.js"></script>   
     <script src="js/IMRelay/IMRelay_vis.js"></script>
     <!-- <script src="js/IMRelay/IMRelay_serial_handler.js"></script> -->
     <!-- include IMRelay as last script -->
     <!-- <script src="js/IMRelay/IMRelay.js"></script> -->
-
     <!-- AdminLTE App -->
     <script src="js/AdminLTE/app.js" type="text/javascript"></script>
 
     <!-- Bootstrap theme switcher -->
-    <script src="js/AdminLTE/theme_switcher.js" type="text/javascript"></script>
-
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="js/AdminLTE/dashboard.js" type="text/javascript"></script>
-
-    <!-- AdminLTE for demo purposes -->
-    <script src="js/AdminLTE/demo.js" type="text/javascript"></script>
+    <script src="js/IMRelay/theme_switcher.js" type="text/javascript"></script>
 
 </body>
 </html>

@@ -14,7 +14,7 @@
         draw: function () {
 
             // "tron" case
-            if (this.$.data('skin') == 'tron') {
+            if (this.$.data('skin') === 'tron') {
 
                 var a = this.angle(this.cv)  // Angle
                         , sa = this.startAngle          // Previous start angle

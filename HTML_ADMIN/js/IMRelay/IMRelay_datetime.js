@@ -15,9 +15,9 @@
 function is_valid_hhmmss(s) {
 
     var arr = s.split(':');
-    return (arr[0].length == 2 &&
-        arr[1].length == 2 &&
-        arr[2].length == 2 &&
+    return (arr[0].length === 2 &&
+        arr[1].length === 2 &&
+        arr[2].length === 2 &&
         arr[0] < 24 &&
         arr[1] < 60 &&
         arr[2] < 60);
@@ -52,8 +52,7 @@ function hhmmss_to_second(time) {
 
     if (seconds < 86400 && is_valid_hhmmss(time)) {
         return seconds;
-    }
-    else {
+    } else {
         return -1;
     }
 }
@@ -67,8 +66,7 @@ function date_d2_sub_d1_second(d1, d2) {
 
     if (sec1 >= 0 && sec2 >= 0 && seconds < 86400) {
         return seconds;
-    }
-    else {
+    } else {
         return -1;
     }
 }
@@ -83,8 +81,7 @@ function date_to_second(d) {
 
     if (seconds < 86400) {
         return seconds;
-    }
-    else {
+    } else {
         return -1;
     }
 }
