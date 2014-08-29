@@ -13,9 +13,24 @@ $(function () {
  
     var themesheet = $('<link href="' + themes['default'] + '" rel="stylesheet" />');
     themesheet.appendTo('head');
+
     $('.theme-link').click(function () {
         var themeurl = themes[$(this).attr('data-theme')];
         themesheet.attr('href', themeurl);
+    });
+
+    function change_skin(cls) {
+        $("body").removeClass("skin-blue skin-black");
+        $("body").addClass(cls);
+    }
+
+    $('.adminlte-link').click(function () {
+        var theme_name = $(this).attr('data-theme');
+        if(theme_name == 'blue') {
+            change_skin("skin-blue");
+        } else {
+            change_skin("skin-black");
+        }        
     });
 
 });

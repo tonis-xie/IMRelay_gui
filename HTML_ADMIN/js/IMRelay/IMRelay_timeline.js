@@ -348,7 +348,7 @@ function getSelectedRow(tl) {
     var row = undefined;
     var sel = tl.getSelection();
     if (sel.length) {
-        if (sel[0].row != undefined) {
+        if (sel[0].row !== undefined) {
             row = sel[0].row;
         }
     }

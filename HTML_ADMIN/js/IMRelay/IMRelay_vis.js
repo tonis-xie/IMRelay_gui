@@ -10,59 +10,56 @@ $(function () {
         html_group_button.innerText = id + ': Disabled';
 
         return html_group_button;
-    }
+    }   
 
-    var groups = new vis.DataSet([
-      { id: 1, className: 'vis_group_disabled', content: create_html_button(1), value: 1 },
-      { id: 2, className: 'vis_group_disabled', content: create_html_button(2), value: 2 },
-      { id: 3, className: 'vis_group_disabled', content: create_html_button(3), value: 3 },
-      { id: 4, className: 'vis_group_disabled', content: create_html_button(4), value: 4 },
-      { id: 5, className: 'vis_group_disabled', content: create_html_button(5), value: 5 },
-      { id: 6, className: 'vis_group_disabled', content: create_html_button(6), value: 6 },
-      { id: 7, className: 'vis_group_disabled', content: create_html_button(7), value: 7 },
-      { id: 8, className: 'vis_group_disabled', content: create_html_button(8), value: 8 },
-      { id: 9, className: 'vis_group_disabled', content: create_html_button(9), value: 9 },
-      { id: 10, className: 'vis_group_disabled', content: create_html_button(10), value: 10 },
-      { id: 11, className: 'vis_group_disabled', content: create_html_button(11), value: 11 },
-      { id: 12, className: 'vis_group_disabled', content: create_html_button(12), value: 12 },
-      { id: 13, className: 'vis_group_disabled', content: create_html_button(13), value: 13 },
-      { id: 14, className: 'vis_group_disabled', content: create_html_button(14), value: 14 },
-      { id: 15, className: 'vis_group_disabled', content: create_html_button(15), value: 15 },
-      { id: 16, className: 'vis_group_disabled', content: create_html_button(16), value: 16 }
-    ]);
+    var groups = new vis.DataSet();
+
+    for (var i = 1; i <= 16; i++) {
+        groups.add({ id: i, className: 'vis_group_disabled', content: create_html_button(i), value: i });
+    }    
+   
+    groups.on('*', function (event, properties, senderId) {
+
+        var temp_12345 = groups.get({
+            fields: ['id', 'className']        // output the specified fields only
+        });
+
+        localStorage["timeline.groups"] = JSON.stringify(temp_12345);
+
+    });
 
     var start_date = new Date();
     start_date.setHours(0, 0, 0, 0);
     var end_date = new Date();
     end_date.setTime(start_date.getTime() + (24 * 60 * 60 * 1000));
 
-    var start_time;
-    var end_time;
-    var content_string;
+    function parse_timeline_from_localstorage(data) {
 
-    // create a dataset with items
-    // note that months are zero-based in the JavaScript Date object, so month 3 is April
-    var items = new vis.DataSet([      
-      { id: 100, group: 1, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 200, group: 2, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 300, group: 3, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 400, group: 4, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 500, group: 5, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 600, group: 6, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 700, group: 7, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 800, group: 8, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 900, group: 9, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 1000, group: 10, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 1100, group: 11, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 1200, group: 12, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 1300, group: 13, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 1400, group: 14, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 1500, group: 15, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) },
-      { id: 1600, group: 16, start: (start_time = getRandomDate(start_date, end_date)), end: (end_time = getRandomDate(start_time, end_date)), content: (date_to_hhmmss(start_time) + " - " + date_to_hhmmss(end_time)) }
-    ]);
+        for (key in data) {
 
-    // create visualization
-    var container = document.getElementById('vis_timeline');
+            data[key].start = new Date(data[key].start);
+            data[key].end = new Date(data[key].end);
+
+        }
+
+    }
+
+    var items = new vis.DataSet();
+    var local_storage_timeline_items = localStorage["timeline.items"];
+
+    if (local_storage_timeline_items != null) {
+
+        var string_dataset = JSON.parse(local_storage_timeline_items);
+        parse_timeline_from_localstorage(string_dataset);
+        items["_data"] = string_dataset;
+    }
+
+    items.on('*', function (event, properties, senderId) {
+        localStorage["timeline.items"] = JSON.stringify(items["_data"]);
+        //debug with: localStorage["timeline"] = JSON.stringify(items);
+    });
+
+    // create visualization    
     var options = {
 
         align: "center",
@@ -92,29 +89,26 @@ $(function () {
         min: start_date,
         //minHeight: '28px',
         onAdd: function (item, callback) {
-            if (start_date <= item.start && end_date >= item.end && (date_to_hhmmss(item.start) < date_to_hhmmss(item.end) || date_to_hhmmss(item.end) == "00:00:00")) {
+            if (start_date <= item.start && end_date >= item.end && (date_to_hhmmss(item.start) < date_to_hhmmss(item.end) || date_to_hhmmss(item.end) === "00:00:00")) {
                 item.content = date_to_hhmmss(item.start) + " - " + date_to_hhmmss(item.end);
                 callback(item); // send back adjusted item
-            }
-            else {
+            } else {
                 callback(null); // cancel updating the item
             }
         },
         //onUpdate
         onMove: function (item, callback) {
-            if (start_date <= item.start && end_date >= item.end && (date_to_hhmmss(item.start) < date_to_hhmmss(item.end) || date_to_hhmmss(item.end) == "00:00:00")) {
+            if (start_date <= item.start && end_date >= item.end && (date_to_hhmmss(item.start) < date_to_hhmmss(item.end) || date_to_hhmmss(item.end) === "00:00:00")) {
                 item.content = date_to_hhmmss(item.start) + " - " + date_to_hhmmss(item.end);
                 callback(item); // send back adjusted item
-            }
-            else {
+            } else {
                 callback(null); // cancel updating the item
             }
         },
         onRemove: function (item, callback) {
             if (confirm('Remove item from relay ' + item.group + '? ' + '(' + item.content + ')')) {
                 callback(item); // confirm deletion
-            }
-            else {
+            } else {
                 callback(null); // cancel deletion
             }
         },
@@ -134,37 +128,73 @@ $(function () {
 
     };
 
+    var container = document.getElementById('vis_timeline');
     var timeline = new vis.Timeline(container);
     timeline.setOptions(options);
     timeline.setGroups(groups);
     timeline.setItems(items);
 
-    function toggle_vis_timeline_button_classes(btn_num) {
+    function enable_vis_timeline_button_classes(btn_num) {
+
+        console.log(btn_num + 'enabled func');
+
+        //$("#vis_group_button_" + btn_num).parent().parent().removeClass('vis_group_disabled').addClass('vis_group_enabled');
+        $("#vis_group_button_" + btn_num).removeClass('btn-default vis_btn_disabled').addClass('btn-success vis_btn_enabled');
+        $("#vis_group_button_" + btn_num).html(btn_num + ': Enabled');
+        //$(".vis.timeline .foreground > div:nth-child(" + btn_num + ")").removeClass('vis_group_disabled').addClass('vis_group_enabled');
+
+    }
+
+    function disable_vis_timeline_button_classes(btn_num) {
+
+        console.log(btn_num + 'disabled func');
+
+        //$("#vis_group_button_" + btn_num).parent().parent().removeClass('vis_group_enabled').addClass('vis_group_disabled');
+        $("#vis_group_button_" + btn_num).removeClass('btn-success vis_btn_enabled').addClass('btn-default vis_btn_disabled');
+        $("#vis_group_button_" + btn_num).html(btn_num + ': Disabled');
+        //$(".vis.timeline .foreground > div:nth-child(" + btn_num + ")").removeClass('vis_group_enabled').addClass('vis_group_disabled');
+
+    }    
+
+    function toggle_vis_timeline_button_classes(btn_num) {             
 
         $("#vis_group_button_" + btn_num).click(function () {
 
-            if ($("#vis_group_button_" + btn_num).parent().parent().hasClass('vis_group_disabled')) {
-
-                $("#vis_group_button_" + btn_num).parent().parent().removeClass('vis_group_disabled').addClass('vis_group_enabled');
-                $("#vis_group_button_" + btn_num).removeClass('btn-default vis_btn_disabled').addClass('btn-success vis_btn_enabled');
-                $("#vis_group_button_" + btn_num).html(btn_num + ': Enabled');
-                $(".vis.timeline .foreground > div:nth-child(" + btn_num + ")").removeClass('vis_group_disabled').addClass('vis_group_enabled');
-
+            if ($("#vis_group_button_" + btn_num).hasClass('vis_btn_disabled')) {
+                groups.update({ id: btn_num, className: 'vis_group_enabled' });
+                enable_vis_timeline_button_classes(btn_num);
             } else {
-
-                $("#vis_group_button_" + btn_num).parent().parent().removeClass('vis_group_enabled').addClass('vis_group_disabled');
-                $("#vis_group_button_" + btn_num).removeClass('btn-success vis_btn_enabled').addClass('btn-default vis_btn_disabled');
-                $("#vis_group_button_" + btn_num).html(btn_num + ': Disabled');
-                $(".vis.timeline .foreground > div:nth-child(" + btn_num + ")").removeClass('vis_group_enabled').addClass('vis_group_disabled');
-
+                groups.update({ id: btn_num, className: 'vis_group_disabled' });
+                disable_vis_timeline_button_classes(btn_num);
             }
 
-        });
+        });        
 
     }
 
     for (var btn_num = 1; btn_num <= 16; btn_num++) {
         toggle_vis_timeline_button_classes(btn_num);
+    }
+
+    var tem_5513 = localStorage["timeline.groups"];
+
+    if (tem_5513 != null) {
+        var string_dataset2 = JSON.parse(tem_5513);
+        groups.update(string_dataset2);
+
+        for (var cntr_var_temp = 0; cntr_var_temp < 8; cntr_var_temp++) {
+
+
+            console.log(string_dataset2[cntr_var_temp].className);
+            if (string_dataset2[cntr_var_temp].className == 'vis_group_disabled') {
+                disable_vis_timeline_button_classes(cntr_var_temp + 1);
+                console.log(cntr_var_temp + 'disabled');
+            } else {
+                enable_vis_timeline_button_classes(cntr_var_temp + 1);
+                console.log(cntr_var_temp + 'enabled');
+            }
+
+        }
     }
 
 });
