@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     $("a#feeder_settings_button").click(function () {
 
-
+        //implement view/hide of feeder settings table
         
     });    
 
