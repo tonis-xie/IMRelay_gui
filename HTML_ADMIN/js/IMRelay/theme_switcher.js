@@ -1,5 +1,5 @@
 ﻿var themes = {
-    "default": "css/bootstrap.css",
+    "default": "css/bootstrap.min.css",
     "cyborg": "css/bootstrap_themes/cyborg/bootstrap.css",
     "darkly": "css/bootstrap_themes/darkly/bootstrap.css",
     "slate": "css/bootstrap_themes/slate/bootstrap.css",
