@@ -6,8 +6,8 @@
 
 @font-face {
     font-family: 'Anonymous Pro';
-    src: url('../fonts/Anonymous_Pro/AnonymousPro-Bold.ttf');
-    src: url('../fonts/Anonymous_Pro/AnonymousPro-Bold.ttf') format('truetype');
+    src: url('../fonts/AnonymousPro-Bold.ttf');
+    src: url('../fonts/AnonymousPro-Bold.ttf') format('truetype');
 }
 
 .user-panel > .lda_svg_logo > svg {
