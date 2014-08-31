@@ -10,16 +10,13 @@
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />    
-    <!-- Daterange picker -->
-    <link href="css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-    <!-- iCheck for checkboxes and radio inputs -->
-    <link href="css/iCheck/all.css" rel="stylesheet" type="text/css" />
     <!-- CHAP timeline -->
     <link href="css/vis/vis.css" rel="stylesheet" type="text/css" />
     <link href="css/vis/vis_timeline_theme.css" rel="stylesheet" type="text/css" />
-    <script src="js/plugins/vis/vis.js"></script>
+    <script src="js/plugins/vis/vis.min.js"></script>
     <!-- Digital Clock http://tutorialzine.com/2013/06/digital-clock/ -->
     <link href="css/digitalclock/digitalclock.css" rel="stylesheet" />
+
     <!-- Theme style -->
     <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
     <link href="css/IMRelay.css" rel="stylesheet" type="text/css" />
@@ -441,55 +438,23 @@
                         <div class="panel panel_primary">
                             <table id="feeding_table" class="table table-bordered table-responsive table-condensed">
                                 <thead>
-                                    <!-- <tr> <th>IMRelay</th> <th>1</th> <th>2</th> <th>3</th> <th>4</th> <th>5</th> <th>6</th> <th>7</th> <th>8</th> </tr> -->
                                     <tr>
-                                        <th>#</th>
-                                        <th>State</th>
-                                        <th>Start Date</th>
-                                        <th># of fish</th>
-                                        <th>gram / fish</th>
-                                        <th>Biomass (kg)</th>
-                                        <th>kg/min</th>
-                                        <th>Feeding %</th>
-                                        <th>kg/day</th>
-                                        <th>kg today</th>
-                                        <th>Feeding duration</th>
-                                        <th>Running time</th>
-                                        <th>Factor</th>
+                                        <th data-dynatable-column="id">#</th>
+                                        <th data-dynatable-column="state">State</th>
+                                        <th data-dynatable-column="start_date">Start Date</th>
+                                        <th data-dynatable-column="nr_of_fish"># of fish</th>
+                                        <th data-dynatable-column="avg_fish_kg">gram / fish</th>
+                                        <th data-dynatable-column="biomass">Biomass (kg)</th>
+                                        <th data-dynatable-column="feeder_speed_kg_pr_min">kg/min</th>
+                                        <th data-dynatable-column="feeding_percent">Feeding %</th>
+                                        <th data-dynatable-column="required_feed_pr_day">kg/day</th>
+                                        <th data-dynatable-column="feed_progress_today">kg today</th>
+                                        <th data-dynatable-column="time_feeding_intervals">Feeding duration</th>
+                                        <th data-dynatable-column="time_feeder_active">Running time</th>
+                                        <th data-dynatable-column="feeder_toggle_speed">Factor</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td><a href="#" id="ft_status" class="editable editable-click editable-unsaved" data-original-title="" title="" style="background-color: rgba(0, 0, 0, 0);">Active</a></td>
-                                        <td><a href="#" id="ft_start_date" class="editable editable-click editable-empty">Empty</a></td>
-                                        <td><a href="#" id="ft_fish_count" class="editable editable-click editable-empty">Empty</a></td>
-                                        <td><a href="#" id="ft_fish_weight" class="editable editable-click editable-empty">Empty</a></td>
-                                        <td><a href="#" id="ft_fish_biomass" class="editable editable-click editable-empty">Empty</a></td>
-                                        <td><a href="#" id="ft_feed_kg_min" class="editable editable-click editable-empty">Empty</a></td>
-                                        <td><a href="#" id="ft_feed_percent" class="editable editable-click editable-empty" data-original-title="" title="">Empty</a></td>
-                                        <td><a href="#" id="ft_feed_kg_day" class="editable editable-click editable-empty">Empty</a></td>
-                                        <td><a href="#" id="ft_feed_kg_today" class="editable editable-click editable-empty">Empty</a></td>
-                                        <td><a href="#" id="ft_feed_duration" class="editable editable-click editable-empty">Empty</a></td>
-                                        <td><a href="#" id="ft_feed_time" class="editable editable-click editable-empty">Empty</a></td>
-                                        <td><a href="#" id="ft_feed_factor" class="editable editable-click editable-empty">Empty</a></td>
-                                    </tr>
-                                    <tr> <td>2</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>3</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>4</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>5</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>6</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>7</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>8</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>9</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>10</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>11</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>12</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>13</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>14</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>15</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                    <tr> <td>16</td> <td>Active</td> <td>2014-04-10</td> <td>100500</td> <td>2000</td> <td>200 000</td> <td>0.367</td> <td>0.5-2 %</td> <td>100</td> <td>1</td> <td>60</td> <td>10</td> <td>1/8</td> </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </section>
@@ -502,19 +467,19 @@
     <!-- jQuery 2.0.3 -->
     <script src="js/jquery-2.0.3.min.js"></script>
     <!-- jQuery UI 1.10.3 -->
-    <script src="js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
+    <!-- <script src="js/jquery-ui-1.10.3.min.js" type="text/javascript"></script> -->
     <!-- Bootstrap 3.0.3 -->
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="js/plugins/jqueryKnob/jquery.knob.js" type="text/javascript"></script>
-    <!-- daterangepicker -->
-    <script src="js/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
-    <!-- iCheck -->
-    <script src="js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+    <!-- Moment v2.8.2 -->
+    <script src="js/plugins/moment/moment.min.js" type="text/javascript"></script>
     <!-- Digital Clock http://tutorialzine.com/2013/06/digital-clock/ -->
     <script src="js/plugins/digitalclock/digitalclock.js"></script>
-    <! -- rrule v2.1.0 --> 
-    <script src="rrule/lib/rrule.js"></script>
+    <!-- rrule v2.1.0 -->
+    <script src="js/plugins/rrule/rrule.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="js/plugins/jqueryKnob/jquery.knob.min.js" type="text/javascript"></script>    
+    <!-- dynatable v0.3.1 -->
+    <script src="js/plugins/dynatable/jquery.dynatable.js"></script>
 
     <!-- IMRelay App -->
     <script src="js/IMRelay/IMRelay_datetime.js"></script>
