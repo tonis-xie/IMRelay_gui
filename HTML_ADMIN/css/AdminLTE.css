@@ -8,6 +8,7 @@
     Core: General style
 ----------------------------
 */
+
 html,
 body {
   overflow-x: hidden!important;
@@ -398,7 +399,7 @@ body > .header .logo {
   text-align: center;
   padding: 0 10px;
   width: 220px;
-  font-family: cursive;
+  font-family: Anonymous Pro;
   font-weight: 500;
   height: 50px;
   display: block;
@@ -1293,7 +1294,7 @@ body > .header .logo .icon {
   border-bottom-left-radius: 0;
   border-bottom: 0px solid #f4f4f4;
   color: #444;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
 }
 .box .box-header:before,
 .box .box-header:after {
@@ -1475,18 +1476,6 @@ body > .header .logo .icon {
 .box .box-group > .box {
   margin-bottom: 5px;
 }
-.knob-label {
-  margin:0 auto;
-  margin-top: -54px;
-  margin-bottom: 20px;
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  color: #333;
-  font-weight: 100;
-  font-size: 12px;  
-}
 .box .todo-list {
   margin: 0;
   padding: 0px 0px;
@@ -1651,13 +1640,17 @@ body > .header .logo .icon {
 */
 .btn {
   font-weight: 500;
-  -webkit-border-radius: 3px;
+  /*-webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  border-radius: 3px;
+  border-radius: 3px;*/
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
   border: 1px solid transparent;
-  -webkit-box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.09);
+  margin: 1px;
+  /*-webkit-box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.09);
   -moz-box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.09);
-  box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.09);
+  box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.09);*/
 }
 .btn.btn-default {
   background-color: #fafafa;

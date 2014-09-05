@@ -917,13 +917,13 @@ RRule.prototype = {
         return RRule.optionsToString(this.origOptions);
     },
 
-	/**
-	* Will convert all rules described in nlp:ToText
-	* to text.
-	*/
-	toText: function(gettext, language) {
+    /**
+    * Will convert all rules described in nlp:ToText
+    * to text.
+    */
+    toText: function(gettext, language) {
         return getnlp().toText(this, gettext, language);
-	},
+    },
 
     isFullyConvertibleToText: function() {
         return getnlp().isFullyConvertible(this)

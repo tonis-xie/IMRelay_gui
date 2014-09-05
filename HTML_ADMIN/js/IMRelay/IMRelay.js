@@ -1,11 +1,44 @@
 $(document).ready(function () {
 
-    $("a#feeder_settings_button").click(function () {
+    function hide_timeline(hide) {
+        //Find the box parent
+        var box = $(".box").first();
+        //Find the body and the footer
+        var bf = box.find(".box-body");
+        if (hide) {
+            bf.slideUp();
+        } else {
+            bf.slideDown();
+        }
+    }
 
-        //implement view/hide of feeder settings table
-        
-    });    
+    function hide_table(hide) {
+        //Find the box parent
+        var box = $(".box").last();
+        //Find the body and the footer
+        var bf = box.find(".box-body, .box-footer");
+        if (hide) {
+            bf.slideUp();
+        } else {
+            bf.slideDown();
+        }
+    }
 
+    $("a#feeder_settings_button").click(function () {        
+
+        hide_table(false);
+        hide_timeline(true);
+
+    });
+
+    $("a#timeline_menu_button").click(function () {
+
+        hide_table(true);
+        hide_timeline(false);
+
+    });
+
+    hide_table(true);
 
     /*
 

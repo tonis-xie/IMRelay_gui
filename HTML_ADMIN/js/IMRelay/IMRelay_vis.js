@@ -38,8 +38,16 @@ $(function () {
 
         for (key in data) {
 
-            data[key].start = new Date(data[key].start);
-            data[key].end = new Date(data[key].end);
+            data[key].start = new Date(data[key].start).setFullYear(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
+            data[key].end = new Date(data[key].end).setFullYear(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
+            /*var new_converted_start_date = new Date(data[key].start);
+            var new_converted_end_date = new Date(data[key].end);
+
+            new_converted_start_date.setFullYear(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
+            new_converted_end_date.setFullYear(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
+
+            data[key].start = new_converted_start_date; 
+            data[key].end = new_converted_end_date;*/
 
         }
 
@@ -53,6 +61,8 @@ $(function () {
         var timeline_items_json = JSON.parse(timeline_items_localstorage);
         parse_timeline_items_json(timeline_items_json);
         items["_data"] = timeline_items_json;
+        localStorage["timeline.items"] = JSON.stringify(items["_data"]);
+
     }
 
     items.on('*', function (event, properties, senderId) {

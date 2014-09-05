@@ -68,26 +68,6 @@ $(function() {
         size: "3px"
     }).css("width", "100%");
 
-    /*
-     * INITIALIZE BUTTON TOGGLE
-     * ------------------------
-     */
-    $('.btn-group[data-toggle="btn-toggle"]').each(function() {
-        var group = $(this);
-        $(this).find(".btn").click(function(e) {
-            group.find(".btn.active").removeClass("active");
-            $(this).addClass("active");
-            e.preventDefault();
-        });
-
-    });
-
-    $("[data-widget='remove']").click(function() {
-        //Find the box parent        
-        var box = $(this).parents(".box").first();
-        box.slideUp();
-    });
-
     /* Sidebar tree view */
     $(".sidebar .treeview").tree();
 
@@ -457,84 +437,6 @@ $(window).load(function() {
         }) : "object" == typeof exports ? module.exports = Pace : C.startOnPageLoad && Pace.start()
     }).call(this);
 });
-
-/* 
- * BOX REFRESH BUTTON 
- * ------------------
- * This is a custom plugin to use with the compenet BOX. It allows you to add
- * a refresh button to the box. It converts the box's state to a loading state.
- * 
- * USAGE:
- *  $("#box-widget").boxRefresh( options );
- * */
-(function($) {
-    "use strict";
-
-    $.fn.boxRefresh = function(options) {
-
-        // Render options
-        var settings = $.extend({
-            //Refressh button selector
-            trigger: ".refresh-btn",
-            //File source to be loaded (e.g: ajax/src.php)
-            source: "",
-            //Callbacks
-            onLoadStart: function(box) {
-            }, //Right after the button has been clicked
-            onLoadDone: function(box) {
-            } //When the source has been loaded
-
-        }, options);
-
-        //The overlay
-        var overlay = $('<div class="overlay"></div><div class="loading-img"></div>');
-
-        return this.each(function() {
-            //if a source is specified
-            if (settings.source === "") {
-                if (console) {
-                    console.log("Please specify a source first - boxRefresh()");
-                }
-                return;
-            }
-            //the box
-            var box = $(this);
-            //the button
-            var rBtn = box.find(settings.trigger).first();
-
-            //On trigger click
-            rBtn.click(function(e) {
-                e.preventDefault();
-                //Add loading overlay
-                start(box);
-
-                //Perform ajax call
-                box.find(".box-body").load(settings.source, function() {
-                    done(box);
-                });
-
-
-            });
-
-        });
-
-        function start(box) {
-            //Add overlay and loading img
-            box.append(overlay);
-
-            settings.onLoadStart.call(box);
-        }
-
-        function done(box) {
-            //Remove overlay and loading img
-            box.find(overlay).remove();
-
-            settings.onLoadDone.call(box);
-        }
-
-    };
-
-})(jQuery);
 
 /*
  * SIDEBAR MENU
