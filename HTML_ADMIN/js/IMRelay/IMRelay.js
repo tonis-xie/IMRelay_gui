@@ -16,7 +16,7 @@ $(document).ready(function () {
         //Find the box parent
         var box = $(".box").last();
         //Find the body and the footer
-        var bf = box.find(".box-body, .box-footer");
+        var bf = box.find(".box-body");
         if (hide) {
             bf.slideUp();
         } else {

@@ -25,7 +25,7 @@ $(function () {
                      'feeder_speed_kg_pr_min', 'feeding_percent']
     });
 
-    view.on('*', function (event, properties, senderId) {
+    view.on('*', function () {
 
         var feeder_table_to_localstorage = view.get();
         localStorage["feeder.table"] = JSON.stringify(feeder_table_to_localstorage);
@@ -33,7 +33,7 @@ $(function () {
     });
     
     var myRecords = table.get();
-    table.on('*', function (event, properties, senderId) {
+    table.on('*', function () {
 
         myRecords = table.get();
 
@@ -43,6 +43,68 @@ $(function () {
         { id: 1, state: 'active' },
         { id: 2, state: 'active' }
     ]);
+
+    function create_html_button(id) {
+
+        var html_group_button = document.createElement('button');
+        html_group_button.className = 'btn btn-default';
+        html_group_button.type = 'button';
+        html_group_button.id = 'toogle_edit_button' + id;
+        html_group_button.innerText = id + ': Edit';
+
+        return html_group_button;
+    }
+
+    function feeding_table_button_cell_writer(id) {        
+        var td = '<td style="width:65px;">';
+        var html = create_html_button(id).outerHTML;
+
+        return td + html + '</td>';
+    }
+
+    function feeding_table_cell_writer(column, record, user_editable) {
+        var html = column.attributeWriter(record),
+            td = '<td';
+
+        column.textAlign = 'center';
+
+        if (column.hidden || column.textAlign) {
+            td += ' style="';
+
+            // keep cells for hidden column headers hidden
+            if (column.hidden) {
+                td += 'display: none;';
+            }
+
+            // keep cells aligned as their column headers are aligned
+            if (column.textAlign) {
+                td += 'text-align: ' + column.textAlign + ';';
+            }
+
+            td += '"';
+        }
+        
+        if (user_editable) {
+            td += ' class="user_editable"';
+        }
+
+        return td + '>' + html + '</td>';
+    }
+
+    function feeding_table_column_iseditable(column_name) {
+
+        if (column_name === "nr_of_fish") {
+            return true;
+        } else if (column_name === "avg_fish_kg") {
+            return true;
+        } else if (column_name === "feeder_speed_kg_pr_min") {
+            return true;
+        } else if (column_name === "feeding_percent") {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     function feeding_table_row_writer(rowIndex, record, columns, cellWriter) {
 
@@ -59,9 +121,10 @@ $(function () {
         record.time_feeder_active = record.required_feed_pr_day / record.feeder_speed_kg_pr_min;
         record.feeder_toggle_speed = record.time_feeder_active / record.time_feeding_intervals;
 
+        tr += feeding_table_button_cell_writer(record.id);
         // grab the record's attribute for each column
-        for (var i = 0, len = columns.length; i < len; i++) {
-            tr += cellWriter(columns[i], record);
+        for (var i = 1, len = columns.length; i < len; i++) {
+            tr += cellWriter(columns[i], record, feeding_table_column_iseditable(columns[i].id));
         }
 
         return '<tr>' + tr + '</tr>';
@@ -78,7 +141,8 @@ $(function () {
             records: myRecords
         },
         writers: {
-            _rowWriter: feeding_table_row_writer
+            _rowWriter: feeding_table_row_writer,
+            _cellWriter: feeding_table_cell_writer
         }
     });
     
@@ -87,12 +151,22 @@ $(function () {
     dynatable.sorts.add('id', 1); // 1=ASCENDING, -1=DESCENDING
     dynatable.process();
 
-    $('#toogle_edit_button').click(function () {
+    function edit_save_feeding_table_button(btn_num) {
 
-        var cell = $('table#feeding_table tr td');
-        var is_editable = cell.is('.editable');
-        cell.prop('contenteditable', !is_editable).toggleClass('editable');
+        $('#toogle_edit_button' + btn_num).click(function () {
 
-    });
+            var cell = $('table#feeding_table tr:nth-child(' + btn_num + ') td.user_editable');
+            var is_not_editable = !cell.is('.editable');
+
+            this.innerHTML = is_not_editable ? (btn_num + ': Save') : (btn_num + ': Edit');
+            cell.prop('contenteditable', is_not_editable).toggleClass('editable');            
+
+        });
+
+    }
+
+    for (var btn_num = 1; btn_num <= 16; btn_num++) {
+        edit_save_feeding_table_button(btn_num);
+    }
 
 });

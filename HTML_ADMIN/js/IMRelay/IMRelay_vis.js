@@ -140,10 +140,12 @@ $(function () {
     };
 
     var container = document.getElementById('vis_timeline');
-    var timeline = new vis.Timeline(container);
-    timeline.setOptions(options);
+    var timeline = new vis.Timeline(container, items, options);
+    //timeline.setOptions(options);
     timeline.setGroups(groups);
-    timeline.setItems(items);
+    //timeline.setItems(items);
+    
+    //var timeline = new vis.Timeline(container, data, options);
 
     function enable_vis_timeline_button_classes(btn_num) {
 
