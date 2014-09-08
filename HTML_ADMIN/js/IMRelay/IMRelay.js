@@ -7,8 +7,12 @@ $(document).ready(function () {
         var bf = box.find(".box-body");
         if (hide) {
             bf.slideUp();
+            //bf.hide();
+            //bf.css({'visibility':'hidden'});
         } else {
             bf.slideDown();
+            //bf.css({'visibility':'visible'});
+            //bf.show();
         }
     }
 
@@ -19,8 +23,12 @@ $(document).ready(function () {
         var bf = box.find(".box-body");
         if (hide) {
             bf.slideUp();
+            //bf.hide();
+            //bf.css({'visibility':'hidden'});
         } else {
             bf.slideDown();
+            //bf.show();
+            //bf.css({'visibility':'visible'});
         }
     }
 
