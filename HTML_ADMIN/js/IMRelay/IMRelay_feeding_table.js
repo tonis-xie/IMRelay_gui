@@ -77,22 +77,31 @@ $(function () {
 
     var feeding_table = new vis.DataSet();
 
-    for (var i = 1; i <= 16; i++) {
-        feeding_table.add({
-            id: i,
-            state: 'inactive',
-            start_date: new Date().setHours(0, 0, 0, 0),
-            nr_of_fish: '0',
-            avg_fish_kg: '1',
-            biomass: '1',
-            feeder_speed_kg_pr_min: '1',
-            feeding_percent: '1',
-            required_feed_pr_day: '1',
-            feed_progress_today: '1',
-            time_feeding_intervals: '1',
-            time_feeder_active: '1',
-            feeder_toggle_speed: '1'
-        });
+    var feeding_table_localstorage = localStorage["feeder.table"];
+
+    if (feeding_table_localstorage != null) {
+
+        var feeding_table_json = JSON.parse(feeding_table_localstorage);
+        feeding_table.update(feeding_table_json);
+
+    } else {
+        for (var i = 1; i <= 16; i++) {
+            feeding_table.add({
+                id: i,
+                state: 'inactive',
+                start_date: new Date().setHours(0, 0, 0, 0),
+                nr_of_fish: '0',
+                avg_fish_kg: '1',
+                biomass: '1',
+                feeder_speed_kg_pr_min: '1',
+                feeding_percent: '1',
+                required_feed_pr_day: '1',
+                feed_progress_today: '1',
+                time_feeding_intervals: '1',
+                time_feeder_active: '1',
+                feeder_toggle_speed: '1'
+            });
+        }
     }
 
     var view = new vis.DataView(feeding_table, {
@@ -101,6 +110,8 @@ $(function () {
     });
 
     view.on('*', function () {
+
+        console.log('saved');
 
         var feeder_table_to_localstorage = view.get();
         localStorage["feeder.table"] = JSON.stringify(feeder_table_to_localstorage);
@@ -150,10 +161,6 @@ $(function () {
 //           this.innerHTML = is_not_editable ? (btn_num + ': Save') : (btn_num + ': Edit');
 //           cells.prop('contenteditable', is_not_editable).toggleClass('editable');
 //
-//           if (is_not_editable) {
-//               //console.log( 'saved' );
-//               console.log( $('table#feeding_table tr:nth-child(' + btn_num + ') td#nr_of_fish') );
-//           }
 //
 //       });
 //   }
@@ -165,7 +172,24 @@ $(function () {
             var is_not_editable = !cell.is('.editable');
 
             this.innerHTML = is_not_editable ? (btn_num + ': Save') : (btn_num + ': Edit');
-            cell.prop('contenteditable', is_not_editable).toggleClass('editable');            
+            cell.prop('contenteditable', is_not_editable).toggleClass('editable');
+
+            if (!is_not_editable) {
+
+                var html_nr_of_fish             = $('table#feeding_table tr:nth-child(' + btn_num + ') td:nth-child(4)').html();
+                var html_avg_fish_kg            = $('table#feeding_table tr:nth-child(' + btn_num + ') td:nth-child(5)').html();
+                var html_feeder_speed_kg_pr_min = $('table#feeding_table tr:nth-child(' + btn_num + ') td:nth-child(7)').html();
+                var html_feeding_percent        = $('table#feeding_table tr:nth-child(' + btn_num + ') td:nth-child(8)').html();
+
+                feeding_table.update([
+                    { id: btn_num,
+                        nr_of_fish: html_nr_of_fish,
+                        avg_fish_kg: html_avg_fish_kg,
+                        feeder_speed_kg_pr_min: html_avg_fish_kg,
+                        feeding_percent: html_feeding_percent
+                    },
+                ]);
+            }
 
         });
 
