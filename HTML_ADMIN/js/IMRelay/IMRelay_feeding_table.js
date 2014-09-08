@@ -22,17 +22,13 @@ $(function () {
 
             td += ' style="';
 
-            // keep cells for hidden column headers hidden
-            if (column.hidden) {
-                td += 'display: none;';
-            }
-
             // keep cells aligned as their column headers are aligned
             if (column.textAlign) {
                 td += 'text-align: ' + column.textAlign + ';';
             }
 
             td += '"';
+
         }
 
         if (user_editable) {
@@ -43,10 +39,8 @@ $(function () {
     }
 
     function feeding_table_column_iseditable(column_name) {
-
-        editable_columns = [ "nr_of_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent" ];
-
-        return $.inArray(column_name, editable_columns) != -1 ? true : false;
+        var editable_columns = [ "nr_of_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent" ];
+        return $.inArray(column_name, editable_columns) !== -1 ? true : false;
     }
 
     function feeding_table_row_writer(rowIndex, record, columns, cellWriter) {
@@ -79,55 +73,34 @@ $(function () {
     var feeding_table_localstorage = localStorage["feeder.table"];
 
     if (feeding_table_localstorage != null) {
-
         var feeding_table_json = JSON.parse(feeding_table_localstorage);
         feeding_table.update(feeding_table_json);
-
     } else {
+
         for (var i = 1; i <= 16; i++) {
+
             feeding_table.add({
                 id: i,
                 state: 'inactive',
                 start_date: new Date().setHours(0, 0, 0, 0),
                 nr_of_fish: '0',
                 avg_fish_kg: '1',
-                biomass: '1',
                 feeder_speed_kg_pr_min: '1',
-                feeding_percent: '1',
-                required_feed_pr_day: '1',
-                feed_progress_today: '1',
-                time_feeding_intervals: '1',
-                time_feeder_active: '1',
-                feeder_toggle_speed: '1'
+                feeding_percent: '1'
             });
+
         }
+
     }
 
-    var view = new vis.DataView(feeding_table, {
-        fields: ['id', 'state', 'start_date', 'nr_of_fish', 'avg_fish_kg',
-                     'feeder_speed_kg_pr_min', 'feeding_percent']
-    });
-
-    view.on('*', function () {
-
-        console.log('saved');
-
-        var feeder_table_to_localstorage = view.get();
-        localStorage["feeder.table"] = JSON.stringify(feeder_table_to_localstorage);
-
-    });
-
-    var feeding_table_records = feeding_table.get();
     feeding_table.on('*', function () {
 
-        feeding_table_records = feeding_table.get();
+        var feeder_table_to_localstorage = feeding_table.get();
+        localStorage["feeder.table"] = JSON.stringify(feeder_table_to_localstorage);
+        dynatable.settings.dataset.originalRecords = feeder_table_to_localstorage;
+        dynatable.process();
 
     });
-
-    feeding_table.update([
-        { id: 1, state: 'active' },
-        { id: 2, state: 'active' }
-    ]);
 
     $('#feeding_table').dynatable({
         features: {
@@ -137,12 +110,18 @@ $(function () {
             search: false
         },
         dataset: {
-            records: feeding_table_records
+            records: feeding_table.get()
         },
         writers: {
             _rowWriter: feeding_table_row_writer,
             _cellWriter: feeding_table_cell_writer
         }
+    }).bind('dynatable:afterProcess', function () {
+
+        for (var btn_num = 1; btn_num <= 16; btn_num++) {
+            edit_save_feeding_table_button(btn_num);
+        }
+
     });
 
     var dynatable = $('#feeding_table').data('dynatable');
@@ -150,52 +129,31 @@ $(function () {
     dynatable.sorts.add('id', 1); // 1=ASCENDING, -1=DESCENDING
     dynatable.process();
 
-//   for (var btn_num = 1; btn_num <= 16; btn_num++) {
-//
-//       $('#toogle_edit_button' + btn_num).click(function () {
-//
-//           var cells = $('table#feeding_table tr:nth-child(' + btn_num + ') td.user_editable');
-//           var is_not_editable = !cells.is('.editable');
-//
-//           this.innerHTML = is_not_editable ? (btn_num + ': Save') : (btn_num + ': Edit');
-//           cells.prop('contenteditable', is_not_editable).toggleClass('editable');
-//
-//
-//       });
-//   }
     function edit_save_feeding_table_button(btn_num) {
 
         $('#toogle_edit_button' + btn_num).click(function () {
 
             var cell = $('table#feeding_table tr:nth-child(' + btn_num + ') td.user_editable');
-            var is_not_editable = !cell.is('.editable');
+            var is_editable = cell.is('.editable');
+            this.innerHTML = is_editable ? (btn_num + ': Edit') : (btn_num + ': Save');
+            cell.prop('contenteditable', !is_editable).toggleClass('editable');
 
-            this.innerHTML = is_not_editable ? (btn_num + ': Save') : (btn_num + ': Edit');
-            cell.prop('contenteditable', is_not_editable).toggleClass('editable');
+            if (is_editable) {
 
-            if (!is_not_editable) {
+                var read = dynatable.records.getFromTable()[btn_num - 1];
 
-                var html_nr_of_fish             = $('table#feeding_table tr:nth-child(' + btn_num + ') td:nth-child(4)').html();
-                var html_avg_fish_kg            = $('table#feeding_table tr:nth-child(' + btn_num + ') td:nth-child(5)').html();
-                var html_feeder_speed_kg_pr_min = $('table#feeding_table tr:nth-child(' + btn_num + ') td:nth-child(7)').html();
-                var html_feeding_percent        = $('table#feeding_table tr:nth-child(' + btn_num + ') td:nth-child(8)').html();
+                feeding_table.update([{
+                    id: btn_num,
+                    nr_of_fish: read.nr_of_fish,
+                    avg_fish_kg: read.avg_fish_kg,
+                    feeder_speed_kg_pr_min: read.feeder_speed_kg_pr_min,
+                    feeding_percent: read.feeding_percent
+                }]);
 
-                feeding_table.update([
-                    { id: btn_num,
-                        nr_of_fish: html_nr_of_fish,
-                        avg_fish_kg: html_avg_fish_kg,
-                        feeder_speed_kg_pr_min: html_avg_fish_kg,
-                        feeding_percent: html_feeding_percent
-                    },
-                ]);
             }
 
         });
 
-    }
-
-    for (var btn_num = 1; btn_num <= 16; btn_num++) {
-        edit_save_feeding_table_button(btn_num);
     }
 
     function daily_event_updater(init) {
