@@ -47,7 +47,6 @@ $(function () {
         editable_columns = [ "nr_of_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent" ];
 
         return $.inArray(column_name, editable_columns) != -1 ? true : false;
-
     }
 
     function feeding_table_row_writer(rowIndex, record, columns, cellWriter) {
