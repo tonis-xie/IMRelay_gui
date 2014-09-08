@@ -75,11 +75,10 @@ $(function () {
 
             data[key].start = new Date(data[key].start).setFullYear(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
             data[key].end = new Date(data[key].end).setFullYear(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
-
-            total_active_feeding_time[data[key].group].time_feeding_intervals += ((data[key].end - data[key].start) / (1000 * 60));
+            total_active_feeding_time[data[key].group - 1].time_feeding_intervals += ((data[key].end - data[key].start) / (1000 * 60));
             
         }
-        console.log(total_active_feeding_time);
+
         g_LDA.feeding_table.update(total_active_feeding_time);
 
     }
@@ -99,7 +98,33 @@ $(function () {
     }
 
     items.on('*', function (event, properties, senderId) {
+
         localStorage["timeline.items"] = JSON.stringify(items["_data"]);
+
+        var total_active_feeding_time = [
+            { id: 1, time_feeding_intervals: 0 },
+            { id: 2, time_feeding_intervals: 0 },
+            { id: 3, time_feeding_intervals: 0 },
+            { id: 4, time_feeding_intervals: 0 },
+            { id: 5, time_feeding_intervals: 0 },
+            { id: 6, time_feeding_intervals: 0 },
+            { id: 7, time_feeding_intervals: 0 },
+            { id: 8, time_feeding_intervals: 0 },
+            { id: 9, time_feeding_intervals: 0 },
+            { id: 10, time_feeding_intervals: 0 },
+            { id: 11, time_feeding_intervals: 0 },
+            { id: 12, time_feeding_intervals: 0 },
+            { id: 13, time_feeding_intervals: 0 },
+            { id: 14, time_feeding_intervals: 0 },
+            { id: 15, time_feeding_intervals: 0 },
+            { id: 16, time_feeding_intervals: 0 }];
+
+        for (var key in items["_data"]) {
+            total_active_feeding_time[items["_data"][key].group - 1].time_feeding_intervals += ((items["_data"][key].end - items["_data"][key].start) / (1000 * 60));
+        }
+
+        g_LDA.feeding_table.update(total_active_feeding_time);
+        
     });
 
     // create visualization    
