@@ -1,49 +1,5 @@
 $(function () {
 
-    var feeding_table = new vis.DataSet();
-
-    for (var i = 1; i <= 16; i++) {
-        feeding_table.add({
-            id: i,
-            state: 'inactive',
-            start_date: new Date().setHours(0, 0, 0, 0),
-            nr_of_fish: '0',
-            avg_fish_kg: '1',
-            biomass: '1',
-            feeder_speed_kg_pr_min: '1',
-            feeding_percent: '1',
-            required_feed_pr_day: '1',
-            feed_progress_today: '1',
-            time_feeding_intervals: '1',
-            time_feeder_active: '1',
-            feeder_toggle_speed: '1'
-        });
-    }
-
-    var view = new vis.DataView(feeding_table, {
-        fields: ['id', 'state', 'start_date', 'nr_of_fish', 'avg_fish_kg',
-                     'feeder_speed_kg_pr_min', 'feeding_percent']
-    });
-
-    view.on('*', function () {
-
-        var feeder_table_to_localstorage = view.get();
-        localStorage["feeder.table"] = JSON.stringify(feeder_table_to_localstorage);
-
-    });
-
-    var feeding_table_records = feeding_table.get();
-    feeding_table.on('*', function () {
-
-        feeding_table_records = feeding_table.get();
-
-    });
-
-    feeding_table.update([
-        { id: 1, state: 'active' },
-        { id: 2, state: 'active' }
-    ]);
-
     function feeding_table_button_cell_writer(id) {
 
         var html_group_button = document.createElement('button');
@@ -90,7 +46,7 @@ $(function () {
 
         editable_columns = [ "nr_of_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent" ];
 
-        return $.inArray(column_name, editable_columns);
+        return $.inArray(column_name, editable_columns) != -1 ? true : false;
 
     }
 
@@ -119,6 +75,50 @@ $(function () {
         return '<tr>' + tr + '</tr>';
     }
 
+    var feeding_table = new vis.DataSet();
+
+    for (var i = 1; i <= 16; i++) {
+        feeding_table.add({
+            id: i,
+            state: 'inactive',
+            start_date: new Date().setHours(0, 0, 0, 0),
+            nr_of_fish: '0',
+            avg_fish_kg: '1',
+            biomass: '1',
+            feeder_speed_kg_pr_min: '1',
+            feeding_percent: '1',
+            required_feed_pr_day: '1',
+            feed_progress_today: '1',
+            time_feeding_intervals: '1',
+            time_feeder_active: '1',
+            feeder_toggle_speed: '1'
+        });
+    }
+
+    var view = new vis.DataView(feeding_table, {
+        fields: ['id', 'state', 'start_date', 'nr_of_fish', 'avg_fish_kg',
+                     'feeder_speed_kg_pr_min', 'feeding_percent']
+    });
+
+    view.on('*', function () {
+
+        var feeder_table_to_localstorage = view.get();
+        localStorage["feeder.table"] = JSON.stringify(feeder_table_to_localstorage);
+
+    });
+
+    var feeding_table_records = feeding_table.get();
+    feeding_table.on('*', function () {
+
+        feeding_table_records = feeding_table.get();
+
+    });
+
+    feeding_table.update([
+        { id: 1, state: 'active' },
+        { id: 2, state: 'active' }
+    ]);
+
     $('#feeding_table').dynatable({
         features: {
             paginate: false,
@@ -140,7 +140,24 @@ $(function () {
     dynatable.sorts.add('id', 1); // 1=ASCENDING, -1=DESCENDING
     dynatable.process();
 
-    for (var btn_num = 1; btn_num <= 16; btn_num++) {
+//   for (var btn_num = 1; btn_num <= 16; btn_num++) {
+//
+//       $('#toogle_edit_button' + btn_num).click(function () {
+//
+//           var cells = $('table#feeding_table tr:nth-child(' + btn_num + ') td.user_editable');
+//           var is_not_editable = !cells.is('.editable');
+//
+//           this.innerHTML = is_not_editable ? (btn_num + ': Save') : (btn_num + ': Edit');
+//           cells.prop('contenteditable', is_not_editable).toggleClass('editable');
+//
+//           if (is_not_editable) {
+//               //console.log( 'saved' );
+//               console.log( $('table#feeding_table tr:nth-child(' + btn_num + ') td#nr_of_fish') );
+//           }
+//
+//       });
+//   }
+    function edit_save_feeding_table_button(btn_num) {
 
         $('#toogle_edit_button' + btn_num).click(function () {
 
@@ -148,9 +165,14 @@ $(function () {
             var is_not_editable = !cell.is('.editable');
 
             this.innerHTML = is_not_editable ? (btn_num + ': Save') : (btn_num + ': Edit');
-            cell.prop('contenteditable', is_not_editable).toggleClass('editable');
+            cell.prop('contenteditable', is_not_editable).toggleClass('editable');            
 
         });
+
+    }
+
+    for (var btn_num = 1; btn_num <= 16; btn_num++) {
+        edit_save_feeding_table_button(btn_num);
     }
 
 });
