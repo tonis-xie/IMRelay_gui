@@ -169,4 +169,22 @@ $(function () {
         edit_save_feeding_table_button(btn_num);
     }
 
+    function daily_event_updater(init) {
+
+        if (!init) {
+            console.log("daily event has fired");
+        }
+
+        var datetime_now = new Date();
+        //var midnight_tomorrow = new date().setHours(24, 0, 0, 0);
+        //update every x seconds, testing with: 
+        var midnight_tomorrow = new Date();
+        midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 10);
+
+        window.setTimeout(daily_event_updater, midnight_tomorrow - datetime_now);
+
+    }
+
+    daily_event_updater(true);
+
 });
