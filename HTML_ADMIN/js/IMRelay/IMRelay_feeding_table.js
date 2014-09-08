@@ -1,3 +1,6 @@
+//declare global g_LDA object
+var g_LDA = {};
+
 $(function () {
 
     function feeding_table_button_cell_writer(id) {
@@ -53,8 +56,8 @@ $(function () {
                                         ("0" +  start_date_datetime_object.getDate().toString()).slice(-2);
 
         record.start_date = start_date_datetime_string;
-        record.biomass = record.nr_of_fish * record.avg_fish_kg;
-        record.required_feed_pr_day = record.biomass * record.feeding_percent;
+        record.biomass = record.nr_of_fish * record.avg_fish_kg / 1000;
+        record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
         record.time_feeder_active = record.required_feed_pr_day / record.feeder_speed_kg_pr_min;
         record.feeder_toggle_speed = record.time_feeder_active / record.time_feeding_intervals;
 
@@ -68,34 +71,102 @@ $(function () {
         return '<tr>' + tr + '</tr>';
     }
 
-    var feeding_table = new vis.DataSet();
+    function edit_save_feeding_table_button(btn_num) {
 
+        $('#toogle_edit_button' + btn_num).click(function () {
+
+            var cell = $('table#feeding_table tr:nth-child(' + btn_num + ') td.user_editable');
+            var is_editable = cell.is('.editable');
+            this.innerHTML = is_editable ? (btn_num + ': Edit') : (btn_num + ': Save');
+            cell.prop('contenteditable', !is_editable).toggleClass('editable');
+
+            if (is_editable) {
+
+                var read = dynatable.records.getFromTable()[btn_num - 1];
+
+                g_LDA.feeding_table.update([{
+                    id: btn_num,
+                    nr_of_fish: read.nr_of_fish,
+                    avg_fish_kg: read.avg_fish_kg,
+                    feeder_speed_kg_pr_min: read.feeder_speed_kg_pr_min,
+                    feeding_percent: read.feeding_percent
+                }]);
+
+            }
+
+        });
+
+    }
+
+    function daily_event_updater(init) {
+
+        if (!init) {
+
+            var update_feeder_table = g_LDA.feeding_table.get();
+
+            for (var key in update_feeder_table) {
+                if (update_feeder_table[key].state === 'active') {
+                    update_feeder_table[key].avg_fish_kg = update_feeder_table[key].avg_fish_kg * 1.1;
+                }
+            }
+
+            g_LDA.feeding_table.update([
+                { id: 1, avg_fish_kg: update_feeder_table[0].avg_fish_kg },
+                { id: 2, avg_fish_kg: update_feeder_table[1].avg_fish_kg },
+                { id: 3, avg_fish_kg: update_feeder_table[2].avg_fish_kg },
+                { id: 4, avg_fish_kg: update_feeder_table[3].avg_fish_kg },
+                { id: 5, avg_fish_kg: update_feeder_table[4].avg_fish_kg },
+                { id: 6, avg_fish_kg: update_feeder_table[5].avg_fish_kg },
+                { id: 7, avg_fish_kg: update_feeder_table[6].avg_fish_kg },
+                { id: 8, avg_fish_kg: update_feeder_table[7].avg_fish_kg },
+                { id: 9, avg_fish_kg: update_feeder_table[8].avg_fish_kg },
+                { id: 10, avg_fish_kg: update_feeder_table[9].avg_fish_kg },
+                { id: 11, avg_fish_kg: update_feeder_table[10].avg_fish_kg },
+                { id: 12, avg_fish_kg: update_feeder_table[11].avg_fish_kg },
+                { id: 13, avg_fish_kg: update_feeder_table[12].avg_fish_kg },
+                { id: 14, avg_fish_kg: update_feeder_table[13].avg_fish_kg },
+                { id: 15, avg_fish_kg: update_feeder_table[14].avg_fish_kg },
+                { id: 16, avg_fish_kg: update_feeder_table[15].avg_fish_kg }
+            ]);
+
+        }
+
+        var datetime_now = new Date();
+        var midnight_tomorrow = new Date().setHours(24, 0, 0, 0);
+        //update every x seconds, testing with: 
+        //var midnight_tomorrow = new Date();
+        //midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 10);
+        window.setTimeout(daily_event_updater, midnight_tomorrow - datetime_now);
+
+    }
+
+    g_LDA.feeding_table = new vis.DataSet();
     var feeding_table_localstorage = localStorage["feeder.table"];
 
     if (feeding_table_localstorage != null) {
         var feeding_table_json = JSON.parse(feeding_table_localstorage);
-        feeding_table.update(feeding_table_json);
+        g_LDA.feeding_table.update(feeding_table_json);
     } else {
 
         for (var i = 1; i <= 16; i++) {
 
-            feeding_table.add({
+            g_LDA.feeding_table.add({
                 id: i,
-                state: 'inactive',
                 start_date: new Date().setHours(0, 0, 0, 0),
                 nr_of_fish: '0',
-                avg_fish_kg: '1',
-                feeder_speed_kg_pr_min: '1',
-                feeding_percent: '1'
+                avg_fish_kg: '0',
+                feeder_speed_kg_pr_min: '0',
+                feeding_percent: '0',
+                time_feeding_intervals: '0'
             });
 
         }
 
     }
 
-    feeding_table.on('*', function () {
+    g_LDA.feeding_table.on('*', function () {
 
-        var feeder_table_to_localstorage = feeding_table.get();
+        var feeder_table_to_localstorage = g_LDA.feeding_table.get();
         localStorage["feeder.table"] = JSON.stringify(feeder_table_to_localstorage);
         dynatable.settings.dataset.originalRecords = feeder_table_to_localstorage;
         dynatable.process();
@@ -110,7 +181,7 @@ $(function () {
             search: false
         },
         dataset: {
-            records: feeding_table.get()
+            records: g_LDA.feeding_table.get()
         },
         writers: {
             _rowWriter: feeding_table_row_writer,
@@ -129,49 +200,7 @@ $(function () {
     dynatable.sorts.add('id', 1); // 1=ASCENDING, -1=DESCENDING
     dynatable.process();
 
-    function edit_save_feeding_table_button(btn_num) {
-
-        $('#toogle_edit_button' + btn_num).click(function () {
-
-            var cell = $('table#feeding_table tr:nth-child(' + btn_num + ') td.user_editable');
-            var is_editable = cell.is('.editable');
-            this.innerHTML = is_editable ? (btn_num + ': Edit') : (btn_num + ': Save');
-            cell.prop('contenteditable', !is_editable).toggleClass('editable');
-
-            if (is_editable) {
-
-                var read = dynatable.records.getFromTable()[btn_num - 1];
-
-                feeding_table.update([{
-                    id: btn_num,
-                    nr_of_fish: read.nr_of_fish,
-                    avg_fish_kg: read.avg_fish_kg,
-                    feeder_speed_kg_pr_min: read.feeder_speed_kg_pr_min,
-                    feeding_percent: read.feeding_percent
-                }]);
-
-            }
-
-        });
-
-    }
-
-    function daily_event_updater(init) {
-
-        if (!init) {
-            console.log("daily event has fired");
-        }
-
-        var datetime_now = new Date();
-        //var midnight_tomorrow = new date().setHours(24, 0, 0, 0);
-        //update every x seconds, testing with: 
-        var midnight_tomorrow = new Date();
-        midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 10);
-
-        window.setTimeout(daily_event_updater, midnight_tomorrow - datetime_now);
-
-    }
-
+    //start daily event updater = true
     daily_event_updater(true);
 
 });
