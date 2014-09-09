@@ -42,7 +42,7 @@ $(function () {
     }
 
     function feeding_table_column_iseditable(column_name) {
-        var editable_columns = [ "nr_of_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent" ];
+        var editable_columns = ["nr_of_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent", "growth_factor"];
         return $.inArray(column_name, editable_columns) !== -1 ? true : false;
     }
 
@@ -60,6 +60,40 @@ $(function () {
         record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
         record.time_feeder_active = record.required_feed_pr_day / record.feeder_speed_kg_pr_min;
         record.feeder_toggle_speed = record.time_feeder_active / record.time_feeding_intervals;
+
+        $('#jknob' + (rowIndex + 1)).val(record.feeder_toggle_speed * 100).trigger('change');
+
+        if (record.feeder_toggle_speed > 1) {
+
+            //allways show jknob when warning
+            //$('#jknob' + (rowIndex + 1)).val(record.feeder_toggle_speed * 100).trigger('change');
+
+            $('#jknob' + (rowIndex + 1))
+                .trigger(
+                    'configure',
+                    {
+                        "fgColor": "red"
+                    }
+                );
+
+        } else {
+
+            //hide jknob if relay is not active?
+            /*if (record.state === 'active') {
+                $('#jknob' + (rowIndex + 1)).val(record.feeder_toggle_speed * 100).trigger('change');
+            } else {
+                $('#jknob' + (rowIndex + 1)).val(0).trigger('change');
+            }*/
+
+            $('#jknob' + (rowIndex + 1))
+                .trigger(
+                    'configure',
+                    {
+                        "fgColor": "#1f8dff"
+                    }
+                );
+
+        }
 
         tr += feeding_table_button_cell_writer(record.id);
 
@@ -89,7 +123,8 @@ $(function () {
                     nr_of_fish: read.nr_of_fish,
                     avg_fish_kg: read.avg_fish_kg,
                     feeder_speed_kg_pr_min: read.feeder_speed_kg_pr_min,
-                    feeding_percent: read.feeding_percent
+                    feeding_percent: read.feeding_percent,
+                    growth_factor: read.growth_factor
                 }]);
 
             }
@@ -105,9 +140,22 @@ $(function () {
             var update_feeder_table = g_LDA.feeding_table.get();
 
             for (var key in update_feeder_table) {
+
                 if (update_feeder_table[key].state === 'active') {
-                    update_feeder_table[key].avg_fish_kg = update_feeder_table[key].avg_fish_kg * 1.1;
+
+                    // this adds (amount of food eaten per fish * growth factor) to average fish weight
+                    // +operator converts strings to numbers
+                    update_feeder_table[key].avg_fish_kg = +update_feeder_table[key].avg_fish_kg +
+                        +(
+                            update_feeder_table[key].avg_fish_kg
+                            *
+                            update_feeder_table[key].feeding_percent / 100
+                            *
+                            update_feeder_table[key].growth_factor
+                        );
+
                 }
+
             }
 
             g_LDA.feeding_table.update([
@@ -135,7 +183,7 @@ $(function () {
         var midnight_tomorrow = new Date().setHours(24, 0, 0, 0);
         //update every x seconds, testing with: 
         //var midnight_tomorrow = new Date();
-        //midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 10);
+        //midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 60);
         window.setTimeout(daily_event_updater, midnight_tomorrow - datetime_now);
 
     }
@@ -152,11 +200,12 @@ $(function () {
 
             g_LDA.feeding_table.add({
                 id: i,
-                start_date: new Date().setHours(0, 0, 0, 0),
+                start_date: '0',
                 nr_of_fish: '0',
                 avg_fish_kg: '0',
                 feeder_speed_kg_pr_min: '0',
                 feeding_percent: '0',
+                growth_factor: '0',
                 time_feeding_intervals: '0'
             });
 
