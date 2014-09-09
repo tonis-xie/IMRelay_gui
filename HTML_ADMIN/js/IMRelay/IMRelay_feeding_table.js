@@ -65,6 +65,7 @@ $(function () {
 
         if (record.feeder_toggle_speed > 1) {
 
+            relay_indicator_control(rowIndex + 1, record.state === 'active', true);
             //allways show jknob when warning
             //$('#jknob' + (rowIndex + 1)).val(record.feeder_toggle_speed * 100).trigger('change');
 
@@ -78,6 +79,7 @@ $(function () {
 
         } else {
 
+            relay_indicator_control(rowIndex +1, record.state === 'active', false);
             //hide jknob if relay is not active?
             /*if (record.state === 'active') {
                 $('#jknob' + (rowIndex + 1)).val(record.feeder_toggle_speed * 100).trigger('change');
