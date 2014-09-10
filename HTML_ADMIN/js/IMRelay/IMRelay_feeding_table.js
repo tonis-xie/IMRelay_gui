@@ -1,27 +1,8 @@
 //declare global g_LDA object
 var g_LDA = {};
+g_LDA.relay = [];
 
 $(function () {
-
-    // A is an integer array (e.g. [-50,25,-45,-18,90,447])
-    /*function LCM(A) {
-
-        var n = A.length, a = Math.abs(A[0]);
-
-        for (var i = 1; i < n; i++) {
-
-            var b = Math.abs(A[i]), c = a;
-
-            while (a && b) {
-                a > b ? a %= b : b %= a;
-            }
-
-            a = Math.abs(c * A[i]) / (a + b);
-
-        }
-
-        return a;
-    }*/
 
     function feeding_table_button_cell_writer(id) {
 
@@ -88,7 +69,9 @@ $(function () {
         record.start_date = start_date_datetime_string;
         record.biomass = record.nr_of_fish * record.avg_fish_kg / 1000;
         record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
-        record.time_feeder_active = ((record.required_feed_pr_day / record.feeder_speed_kg_pr_min)*60).toFixed(0);
+        record.time_feeder_active = ((record.required_feed_pr_day / record.feeder_speed_kg_pr_min) * 60).toFixed(0);
+        
+        var relay_indicator_toggle_factor = record.time_feeder_active / record.time_feeding_intervals;
 
         /* Calculate an reduced fraction for the feeder_toogle_speed */
         var feeder_toggle_speed = reduce_fraction(record.time_feeder_active, record.time_feeding_intervals);
@@ -96,9 +79,11 @@ $(function () {
         /* Calculate on-off times */
         record.feeder_toggle_speed = feeder_toggle_speed[0] + '/' + (feeder_toggle_speed[1] - feeder_toggle_speed[0]);
 
-        $('#jknob' + (rowIndex + 1)).val(record.feeder_toggle_speed * 100).trigger('change');
+        g_LDA.relay[rowIndex] = { on: feeder_toggle_speed[0], off: (feeder_toggle_speed[1] - feeder_toggle_speed[0]) };
 
-        if (record.feeder_toggle_speed > 1) {
+        $('#jknob' + (rowIndex + 1)).val(relay_indicator_toggle_factor * 100).trigger('change');
+
+        if (relay_indicator_toggle_factor > 1) {
 
             relay_indicator_control(rowIndex + 1, record.state === 'active', true);
             //allways show jknob when warning

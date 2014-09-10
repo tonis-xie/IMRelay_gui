@@ -120,7 +120,7 @@ $(function () {
             { id: 16, time_feeding_intervals: 0 }];
 
         for (var key in g_LDA.items._data) {
-            total_active_feeding_time[g_LDA.items._data[key].group - 1].time_feeding_intervals += (g_LDA.items._data[key].end - g_LDA.items._data[key].start) / 1000);
+            total_active_feeding_time[g_LDA.items._data[key].group - 1].time_feeding_intervals += (g_LDA.items._data[key].end - g_LDA.items._data[key].start) / 1000;
         }
         
         g_LDA.feeding_table.update(total_active_feeding_time);
@@ -246,20 +246,6 @@ $(function () {
             }
 
         }
-    }
-
-    //console.log(which_relays_should_toogle(new Date()));
-    function which_relays_should_toogle(time) {
-
-        var relay_ids = [];
-
-        for (var key in items._data) {
-            if ((time < items._data[key].end) && (time > items._data[key].start)) {
-                relay_ids.push(items._data[key].group);
-            }
-        }
-
-        return relay_ids;
     }
 
 });
