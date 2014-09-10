@@ -248,4 +248,18 @@ $(function () {
         }
     }
 
+    //console.log(which_relays_should_toogle(new Date()));
+    function which_relays_should_toogle(time) {
+
+        var relay_ids = [];
+
+        for (var key in items._data) {
+            if ((time < items._data[key].end) && (time > items._data[key].start)) {
+                relay_ids.push(items._data[key].group);
+            }
+        }
+
+        return relay_ids;
+    }
+
 });
