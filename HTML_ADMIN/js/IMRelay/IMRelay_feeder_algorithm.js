@@ -47,11 +47,12 @@
 
         $.ajax({
             url: "192.168.0.105",
+            type: "POST",
             data: relay_states
         });
 
     }
-    
+
     window.setInterval(relay_event_scheduler, 1000);
 
 });
