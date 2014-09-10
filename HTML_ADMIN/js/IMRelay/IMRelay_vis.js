@@ -120,7 +120,7 @@ $(function () {
             { id: 16, time_feeding_intervals: 0 }];
 
         for (var key in items["_data"]) {
-            total_active_feeding_time[items["_data"][key].group - 1].time_feeding_intervals += ((items["_data"][key].end - items["_data"][key].start) / (1000 * 60));
+            total_active_feeding_time[items["_data"][key].group - 1].time_feeding_intervals += ((items["_data"][key].end - items["_data"][key].start) / 1000);
         }
 
         g_LDA.feeding_table.update(total_active_feeding_time);
