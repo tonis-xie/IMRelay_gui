@@ -66,6 +66,16 @@ $(function () {
         return $.inArray(column_name, editable_columns) !== -1 ? true : false;
     }
 
+    function reduce_fraction(numerator, denominator) {
+        var gcd = function gcd(a, b){
+            return b ? gcd(b, a%b) : a;
+        };
+
+        gcd = gcd(numerator, denominator);
+
+        return [numerator/gcd, denominator/gcd];
+    }
+
     function feeding_table_row_writer(rowIndex, record, columns, cellWriter) {
 
         var tr = '';
@@ -78,8 +88,13 @@ $(function () {
         record.start_date = start_date_datetime_string;
         record.biomass = record.nr_of_fish * record.avg_fish_kg / 1000;
         record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
-        record.time_feeder_active = record.required_feed_pr_day / record.feeder_speed_kg_pr_min;
-        record.feeder_toggle_speed = record.time_feeder_active / record.time_feeding_intervals;
+        record.time_feeder_active = ((record.required_feed_pr_day / record.feeder_speed_kg_pr_min)*60).toFixed(0);
+
+        /* Calculate an reduced fraction for the feeder_toogle_speed */
+        var feeder_toggle_speed = reduce_fraction(record.time_feeder_active, record.time_feeding_intervals);
+
+        /* Calculate on-off times */
+        record.feeder_toggle_speed = feeder_toggle_speed[0] + '/' + (feeder_toggle_speed[1] - feeder_toggle_speed[0]);
 
         $('#jknob' + (rowIndex + 1)).val(record.feeder_toggle_speed * 100).trigger('change');
 
@@ -168,7 +183,7 @@ $(function () {
                     // this adds (amount of food eaten per fish * growth factor) to average fish weight
                     // +operator converts strings to numbers
                     update_feeder_table[key].avg_fish_kg = +update_feeder_table[key].avg_fish_kg +
-                        +(
+                        (
                             update_feeder_table[key].avg_fish_kg
                             *
                             update_feeder_table[key].feeding_percent / 100
