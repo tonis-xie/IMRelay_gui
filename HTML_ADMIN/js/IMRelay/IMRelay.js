@@ -6,13 +6,15 @@ $(document).ready(function () {
         //Find the body and the footer
         var bf = box.find(".box-body");
         if (hide) {
-            bf.slideUp();
+            //bf.slideUp();
             //bf.hide();
-            //bf.css({'visibility':'hidden'});
+            bf.css({'visibility':'hidden'});
+            bf.css({'position':'absolute'});
         } else {
-            bf.slideDown();
-            //bf.css({'visibility':'visible'});
+            //bf.slideDown();
             //bf.show();
+            bf.css({'visibility':'visible'});
+            bf.css({'position':'static'});
         }
     }
 
@@ -22,13 +24,15 @@ $(document).ready(function () {
         //Find the body and the footer
         var bf = box.find(".box-body");
         if (hide) {
-            bf.slideUp();
+            //bf.slideUp();
             //bf.hide();
-            //bf.css({'visibility':'hidden'});
+            bf.css({'visibility':'hidden'});
+            bf.css({'position':'absolute'});
         } else {
-            bf.slideDown();
+            //bf.slideDown();
             //bf.show();
-            //bf.css({'visibility':'visible'});
+            bf.css({'visibility':'visible'});
+            bf.css({'position':'static'});
         }
     }
 
