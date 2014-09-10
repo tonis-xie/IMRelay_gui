@@ -14,3 +14,18 @@
 #imrelay_knob_row > div > div canvas {
     margin-top: 15px;
 }
+
+#imrelay_knob_row {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#imrelay_knob_row > div {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+#imrelay_knob_row > div > div {
+    padding-right: 0;
+    padding-left: 0;
+}

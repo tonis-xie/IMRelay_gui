@@ -83,7 +83,7 @@ $(function () {
 
     }
 
-    var items = new vis.DataSet();
+    g_LDA.items = new vis.DataSet();
     var timeline_items_localstorage = localStorage["timeline.items"];
 
     if (timeline_items_localstorage != null) {
@@ -91,15 +91,15 @@ $(function () {
         var timeline_items_json = JSON.parse(timeline_items_localstorage);
         //update start and end dates to today
         parse_timeline_items_json(timeline_items_json);
-        items["_data"] = timeline_items_json;
+        g_LDA.items._data = timeline_items_json;
         //save changes back to localstorage
-        localStorage["timeline.items"] = JSON.stringify(items["_data"]);
+        localStorage["timeline.items"] = JSON.stringify(g_LDA.items._data);
 
     }
 
-    items.on('*', function (event, properties, senderId) {
+    g_LDA.items.on('*', function (event, properties, senderId) {
 
-        localStorage["timeline.items"] = JSON.stringify(items["_data"]);
+        localStorage["timeline.items"] = JSON.stringify(g_LDA.items._data);
 
         var total_active_feeding_time = [
             { id: 1, time_feeding_intervals: 0 },
@@ -119,8 +119,8 @@ $(function () {
             { id: 15, time_feeding_intervals: 0 },
             { id: 16, time_feeding_intervals: 0 }];
 
-        for (var key in items["_data"]) {
-            total_active_feeding_time[items["_data"][key].group - 1].time_feeding_intervals += ((items["_data"][key].end - items["_data"][key].start) / (1000 * 60));
+        for (var key in g_LDA.items._data) {
+            total_active_feeding_time[g_LDA.items._data[key].group - 1].time_feeding_intervals += ((g_LDA.items._data[key].end - g_LDA.items._data[key].start) / (1000 * 60));
         }
 
         g_LDA.feeding_table.update(total_active_feeding_time);
@@ -197,7 +197,7 @@ $(function () {
     };
 
     var container = document.getElementById('vis_timeline');
-    var timeline = new vis.Timeline(container, items, options);
+    var timeline = new vis.Timeline(container, g_LDA.items, options);
     timeline.setGroups(g_LDA.groups);
 
     function enable_vis_timeline_button_classes(btn_num) {
