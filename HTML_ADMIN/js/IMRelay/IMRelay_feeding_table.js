@@ -3,6 +3,26 @@ var g_LDA = {};
 
 $(function () {
 
+    // A is an integer array (e.g. [-50,25,-45,-18,90,447])
+    /*function LCM(A) {
+
+        var n = A.length, a = Math.abs(A[0]);
+
+        for (var i = 1; i < n; i++) {
+
+            var b = Math.abs(A[i]), c = a;
+
+            while (a && b) {
+                a > b ? a %= b : b %= a;
+            }
+
+            a = Math.abs(c * A[i]) / (a + b);
+
+        }
+
+        return a;
+    }*/
+
     function feeding_table_button_cell_writer(id) {
 
         var html_group_button = document.createElement('button');
@@ -19,7 +39,7 @@ $(function () {
         var html = column.attributeWriter(record);
         var td = '<td';
 
-        column.textAlign = 'center';
+        //column.textAlign = 'center';
 
         if (column.hidden || column.textAlign) {
 

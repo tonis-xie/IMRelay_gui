@@ -8,6 +8,10 @@
     width: 65px;
 }
 
+#feeding_table th {
+    text-align: center;
+}
+
 #feeding_table td {
     padding: 0;
     vertical-align: middle;
