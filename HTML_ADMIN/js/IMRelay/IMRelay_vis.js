@@ -10,7 +10,7 @@ $(function () {
         html_group_button.innerText = id + ': Disabled';
 
         return html_group_button;
-    }   
+    }
     
     g_LDA.groups = new vis.DataSet();
 
@@ -75,7 +75,7 @@ $(function () {
 
             data[key].start = new Date(data[key].start).setFullYear(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
             data[key].end = new Date(data[key].end).setFullYear(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
-            total_active_feeding_time[data[key].group - 1].time_feeding_intervals += ((data[key].end - data[key].start) / (1000 * 60));
+            total_active_feeding_time[data[key].group - 1].time_feeding_intervals += (data[key].end - data[key].start) / 1000;
             
         }
 

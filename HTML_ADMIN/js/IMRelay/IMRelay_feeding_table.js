@@ -1,6 +1,7 @@
 //declare global g_LDA object
 var g_LDA = {};
 g_LDA.relay = [];
+g_LDA.feed = [];
 
 $(function () {
 
@@ -66,11 +67,20 @@ $(function () {
                                         ("0" + (start_date_datetime_object.getMonth() + 1).toString()).slice(-2) + '-' +
                                         ("0" +  start_date_datetime_object.getDate().toString()).slice(-2);
 
-        record.start_date = start_date_datetime_string;
-        record.biomass = record.nr_of_fish * record.avg_fish_kg / 1000;
+        record.start_date = start_date_datetime_string;     
+        record.biomass = (record.nr_of_fish * record.avg_fish_kg / 1000);
         record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
         record.time_feeder_active = ((record.required_feed_pr_day / record.feeder_speed_kg_pr_min) * 60).toFixed(0);
         
+        record.avg_fish_kg = (+record.avg_fish_kg).toFixed(0);
+        record.biomass = (+record.biomass).toFixed(0);
+        record.required_feed_pr_day = (+record.required_feed_pr_day).toFixed(3);
+
+        if (isNaN(g_LDA.feed[rowIndex])) {
+            g_LDA.feed[rowIndex] = 0;
+        }
+        record.feed_progress_today = (g_LDA.feed[rowIndex]).toFixed(0);
+
         var relay_indicator_toggle_factor = record.time_feeder_active / record.time_feeding_intervals;
 
         /* Calculate an reduced fraction for the feeder_toogle_speed */
@@ -79,16 +89,12 @@ $(function () {
         /* Calculate on-off times */
         record.feeder_toggle_speed = feeder_toggle_speed[0] + '/' + (feeder_toggle_speed[1] - feeder_toggle_speed[0]);
 
-        g_LDA.relay[rowIndex] = { on: feeder_toggle_speed[0], off: (feeder_toggle_speed[1] - feeder_toggle_speed[0]) };
+        g_LDA.relay[rowIndex] = { on_setting: feeder_toggle_speed[0], off_setting: (feeder_toggle_speed[1] - feeder_toggle_speed[0]) };
 
         $('#jknob' + (rowIndex + 1)).val(relay_indicator_toggle_factor * 100).trigger('change');
 
         if (relay_indicator_toggle_factor > 1) {
-
-            relay_indicator_control(rowIndex + 1, record.state === 'active', true);
-            //allways show jknob when warning
-            //$('#jknob' + (rowIndex + 1)).val(record.feeder_toggle_speed * 100).trigger('change');
-
+            
             $('#jknob' + (rowIndex + 1))
                 .trigger(
                     'configure',
@@ -98,14 +104,6 @@ $(function () {
                 );
 
         } else {
-
-            relay_indicator_control(rowIndex +1, record.state === 'active', false);
-            //hide jknob if relay is not active?
-            /*if (record.state === 'active') {
-                $('#jknob' + (rowIndex + 1)).val(record.feeder_toggle_speed * 100).trigger('change');
-            } else {
-                $('#jknob' + (rowIndex + 1)).val(0).trigger('change');
-            }*/
 
             $('#jknob' + (rowIndex + 1))
                 .trigger(
@@ -181,31 +179,33 @@ $(function () {
             }
 
             g_LDA.feeding_table.update([
-                { id: 1, avg_fish_kg: update_feeder_table[0].avg_fish_kg },
-                { id: 2, avg_fish_kg: update_feeder_table[1].avg_fish_kg },
-                { id: 3, avg_fish_kg: update_feeder_table[2].avg_fish_kg },
-                { id: 4, avg_fish_kg: update_feeder_table[3].avg_fish_kg },
-                { id: 5, avg_fish_kg: update_feeder_table[4].avg_fish_kg },
-                { id: 6, avg_fish_kg: update_feeder_table[5].avg_fish_kg },
-                { id: 7, avg_fish_kg: update_feeder_table[6].avg_fish_kg },
-                { id: 8, avg_fish_kg: update_feeder_table[7].avg_fish_kg },
-                { id: 9, avg_fish_kg: update_feeder_table[8].avg_fish_kg },
-                { id: 10, avg_fish_kg: update_feeder_table[9].avg_fish_kg },
-                { id: 11, avg_fish_kg: update_feeder_table[10].avg_fish_kg },
-                { id: 12, avg_fish_kg: update_feeder_table[11].avg_fish_kg },
-                { id: 13, avg_fish_kg: update_feeder_table[12].avg_fish_kg },
-                { id: 14, avg_fish_kg: update_feeder_table[13].avg_fish_kg },
-                { id: 15, avg_fish_kg: update_feeder_table[14].avg_fish_kg },
-                { id: 16, avg_fish_kg: update_feeder_table[15].avg_fish_kg }
+                { id: 1, avg_fish_kg: update_feeder_table[0].avg_fish_kg, feed_progress_today: 0 },
+                { id: 2, avg_fish_kg: update_feeder_table[1].avg_fish_kg, feed_progress_today: 0 },
+                { id: 3, avg_fish_kg: update_feeder_table[2].avg_fish_kg, feed_progress_today: 0 },
+                { id: 4, avg_fish_kg: update_feeder_table[3].avg_fish_kg, feed_progress_today: 0 },
+                { id: 5, avg_fish_kg: update_feeder_table[4].avg_fish_kg, feed_progress_today: 0 },
+                { id: 6, avg_fish_kg: update_feeder_table[5].avg_fish_kg, feed_progress_today: 0 },
+                { id: 7, avg_fish_kg: update_feeder_table[6].avg_fish_kg, feed_progress_today: 0 },
+                { id: 8, avg_fish_kg: update_feeder_table[7].avg_fish_kg, feed_progress_today: 0 },
+                { id: 9, avg_fish_kg: update_feeder_table[8].avg_fish_kg, feed_progress_today: 0 },
+                { id: 10, avg_fish_kg: update_feeder_table[9].avg_fish_kg, feed_progress_today: 0 },
+                { id: 11, avg_fish_kg: update_feeder_table[10].avg_fish_kg, feed_progress_today: 0 },
+                { id: 12, avg_fish_kg: update_feeder_table[11].avg_fish_kg, feed_progress_today: 0 },
+                { id: 13, avg_fish_kg: update_feeder_table[12].avg_fish_kg, feed_progress_today: 0 },
+                { id: 14, avg_fish_kg: update_feeder_table[13].avg_fish_kg, feed_progress_today: 0 },
+                { id: 15, avg_fish_kg: update_feeder_table[14].avg_fish_kg, feed_progress_today: 0 },
+                { id: 16, avg_fish_kg: update_feeder_table[15].avg_fish_kg, feed_progress_today: 0 }
             ]);
+
+            window.location.reload();
 
         }
 
         var datetime_now = new Date();
-        var midnight_tomorrow = new Date().setHours(24, 0, 0, 0);
+        //var midnight_tomorrow = new Date().setHours(24, 0, 0, 0);
         //update every x seconds, testing with: 
-        //var midnight_tomorrow = new Date();
-        //midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 60);
+        var midnight_tomorrow = new Date();
+        midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 60);
         window.setTimeout(daily_event_updater, midnight_tomorrow - datetime_now);
 
     }
@@ -228,6 +228,7 @@ $(function () {
                 feeder_speed_kg_pr_min: '0',
                 feeding_percent: '0',
                 growth_factor: '0',
+                feed_progress_today: '0',
                 time_feeding_intervals: '0'
             });
 
