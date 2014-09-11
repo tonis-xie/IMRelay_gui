@@ -1,5 +1,59 @@
 $(document).ready(function () {
 
+    function hide_timeline(hide) {
+        //Find the box parent
+        var box = $(".box").first();
+        //Find the body and the footer
+        var bf = box.find(".box-body");
+        if (hide) {
+            //bf.slideUp();
+            //bf.hide();
+            bf.css({'visibility':'hidden'});
+            bf.css({'position':'absolute'});
+        } else {
+            //bf.slideDown();
+            //bf.show();
+            bf.css({'visibility':'visible'});
+            bf.css({'position':'static'});
+        }
+    }
+
+    function hide_table(hide) {
+        //Find the box parent
+        var box = $(".box").last();
+        //Find the body and the footer
+        var bf = box.find(".box-body");
+        if (hide) {
+            //bf.slideUp();
+            //bf.hide();
+            bf.css({'visibility':'hidden'});
+            bf.css({'position':'absolute'});
+        } else {
+            //bf.slideDown();
+            //bf.show();
+            bf.css({'visibility':'visible'});
+            bf.css({'position':'static'});
+        }
+    }
+
+    $("a#feeder_settings_button").click(function () {        
+
+        hide_table(false);
+        hide_timeline(true);
+
+    });
+
+    $("a#timeline_menu_button").click(function () {
+
+        hide_table(true);
+        hide_timeline(false);
+
+    });
+
+    hide_table(true);
+
+    /*
+
     $("a#relay_list_tabbutton").click(function () {
 
         for (var r = 0; r < 16; r++) {
@@ -103,16 +157,16 @@ $(document).ready(function () {
 
             add_event_to_relay_list(relay_nr, start_time, end_time);
             timeline_add(start_date, end_date, content_string);
-            /*if (relay_nr < 10) {
-                timeline_add(start_date, end_date, content_string, "0" + relay_nr);
-            } else {
-                timeline_add(start_date, end_date, content_string, relay_nr);
-            }*/
-        } /* else { */
+            //if (relay_nr < 10) {
+            //    timeline_add(start_date, end_date, content_string, "0" + relay_nr);
+            //} else {
+            //    timeline_add(start_date, end_date, content_string, relay_nr);
+            //}
+        } // else {
 
-            /* error message */
+            // error message
             //$("label#status_text").text("Error in format").hide().fadeIn("slow");
-        /*}*/
+        //}
     });
 
     $("button#reset").click(function () {
@@ -138,15 +192,29 @@ $(document).ready(function () {
         jsobject.send(cmd_str, relay_nr);
     });
 
+    */
 });
 
-function relay_indicator_control(relay_number, active) {
+function relay_indicator_control(relay_number, active, error) {
 
-    var value1 = active ? "#000000" : "";
-    var value2 = active ? "#1F8DFF" : "";
-    var value3 = active ? "0 0 36px #3275cf" : "";
+    var value1 = active ? "50%" : "";
+    var value2, value3;
 
-    document.getElementById("relay_" + relay_number).style.color = value1;
-    document.getElementById("relay_" + relay_number).style.background = value2;
-    document.getElementById("relay_" + relay_number).style.boxShadow = value3;
+    value2 = active ? error ? "rgba(255, 0, 0, 0.35)" : "rgba(31, 141, 255, 0.35)" : "";
+    value3 = active ? error ? "rgba(255, 0, 0, 0.7) 0px 0px 36px" : "rgba(31, 141, 255, 0.7) 0px 0px 36px" : ""
+
+    /*if (error) {
+        value2 = active ? "rgba(255, 0, 0, 0.35)" : "";
+        value3 = active ? "rgba(255, 0, 0, 0.7) 0px 0px 36px" : "";
+    } else {
+        value2 = active ? "rgba(31, 141, 255, 0.35)" : "";
+        value3 = active ? "rgba(31, 141, 255, 0.7) 0px 0px 36px" : "";
+    }*/
+
+    var cell = $('#imrelay_knob_row > div > div canvas')[relay_number - 1];
+    
+    cell.style.borderRadius = value1;
+    cell.style.background = value2;
+    cell.style.boxShadow = value3;
+
 }

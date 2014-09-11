@@ -4,37 +4,39 @@
     <meta charset="UTF-8">
     <title>IMRelay | Dashboard</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- bootstrap 3.0.2 -->
+    <!-- bootstrap 3.0.3 -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- font Awesome -->
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
+    <!-- ionicons -->
     <link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- Morris chart -->
-    <link href="css/morris/morris.css" rel="stylesheet" type="text/css" />
-    <!-- jvectormap -->
-    <link href="css/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
-    <!-- Daterange picker -->
-    <link href="css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-    <!-- iCheck for checkboxes and radio inputs -->
-    <link href="css/iCheck/all.css" rel="stylesheet" type="text/css" />
-    <!-- CHAP timeline -->
-    <link rel="stylesheet" href="css/timeline/timeline.css">
-    <link href="css/vis/vis.css" rel="stylesheet" type="text/css" />
-    <link href="css/vis/vis_timeline_theme.css" rel="stylesheet" type="text/css" />
-    <script src="js/plugins/vis/vis.js"></script>
-    <!-- Digital Clock http://tutorialzine.com/2013/06/digital-clock/ -->
-    <link href="css/digitalclock/digitalclock.css" rel="stylesheet" />
+    <!-- hammer v2.0.2 -->
+    <!-- <script src="js/plugins/hammer/hammer.min.js" type="text/javascript"></script> -->
+    <!-- moment v2.8.2 -->
+    <script src="js/plugins/moment/moment.min.js" type="text/javascript"></script>
+    <!-- vis v3.4.0 -->
+    <link href="css/vis/vis.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/vis/vis_timeline_theme.min.css" rel="stylesheet" type="text/css" />
+    <!-- Compiled with Dataset + Timeline and Hammer. Moment is exluded -->
+    <script src="js/plugins/vis/vis-custom.min.js" type="text/javascript"></script>
+
     <!-- Theme style -->
     <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
-    <link href="css/IMRelay.css" rel="stylesheet" type="text/css" />
+    <!-- digital Clock http://tutorialzine.com/2013/06/digital-clock/ -->
+    <link href="css/digitalclock/digitalclock.css" rel="stylesheet" type="text/css" />
+    <!-- LDA Logo -->
+    <link href="css/IMRelay_logo.css" rel="stylesheet" type="text/css" />
+    <!-- jQuery knob relay indicators -->
+    <link href="css/IMRelay_knob.css" rel="stylesheet" type="text/css" />
+    <!-- Feeding table -->
+    <link href="css/IMRelay_feeding_table.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="skin-blue fixed">
     <!-- header logo: style can be found in header.less -->
     <header class="header">
         <a href="index_example.html" class="logo">
             <!-- Add the class icon to your logo image or logo icon to add the margining -->
-            IMRelay
+            IMRelay v0.2.1
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -61,14 +63,11 @@
                                     <li>
                                         <!-- start message -->
                                         <a href="#">
-                                            <div class="pull-left">
-                                                <img src="img/avatar3.png" class="img-circle" alt="User Image" />
-                                            </div>
                                             <h4>
-                                                Support Team
+                                                Temporary menu
                                                 <small><i class="fa fa-clock-o"></i> 5 mins</small>
                                             </h4>
-                                            <p>Why not buy a new awesome theme?</p>
+                                            <p>joakim.myrland@LDA.as</p>
                                         </a>
                                     </li><!-- end message -->
                                 </ul>
@@ -83,18 +82,21 @@
                             <span class="label label-warning">10</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have 10 notifications</li>
+                            <li class="header">You have 4 messages</li>
                             <li>
                                 <!-- inner menu: contains the actual data -->
                                 <ul class="menu">
                                     <li>
+                                        <!-- start message -->
                                         <a href="#">
-                                            <i class="ion ion-ios7-people info"></i> 5 new members joined today
+                                            <h4>
+                                                Temporary menu
+                                            </h4>
                                         </a>
-                                    </li>
+                                    </li><!-- end message -->
                                 </ul>
                             </li>
-                            <li class="footer"><a href="#">View all</a></li>
+                            <li class="footer"><a href="#">See All Messages</a></li>
                         </ul>
                     </li>
                     <!-- Tasks: style can be found in dropdown.less -->
@@ -112,7 +114,7 @@
                                         <!-- Task item -->
                                         <a href="#">
                                             <h3>
-                                                Design some buttons
+                                                Temporary menu
                                                 <small class="pull-right">20%</small>
                                             </h3>
                                             <div class="progress xs">
@@ -186,9 +188,10 @@
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
-                                <div class="col-xs-12">
+                                <div>
                                     <p>e-mail: <a href="mailto:joakim.myrland@LDA.as?subject=support%20IMRelay">joakim.myrland@LDA.as</a></p>
                                     <p>website: <a href="http://www.LDA.as" target="_blank">www.LDA.as</a></p>
+                                    <p>github: <a href="https://github.com/Lindem-Data-Acquisition-AS/IMRelay" target="_blank">@IMRelay</a></p>
                                 </div>
                             </li>
                         </ul>
@@ -258,40 +261,16 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="active">
-                        <a href="index.html">
-                            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                        <a id="timeline_menu_button" href=" #">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Timeline</span>
                         </a>
                     </li>
                     <li>
-                        <a href="relay_list.html">
-                            <i class="fa fa-th"></i>
-                            <span>Relays</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="feeder_settings.html">
+                        <a id="feeder_settings_button" href="#">
                             <i class="fa fa-bar-chart-o"></i>
                             <span>Feeder settings</span>
                         </a>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-bar-chart-o"></i>
-                            <span>Edit</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <div class="treeview-menu">
-                            <!-- search form -->
-                            <form action="#" method="get" class="sidebar-form">
-                                <div class="input-group">
-                                    <input type="text" name="q" class="form-control" placeholder="Search..." />
-                                    <span class="input-group-btn">
-                                        <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </form>
-                            <!-- /.search form -->
-                        </div>
                     </li>
                     <li class="treeview">
                         <a href="#">
@@ -301,21 +280,15 @@
                         <ul class="treeview-menu">
                             <li><a href="#" data-theme="blue" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Blue</a></li>
                             <li><a href="#" data-theme="black" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Black</a></li>
-                            <li><a href="#" data-theme="default" class="theme-link"><i class="fa fa-angle-double-right"></i> Default</a></li>
+                            <!-- <li><a href="#" data-theme="default" class="theme-link"><i class="fa fa-angle-double-right"></i> Default</a></li>
                             <li><a href="#" data-theme="cyborg" class="theme-link"><i class="fa fa-angle-double-right"></i> Cyborg</a></li>
                             <li><a href="#" data-theme="darkly" class="theme-link"><i class="fa fa-angle-double-right"></i> Darkly</a></li>
                             <li><a href="#" data-theme="slate" class="theme-link"><i class="fa fa-angle-double-right"></i> Slate</a></li>
                             <li><a href="#" data-theme="spacelab" class="theme-link"><i class="fa fa-angle-double-right"></i> Spacelab</a></li>
                             <li><a href="#" data-theme="superhero" class="theme-link"><i class="fa fa-angle-double-right"></i> Superhero</a></li>
                             <li><a href="#" data-theme="united" class="theme-link"><i class="fa fa-angle-double-right"></i> United</a></li>
-                            <li><a href="#" data-theme="yeti" class="theme-link"><i class="fa fa-angle-double-right"></i> Yeti</a></li>
+                            <li><a href="#" data-theme="yeti" class="theme-link"><i class="fa fa-angle-double-right"></i> Yeti</a></li> -->
                         </ul>
-                    </li>
-                    <li>
-                        <a href="relay_list.html">
-                            <i class="fa fa-th"></i>
-                            <span>Lock</span>
-                        </a>
                     </li>
                 </ul>
             </section>
@@ -339,195 +312,148 @@
             <!-- Main content -->
             <section class="adminLTE_content">
 
-                <!-- Relay stat boxes -->
-                <div class="row">
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="0" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">1</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="50" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">2</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="100" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">3</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="10" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">4</div>
-                        </div>
-                    </div><!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="30" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">5</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="70" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">6</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="40" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">7</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="90" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">8</div>
-                        </div>
-                    </div><!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="20" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">9</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="60" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">10</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="100" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">11</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="40" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">12</div>
-                        </div>
-                    </div><!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="90" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">13</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="70" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">14</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="30" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">15</div>
-                        </div>
-                        <div class="col-xs-3 text-center">
-                            <input type="text" class="knob" value="100" data-skin="tron" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
-                            <div class="knob-label">16</div>
-                        </div>
-                    </div><!-- ./col -->
-                </div><!-- /.row -->
-                <!-- Main row -->
-                <div class="row">
-                    <section class="col-lg-12">
-                        <div class="panel panel-primary" id="vis_timeline"></div>
-                    </section>
+                <div class="box">
+                    <div class="box-header">
+                        <!-- Relay stat boxes -->
+                        <div id="imrelay_knob_row" class="row">
+                            <div class="col-lg-3 col-xs-6">
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob1" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">1</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob2" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">2</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob3" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">3</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob4" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">4</div>
+                                </div>
+                            </div><!-- ./col -->
+                            <div class="col-lg-3 col-xs-6">
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob5" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">5</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob6" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">6</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob7" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">7</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob8" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">8</div>
+                                </div>
+                            </div><!-- ./col -->
+                            <div class="col-lg-3 col-xs-6">
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob9" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">9</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob10" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">10</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob11" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">11</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob12" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">12</div>
+                                </div>
+                            </div><!-- ./col -->
+                            <div class="col-lg-3 col-xs-6">
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob13" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">13</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob14" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">14</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob15" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">15</div>
+                                </div>
+                                <div class="col-xs-3 text-center">
+                                    <input id="jknob16" type="text" class="knob" value="0" data-thickness="0.2" data-width="50" data-height="50" data-fgcolor="#1f8dff" data-displayinput=false data-readonly="true" />
+                                    <div class="knob-label">16</div>
+                                </div>
+                            </div><!-- ./col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <!-- Main row -->
+                        <div class="row">
+                            <div class="col-lg-12" id="vis_timeline"></div>
+                        </div><!-- /.row (main row) -->
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
 
-                    <!-- Add/edit timeline event modal -->
-                    <div class="modal fade" id="vis_timeline_event_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
+                <div class="box">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table id="feeding_table" class="table table-bordered table-responsive table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th data-dynatable-column="id">#</th>
+                                            <th data-dynatable-column="state">State</th>
+                                            <th data-dynatable-column="start_date">Start Date</th>
+                                            <th data-dynatable-column="nr_of_fish">Fish [#]</th>
+                                            <th data-dynatable-column="avg_fish_kg">Fish [g]</th>
+                                            <th data-dynatable-column="biomass">Biomass [Kg]</th>
+                                            <th data-dynatable-column="feeder_speed_kg_pr_min">Feeder [Kg/min]</th>
+                                            <th data-dynatable-column="feeding_percent">Feed [%]</th>
+                                            <th data-dynatable-column="required_feed_pr_day">Feed [Kg/day]</th>
+                                            <th data-dynatable-column="growth_factor">Growth factor</th>
+                                            <th data-dynatable-column="feed_progress_today">Kg today</th>
+                                            <th data-dynatable-column="time_feeder_active">Running time [s]</th>
+                                            <th data-dynatable-column="time_feeding_intervals">Feeding duration [s]</th>
+                                            <th data-dynatable-column="feeder_toggle_speed">On/Off</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
-                        </div>
-                    </div>
-
-                </div><!-- /.row (main row) -->
-                <!-- Relay stat boxes -->
-                <div class="row">
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_1">1</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_2">2</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_3">3</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_4">4</div> </div>
-                    </div><!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_5">5</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_6">6</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_7">7</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_8">8</div> </div>
-                    </div><!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_9">9</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_10">10</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_11">11</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_12">12</div> </div>
-                    </div><!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_13">13</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_14">14</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_15">15</div> </div>
-                        <div class="col-xs-3"> <div class="relay_indicator" id="relay_16">16</div> </div>
-                    </div><!-- ./col -->
-                </div><!-- /.row -->
-                <!-- Main row -->
-                <div class="row">
-                    <section class="col-lg-12">
-                        <!-- Timeline -->
-                        <div class="panel panel-primary" id="timelines">
-                            <div class="timeline-div" id="timeline1"></div>
-                            <div class="timeline-div" id="timeline2"></div>
-                            <div class="timeline-div" id="timeline3"></div>
-                            <div class="timeline-div" id="timeline4"></div>
-                            <div class="timeline-div" id="timeline5"></div>
-                            <div class="timeline-div" id="timeline6"></div>
-                            <div class="timeline-div" id="timeline7"></div>
-                            <div class="timeline-div" id="timeline8"></div>
-                            <div class="timeline-div" id="timeline9"></div>
-                            <div class="timeline-div" id="timeline10"></div>
-                            <div class="timeline-div" id="timeline11"></div>
-                            <div class="timeline-div" id="timeline12"></div>
-                            <div class="timeline-div" id="timeline13"></div>
-                            <div class="timeline-div" id="timeline14"></div>
-                            <div class="timeline-div" id="timeline15"></div>
-                            <div class="timeline-div" id="timeline16"></div>
-                            <div id="timeline_axis"></div>
-                        </div>
-                    </section>
-                </div><!-- /.row (main row) -->
+                        </div><!-- /.row -->
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
 
             </section><!-- /.content -->
         </aside><!-- /.right-side -->
     </div><!-- ./wrapper -->
-    <!-- add new calendar event modal -->
-    <!-- jQuery 2.0.2 -->
-    <script src="js/jquery-2.0.3.min.js"></script>
-    <!-- jQuery UI 1.10.3 -->
-    <script src="js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
-    <!-- Bootstrap -->
+    <!-- jQuery 2.0.3 -->
+    <script src="js/jquery-2.0.3.min.js" type="text/javascript"></script>
+    <!-- Bootstrap 3.0.3 -->
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <!-- Morris.js charts -->
-    <script src="js/plugins/morris/raphael-min.js"></script>
-    <script src="js/plugins/morris/morris.min.js" type="text/javascript"></script>
-    <!-- jvectormap -->
-    <script src="js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
-    <script src="js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="js/plugins/jqueryKnob/jquery.knob.js" type="text/javascript"></script>
-    <!-- daterangepicker -->
-    <script src="js/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
-    <!-- iCheck -->
-    <script src="js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
-    <!-- CHAP timeline -->
-    <script src="js/plugins/timeline/timeline.js" type="text/javascript"></script>
     <!-- Digital Clock http://tutorialzine.com/2013/06/digital-clock/ -->
-    <script src="js/plugins/digitalclock/digitalclock.js"></script>
+    <script src="js/plugins/digitalclock/digitalclock.js" type="text/javascript"></script>
+    <!-- jQuery Knob Chart v1.2.10 -->
+    <script src="js/plugins/jqueryKnob/jquery.knob.min.js" type="text/javascript"></script>
+    <!-- dynatable v0.3.1 -->
+    <script src="js/plugins/dynatable/jquery.dynatable.min.js" type="text/javascript"></script>
 
     <!-- IMRelay App -->
-    <script src="js/IMRelay/IMRelay_datetime.js"></script>
-    <script src="js/IMRelay/IMRelay_jqueryknob.js"></script>
-    <script src="js/IMRelay/IMRelay_timeline.js"></script>   
-    <script src="js/IMRelay/IMRelay_vis.js"></script>
-    <!-- <script src="js/IMRelay/IMRelay_serial_handler.js"></script> -->
+    <script src="js/IMRelay/IMRelay_datetime.js" type="text/javascript"></script>
+    <script src="js/IMRelay/IMRelay_jqueryknob.js" type="text/javascript"></script>
+    <script src="js/IMRelay/IMRelay_feeding_table.js" type="text/javascript"></script>
+    <script src="js/IMRelay/IMRelay_vis.js" type="text/javascript"></script>
+    <script src="js/IMRelay/IMRelay_feeder_algorithm.js" type="text/javascript"></script>
+    <!-- <script src="js/IMRelay/IMRelay_serial_handler.js" type="text/javascript"></script> -->
     <!-- include IMRelay as last script -->
-    <!-- <script src="js/IMRelay/IMRelay.js"></script> -->
+    <script src="js/IMRelay/IMRelay.js" type="text/javascript"></script>
+
+    <!-- slimscroll v1.3.0 -->
+    <script src="js/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
     <!-- AdminLTE App -->
     <script src="js/AdminLTE/app.js" type="text/javascript"></script>
 
