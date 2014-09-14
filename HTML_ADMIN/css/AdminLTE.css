@@ -1268,11 +1268,11 @@ body > .header .logo .icon {
 */
 .box {
   position: relative;
-  background: #ffffff;
   width: 100%;
   margin-bottom: 20px;
-  border: 1px solid #c1c1c1;
   /*
+  background: #ffffff;
+  border: 1px solid #c1c1c1;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
