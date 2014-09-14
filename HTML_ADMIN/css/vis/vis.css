@@ -42,7 +42,7 @@
 .vis.timeline .vispanel.top,
 .vis.timeline .vispanel.bottom {
   border-left-style: solid;
-  border-right-style: solid;
+  /*border-right-style: solid;*/
 }
 
 .vis.timeline .background {
