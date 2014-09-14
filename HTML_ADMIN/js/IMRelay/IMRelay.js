@@ -2,9 +2,9 @@ $(document).ready(function () {
 
     function hide_timeline(hide) {
         //Find the box parent
-        var box = $(".box").first();
+        var bf = $(".box").first();
         //Find the body and the footer
-        var bf = box.find(".box-body");
+        //var bf = box.find(".box-body");
         if (hide) {
             //bf.slideUp();
             //bf.hide();
@@ -20,9 +20,9 @@ $(document).ready(function () {
 
     function hide_table(hide) {
         //Find the box parent
-        var box = $(".box").last();
+        var bf = $(".box").last();
         //Find the body and the footer
-        var bf = box.find(".box-body");
+        //var bf = box.find(".box-body");
         if (hide) {
             //bf.slideUp();
             //bf.hide();
