@@ -7,14 +7,14 @@ $(document).ready(function () {
         //var bf = box.find(".box-body");
         if (hide) {
             //bf.slideUp();
-            //bf.hide();
-            bf.css({'visibility':'hidden'});
-            bf.css({'position':'absolute'});
+            bf.hide();
+            //bf.css({'visibility':'hidden'});
+            //bf.css({'position':'absolute'});
         } else {
             //bf.slideDown();
-            //bf.show();
-            bf.css({'visibility':'visible'});
-            bf.css({'position':'static'});
+            bf.show();
+            //bf.css({'visibility':'visible'});
+            //bf.css({'position':'static'});
         }
     }
 
@@ -25,14 +25,14 @@ $(document).ready(function () {
         //var bf = box.find(".box-body");
         if (hide) {
             //bf.slideUp();
-            //bf.hide();
-            bf.css({'visibility':'hidden'});
-            bf.css({'position':'absolute'});
+            bf.hide();
+            //bf.css({'visibility':'hidden'});
+            //bf.css({'position':'absolute'});
         } else {
             //bf.slideDown();
-            //bf.show();
-            bf.css({'visibility':'visible'});
-            bf.css({'position':'static'});
+            bf.show();
+            //bf.css({'visibility':'visible'});
+            //bf.css({'position':'static'});
         }
     }
 
