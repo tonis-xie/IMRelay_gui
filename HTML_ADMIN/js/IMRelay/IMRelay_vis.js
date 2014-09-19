@@ -69,7 +69,8 @@ $(function () {
             { id: 13, time_feeding_intervals: 0 },
             { id: 14, time_feeding_intervals: 0 },
             { id: 15, time_feeding_intervals: 0 },
-            { id: 16, time_feeding_intervals: 0 }];
+            { id: 16, time_feeding_intervals: 0 }
+        ];
 
         for (var key in data) {
 
