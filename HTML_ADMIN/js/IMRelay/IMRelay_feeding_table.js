@@ -71,10 +71,6 @@ $(function () {
         record.biomass = (record.nr_of_fish * record.avg_fish_kg / 1000);
         record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
         record.time_feeder_active = ((record.required_feed_pr_day / record.feeder_speed_kg_pr_min) * 60).toFixed(0);
-        
-        record.avg_fish_kg = (+record.avg_fish_kg).toFixed(0);
-        record.biomass = (+record.biomass).toFixed(0);
-        record.required_feed_pr_day = (+record.required_feed_pr_day).toFixed(3);
 
         if (isNaN(g_LDA.feed[rowIndex])) {
             g_LDA.feed[rowIndex] = 0;
@@ -88,6 +84,14 @@ $(function () {
 
         /* Calculate on-off times */
         record.feeder_toggle_speed = feeder_toggle_speed[0] + '/' + (feeder_toggle_speed[1] - feeder_toggle_speed[0]);
+
+
+        record.avg_fish_kg = (+record.avg_fish_kg).toFixed(0);
+        record.biomass = (+record.biomass).toFixed(0);
+        record.required_feed_pr_day = (+record.required_feed_pr_day).toFixed(3);
+        record.time_feeder_active = (record.time_feeder_active / 60).toFixed(1);
+        record.time_feeding_intervals = (record.time_feeding_intervals / 60).toFixed(1);
+
 
         g_LDA.relay[rowIndex] = { on_setting: feeder_toggle_speed[0], off_setting: (feeder_toggle_speed[1] - feeder_toggle_speed[0]) };
 
@@ -202,10 +206,10 @@ $(function () {
         }
 
         var datetime_now = new Date();
-        //var midnight_tomorrow = new Date().setHours(24, 0, 0, 0);
+        var midnight_tomorrow = new Date().setHours(24, 0, 0, 0);
         //update every x seconds, testing with: 
-        var midnight_tomorrow = new Date();
-        midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 60);
+        //var midnight_tomorrow = new Date();
+        //midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 60);
         window.setTimeout(daily_event_updater, midnight_tomorrow - datetime_now);
 
     }

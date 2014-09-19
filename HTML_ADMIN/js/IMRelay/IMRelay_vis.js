@@ -69,7 +69,8 @@ $(function () {
             { id: 13, time_feeding_intervals: 0 },
             { id: 14, time_feeding_intervals: 0 },
             { id: 15, time_feeding_intervals: 0 },
-            { id: 16, time_feeding_intervals: 0 }];
+            { id: 16, time_feeding_intervals: 0 }
+        ];
 
         for (var key in data) {
 
@@ -157,8 +158,8 @@ $(function () {
         min: start_date,
         //minHeight: '28px',
         onAdd: function (item, callback) {
-            if (start_date <= item.start && end_date >= item.end && (date_to_hhmmss(item.start) < date_to_hhmmss(item.end) || date_to_hhmmss(item.end) === "00:00:00")) {
-                item.content = date_to_hhmmss(item.start) + " - " + date_to_hhmmss(item.end);
+            if ((start_date <= item.start) && (end_date >= item.end) && (item.start < item.end) || (moment(item.end).format("hh:mm:ss") === "00:00:00")) {
+                item.content = moment(item.start).format("hh:mm:ss") + " - " + moment(item.end).format("hh:mm:ss");
                 callback(item); // send back adjusted item
             } else {
                 callback(null); // cancel updating the item
@@ -166,8 +167,8 @@ $(function () {
         },
         //onUpdate
         onMove: function (item, callback) {
-            if (start_date <= item.start && end_date >= item.end && (date_to_hhmmss(item.start) < date_to_hhmmss(item.end) || date_to_hhmmss(item.end) === "00:00:00")) {
-                item.content = date_to_hhmmss(item.start) + " - " + date_to_hhmmss(item.end);
+            if ((start_date <= item.start) && (end_date >= item.end) && (item.start < item.end) || (moment(item.end).format("hh:mm:ss") === "00:00:00")) {
+                item.content = moment(item.start).format("hh:mm:ss") + " - " + moment(item.end).format("hh:mm:ss");
                 callback(item); // send back adjusted item
             } else {
                 callback(null); // cancel updating the item

@@ -1,4 +1,5 @@
-﻿function getRandomDate(from, to) {
+﻿/*
+function getRandomDate(from, to) {
     if (!from) {
         from = new Date(1900, 0, 1).getTime();
     } else {
@@ -98,3 +99,4 @@ function date_to_hhmmss(d) {
 function format_2_digits(n) {
     return n > 9 ? "" + n : "0" + n;
 }
+*/
