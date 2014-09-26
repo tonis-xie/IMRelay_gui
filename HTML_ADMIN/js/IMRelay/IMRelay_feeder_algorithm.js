@@ -80,14 +80,20 @@
             relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each]);
         }
 
-        console.log(current_relay_states);
-
-        return;
+        console.log(current_relay_states);        
 
         $.ajax({
-            url: "192.168.0.105",
+            url: "http://192.168.1.105",
             type: "POST",
-            data: current_relay_states
+            data: JSON.stringify(current_relay_states),
+            timeout: 1000,
+            error: function (request, status, error) {
+                if (error === "timeout") {
+                    console.log("error: timeout");
+                } else {
+                    console.log(ajax_counter_var, request.status, request.responseText, status, error);
+                }
+            }
         });
 
     }
