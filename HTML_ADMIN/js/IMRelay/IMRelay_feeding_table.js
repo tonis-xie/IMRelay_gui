@@ -48,16 +48,6 @@ $(function () {
         return $.inArray(column_name, editable_columns) !== -1 ? true : false;
     }
 
-    function reduce_fraction(numerator, denominator) {
-        var gcd = function gcd(a, b){
-            return b ? gcd(b, a%b) : a;
-        };
-
-        gcd = gcd(numerator, denominator);
-
-        return [numerator/gcd, denominator/gcd];
-    }
-
     function feeding_table_row_writer(rowIndex, record, columns, cellWriter) {
 
         var tr = '';
@@ -70,21 +60,27 @@ $(function () {
         record.start_date = start_date_datetime_string;     
         record.biomass = (record.nr_of_fish * record.avg_fish_kg / 1000);
         record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
-        record.time_feeder_active = ((record.required_feed_pr_day / record.feeder_speed_kg_pr_min) * 60).toFixed(0);
+        record.time_feeder_active = +((record.required_feed_pr_day / record.feeder_speed_kg_pr_min) * 60).toFixed(0);
 
         if (isNaN(g_LDA.feed[rowIndex])) {
             g_LDA.feed[rowIndex] = 0;
         }
-        record.feed_progress_today = (g_LDA.feed[rowIndex]).toFixed(0);
+        record.feed_progress_today = (g_LDA.feed[rowIndex]).toFixed(1);
 
-        var relay_indicator_toggle_factor = record.time_feeder_active / record.time_feeding_intervals;
-
-        /* Calculate an reduced fraction for the feeder_toogle_speed */
-        var feeder_toggle_speed = reduce_fraction(record.time_feeder_active, record.time_feeding_intervals);
+        var relay_indicator_toggle_factor = 100 * record.time_feeder_active / record.time_feeding_intervals;
 
         /* Calculate on-off times */
-        record.feeder_toggle_speed = feeder_toggle_speed[0] + '/' + (feeder_toggle_speed[1] - feeder_toggle_speed[0]);
-
+        record.feeder_toggle_speed = relay_indicator_toggle_factor.toFixed(0);
+        g_LDA.relay[rowIndex] = {
+                total_on_ticks: record.time_feeder_active,
+                total_off_ticks: record.time_feeding_intervals - record.time_feeder_active,
+                toggle_factor: (record.time_feeder_active /  record.time_feeding_intervals),
+                on_ticks_remaining: record.time_feeder_active,
+                off_ticks_remaining: record.time_feeding_intervals - record.time_feeder_active,
+                accumulate: 0,
+                on: 0,
+                off: 0
+        };
 
         record.avg_fish_kg = (+record.avg_fish_kg).toFixed(0);
         record.biomass = (+record.biomass).toFixed(0);
@@ -92,12 +88,9 @@ $(function () {
         record.time_feeder_active = (record.time_feeder_active / 60).toFixed(1);
         record.time_feeding_intervals = (record.time_feeding_intervals / 60).toFixed(1);
 
+        $('#jknob' + (rowIndex + 1)).val(relay_indicator_toggle_factor).trigger('change');
 
-        g_LDA.relay[rowIndex] = { on_setting: feeder_toggle_speed[0], off_setting: (feeder_toggle_speed[1] - feeder_toggle_speed[0]) };
-
-        $('#jknob' + (rowIndex + 1)).val(relay_indicator_toggle_factor * 100).trigger('change');
-
-        if (relay_indicator_toggle_factor > 1) {
+        if (relay_indicator_toggle_factor > 90) {
             
             $('#jknob' + (rowIndex + 1))
                 .trigger(
@@ -167,7 +160,7 @@ $(function () {
 
                 if (update_feeder_table[key].state === 'active') {
 
-                    // this adds (amount of food eaten per fish * growth factor) to average fish weight
+                    // this adds (amount of food eaten per fish * feed factor) to average fish weight
                     // +operator converts strings to numbers
                     update_feeder_table[key].avg_fish_kg = +update_feeder_table[key].avg_fish_kg +
                         (

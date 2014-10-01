@@ -1,5 +1,21 @@
 ﻿$(function () {
 
+    function find_nearest_value_from_array(input_value) {
+
+        var relay_toggle_array_values = [0, 1/10, 2/10, 3/10, 4/10, 5/10, 6/10, 7/10, 8/10, 9/10];
+        var closest = null;
+
+        $.each(relay_toggle_array_values, function () {
+
+            if (closest === null || Math.abs(this - input_value) < Math.abs(closest - input_value)) {
+                closest = this;
+            }
+
+        });
+
+        return (closest * 10);
+    }
+
     function which_relays_should_toogle(time) {
 
         var relay_ids = [];
@@ -11,7 +27,7 @@
 
         for (var key in g_LDA.items._data) {
 
-            if ((time < g_LDA.items._data[key].end) && (time > g_LDA.items._data[key].start) && (group_states[g_LDA.items._data[key].group - 1].className === 'vis_group_enabled')) {
+            if ((time < g_LDA.items._data[key].end) && (time >= g_LDA.items._data[key].start) && (group_states[g_LDA.items._data[key].group - 1].className === 'vis_group_enabled')) {
                 relay_ids.push(g_LDA.items._data[key].group);
             }
         }
@@ -39,25 +55,46 @@
         for (var key in relay_states) {
 
             var relay_id = relay_states[key];
-
-            //check if settings are OK
-            if ((g_LDA.relay[relay_id - 1].off_setting < 0) ||
-                (g_LDA.relay[relay_id - 1].on_setting < 0) ||
-                (isNaN(g_LDA.relay[relay_id - 1].on_setting)) ||
-                (isNaN(g_LDA.relay[relay_id - 1].on_setting))) {
-                error[relay_id - 1] = true;
+            
+            //check if toggle factor is higher than 9 on 1 off
+            if (g_LDA.relay[relay_id - 1].toggle_factor > 0.9) {
+                error[relay_id -1]= true;
             } else {
-                error[relay_id - 1] = false;
+                error[relay_id -1]= false;
             }
 
-            //reset relay settings if on/off has reached 0
-            if ((g_LDA.relay[relay_id - 1].on <= 0) &&
-                (g_LDA.relay[relay_id - 1].off <= 0) ||
-                (g_LDA.relay[relay_id - 1].on === undefined) ||
-                (g_LDA.relay[relay_id -1].off === undefined)) {
+            //reset relay settings if on and off has reached 0
+            if ((g_LDA.relay[relay_id - 1].on <= 0) && (g_LDA.relay[relay_id - 1].off <= 0)) {
 
-                g_LDA.relay[relay_id - 1].off = g_LDA.relay[relay_id - 1].off_setting;
-                g_LDA.relay[relay_id -1].on = g_LDA.relay[relay_id -1].on_setting;
+
+                if ((g_LDA.relay[relay_id - 1].on_ticks_remaining + g_LDA.relay[relay_id - 1].off_ticks_remaining) >= 10) {
+
+                    //Bresenham Line Algorithm. Accumulate delta error over time
+                    g_LDA.relay[relay_id -1].accumulate += g_LDA.relay[relay_id -1].toggle_factor;
+                   /*g_LDA.relay[relay_id - 1].accumulate += (g_LDA.relay[relay_id - 1].on_ticks_remaining
+                                                             /
+                                                             (g_LDA.relay[relay_id - 1].on_ticks_remaining + g_LDA.relay[relay_id - 1].off_ticks_remaining));*/
+
+                    //recalculate on/off toggle speed
+                    var on_time = find_nearest_value_from_array(g_LDA.relay[relay_id - 1].accumulate);
+                    g_LDA.relay[relay_id - 1].accumulate -= (on_time / 10);
+
+                    g_LDA.relay[relay_id - 1].on = on_time;
+                    g_LDA.relay[relay_id - 1].off = 10 - on_time;
+
+                    g_LDA.relay[relay_id - 1].on_ticks_remaining -= on_time;
+                    g_LDA.relay[relay_id - 1].off_ticks_remaining -= (10 - on_time);
+
+                    console.log("acc", g_LDA.relay[relay_id - 1].accumulate, "on", g_LDA.relay[relay_id - 1].on, "off", g_LDA.relay[relay_id - 1].off, "on_rem", g_LDA.relay[relay_id - 1].on_ticks_remaining, "off_rem", g_LDA.relay[relay_id - 1].off_ticks_remaining);
+
+                } else {
+
+                    g_LDA.relay[relay_id-1].on  = g_LDA.relay[relay_id-1].on_ticks_remaining;
+                    g_LDA.relay[relay_id-1].off = g_LDA.relay[relay_id-1].off_ticks_remaining;
+                    g_LDA.relay[relay_id-1].on_ticks_remaining = 0;
+                    g_LDA.relay[relay_id - 1].off_ticks_remaining = 0;
+
+                }
 
             }
 
@@ -80,19 +117,24 @@
             relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each]);
         }
 
-        console.log(current_relay_states);        
+        console.log(current_relay_states);
 
         $.ajax({
-            url: "http://192.168.1.105",
+            url: "http://192.168.1.115",
             type: "POST",
             data: JSON.stringify(current_relay_states),
             timeout: 1000,
+            success: {
+                
+            },
             error: function (request, status, error) {
+
                 if (error === "timeout") {
                     console.log("error: timeout");
                 } else {
-                    console.log(ajax_counter_var, request.status, request.responseText, status, error);
+                    console.log(request.status, request.responseText, status, error);
                 }
+
             }
         });
 
