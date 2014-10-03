@@ -85,7 +85,7 @@
                     g_LDA.relay[relay_id - 1].on_ticks_remaining -= on_time;
                     g_LDA.relay[relay_id - 1].off_ticks_remaining -= (10 - on_time);
 
-                    console.log("acc", g_LDA.relay[relay_id - 1].accumulate, "on", g_LDA.relay[relay_id - 1].on, "off", g_LDA.relay[relay_id - 1].off, "on_rem", g_LDA.relay[relay_id - 1].on_ticks_remaining, "off_rem", g_LDA.relay[relay_id - 1].off_ticks_remaining);
+                    //console.log("acc", g_LDA.relay[relay_id - 1].accumulate, "on", g_LDA.relay[relay_id - 1].on, "off", g_LDA.relay[relay_id - 1].off, "on_rem", g_LDA.relay[relay_id - 1].on_ticks_remaining, "off_rem", g_LDA.relay[relay_id - 1].off_ticks_remaining);
 
                 } else {
 
@@ -141,5 +141,29 @@
     }
 
     window.setInterval(relay_event_scheduler, 1000);
+
+    for (var ip_local_subnet = 0; ip_local_subnet < 255; ip_local_subnet++) {
+
+        (function (ip_local_subnet) {
+
+            $.ajax({
+                url: "http://192.168.1." + ip_local_subnet + "/IMRelay_v2",
+                type: "OPTIONS",                
+                timeout: 1000,                
+                success: function (data) {                    
+                    var mac_addr = JSON.parse(data);                                        
+                    console.log("Found: " + mac_addr.id + " @ 192.168.1." + ip_local_subnet);
+                }
+            }).error(function (jXHR) {
+                // Disable global error logging
+                $.event.global.ajaxError = false;
+            }).complete(function () {
+                // Enable global error logging
+                $.event.global.ajaxError = true;
+            });
+
+        })(ip_local_subnet);        
+
+    }
 
 });
