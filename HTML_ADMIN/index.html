@@ -38,7 +38,7 @@
     <header class="header">
         <a href="index_example.html" class="logo">
             <!-- Add the class icon to your logo image or logo icon to add the margining -->
-            IMRelay v0.2.1
+            IMRelay v0.4.3
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -51,85 +51,22 @@
             </a>
             <div class="navbar-right">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <li class="dropdown messages-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope"></i>
-                            <span class="label label-success">4</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 4 messages</li>
-                            <li>
-                                <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
-                                    <li>
-                                        <!-- start message -->
-                                        <a href="#">
-                                            <h4>
-                                                Temporary menu
-                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                            </h4>
-                                            <p>joakim.myrland@LDA.as</p>
-                                        </a>
-                                    </li><!-- end message -->
-                                </ul>
-                            </li>
-                            <li class="footer"><a href="#">See All Messages</a></li>
-                        </ul>
-                    </li>
-                    <!-- Notifications: style can be found in dropdown.less -->
-                    <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-warning"></i>
-                            <span class="label label-warning">10</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 4 messages</li>
-                            <li>
-                                <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
-                                    <li>
-                                        <!-- start message -->
-                                        <a href="#">
-                                            <h4>
-                                                Temporary menu
-                                            </h4>
-                                        </a>
-                                    </li><!-- end message -->
-                                </ul>
-                            </li>
-                            <li class="footer"><a href="#">See All Messages</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="#" id="connected_device_identifier">No device found</a></li>
                     <!-- Tasks: style can be found in dropdown.less -->
                     <li class="dropdown tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-tasks"></i>
-                            <span class="label label-danger">9</span>
+                            <span id="connected_device_counter" class="label label-error">0</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have 9 tasks</li>
+                            <li class="header">Devices found on network:</li>
                             <li>
                                 <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
-                                    <li>
-                                        <!-- Task item -->
-                                        <a href="#">
-                                            <h3>
-                                                Temporary menu
-                                                <small class="pull-right">20%</small>
-                                            </h3>
-                                            <div class="progress xs">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                    <span class="sr-only">20% Complete</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li><!-- end task item -->
+                                <ul id="device_discovery_list" class="menu">
                                 </ul>
                             </li>
                             <li class="footer">
-                                <a href="#">View all tasks</a>
+                                <a href="#">Search for new devices</a>
                             </li>
                         </ul>
                     </li>
@@ -521,6 +458,7 @@
     <script src="js/IMRelay/IMRelay_feeding_table.js" type="text/javascript"></script>
     <script src="js/IMRelay/IMRelay_vis.js" type="text/javascript"></script>
     <script src="js/IMRelay/IMRelay_feeder_algorithm.js" type="text/javascript"></script>
+    <script src="js/IMRelay/IMRelay_connect.js" type="text/javascript"></script>
     <!-- <script src="js/IMRelay/IMRelay_serial_handler.js" type="text/javascript"></script> -->
     <!-- include IMRelay as last script -->
     <script src="js/IMRelay/IMRelay.js" type="text/javascript"></script>
