@@ -81,6 +81,18 @@ $(document).ready(function () {
     hide_table(true);
     hide_log(true);
 
+    $("a#clear_localstorage_button").click(function () {
+
+        if (confirm('Are you sure you want to delete all settings and logs?')) {
+
+            localStorage.clear();
+            window.location.reload();
+            //localStorage.removeItem(key);
+
+        }
+
+    });
+
     /*
 
     $("a#relay_list_tabbutton").click(function () {
