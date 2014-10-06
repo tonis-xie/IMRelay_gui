@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     function hide_timeline(hide) {
         //Find the box parent
-        var box = $(".box").first();
+        var box = $(".box").eq(0);
         //Find the body and the footer
         var bf = box.find(".box-body");
         if (hide) {
@@ -20,7 +20,7 @@ $(document).ready(function () {
 
     function hide_table(hide) {
         //Find the box parent
-        var box = $(".box").last();
+        var box = $(".box").eq(1);
         //Find the body and the footer
         var bf = box.find(".box-body");
         if (hide) {
@@ -36,21 +36,62 @@ $(document).ready(function () {
         }
     }
 
-    $("a#feeder_settings_button").click(function () {        
-
-        hide_table(false);
-        hide_timeline(true);
-
-    });
+    function hide_log(hide) {
+        //Find the box parent
+        var box = $(".box").eq(2);
+        //Find the body and the footer
+        var bf = box.find(".box-body");
+        if (hide) {
+            //bf.slideUp();
+            //bf.hide();
+            bf.css({ 'visibility': 'hidden' });
+            bf.css({ 'position': 'absolute' });
+        } else {
+            //bf.slideDown();
+            //bf.show();
+            bf.css({ 'visibility': 'visible' });
+            bf.css({ 'position': 'static' });
+        }
+    }
 
     $("a#timeline_menu_button").click(function () {
 
-        hide_table(true);
         hide_timeline(false);
+        hide_table(true);
+        hide_log(true);
+
+    });
+
+    $("a#feeder_settings_button").click(function () {        
+
+        hide_timeline(true);
+        hide_table(false);
+        hide_log(true);
+
+    });
+
+    $("a#log_menu_button").click(function () {
+
+        hide_timeline(true);
+        hide_table(true);
+        hide_log(false);
 
     });
 
     hide_table(true);
+    hide_log(true);
+
+    $("a#clear_localstorage_button").click(function () {
+
+        if (confirm('Are you sure you want to delete all settings and logs?')) {
+
+            localStorage.clear();
+            window.location.reload();
+            //localStorage.removeItem(key);
+
+        }
+
+    });
 
     /*
 
@@ -195,26 +236,3 @@ $(document).ready(function () {
     */
 });
 
-function relay_indicator_control(relay_number, active, error) {
-
-    var value1 = active ? "50%" : "";
-    var value2, value3;
-
-    value2 = active ? error ? "rgba(255, 0, 0, 0.35)" : "rgba(31, 141, 255, 0.35)" : "";
-    value3 = active ? error ? "rgba(255, 0, 0, 0.7) 0px 0px 36px" : "rgba(31, 141, 255, 0.7) 0px 0px 36px" : ""
-
-    /*if (error) {
-        value2 = active ? "rgba(255, 0, 0, 0.35)" : "";
-        value3 = active ? "rgba(255, 0, 0, 0.7) 0px 0px 36px" : "";
-    } else {
-        value2 = active ? "rgba(31, 141, 255, 0.35)" : "";
-        value3 = active ? "rgba(31, 141, 255, 0.7) 0px 0px 36px" : "";
-    }*/
-
-    var cell = $('#imrelay_knob_row > div > div canvas')[relay_number - 1];
-    
-    cell.style.borderRadius = value1;
-    cell.style.background = value2;
-    cell.style.boxShadow = value3;
-
-}
