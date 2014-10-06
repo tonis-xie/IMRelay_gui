@@ -2,6 +2,16 @@
 
 $(document).ready(function () {
 
+    function generateUUID() {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = (d + Math.random()*16)%16 | 0;
+            d = Math.floor(d/16);
+            return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+        });
+        return uuid;
+    };
+
     function add_imrelay_device_to_list(ip, mac) {
         $("#device_discovery_list").append('<li><a href="#"><h3>IMRelay v2 @ ' + ip + '</h3><p>ID: ' + mac + '</p></a></li>');
 
@@ -15,9 +25,14 @@ $(document).ready(function () {
             g_LDA.ip_address = ip;
             window.setInterval(relay_event_scheduler, 1000);
 
+            /* Create lock */
+            if (localStorage["uuid_lock"] == null) {
+                localStorage["uuid_lock"] = generateUUID();
+            }
+
         } else if (num_items > 1) {
             $("#connected_device_counter").removeClass("label-error label-success").addClass("label-warning");
-        }                
+        }
 
     }
 
@@ -35,7 +50,7 @@ $(document).ready(function () {
                 type: "OPTIONS",
                 timeout: 1000,
                 success: function (data) {
-                    var mac_addr = JSON.parse(data);                    
+                    var mac_addr = JSON.parse(data);
                     imrelay_device_found("192.168.1." + ip_local_subnet, mac_addr.id);
 
                 }
