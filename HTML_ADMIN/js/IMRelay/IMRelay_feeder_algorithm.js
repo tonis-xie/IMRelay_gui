@@ -116,12 +116,15 @@ function relay_event_scheduler() {
         relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each]);
     }
 
-    console.log(current_relay_states);
+    var uuid_lock = localStorage["uuid_lock"];
+
+    var message = JSON.stringify({'uuid': uuid_lock, 'relays': current_relay_states});
+    console.log(message);
 
     $.ajax({
         url: "http://" + g_LDA.ip_address,
         type: "POST",
-        data: JSON.stringify(current_relay_states),
+        data: message,
         timeout: 1000,
         success: {
 
