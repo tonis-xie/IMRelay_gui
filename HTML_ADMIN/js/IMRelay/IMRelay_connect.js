@@ -5,7 +5,7 @@ $(document).ready(function () {
     function add_imrelay_device_to_list(ip, mac) {
         $("#device_discovery_list").append('<li><a href="#"><h3>IMRelay v2 @ ' + ip + '</h3><p>ID: ' + mac + '</p></a></li>');
 
-        var num_items = $("#device_discovery_list").length;
+        var num_items = $("#device_discovery_list li").length;
         $("#connected_device_counter").html(num_items);
 
         if (num_items === 1) {
