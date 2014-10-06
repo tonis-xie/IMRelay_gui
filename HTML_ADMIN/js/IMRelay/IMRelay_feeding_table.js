@@ -159,7 +159,7 @@ $(function () {
 
                 g_LDA.log_table.add({
                     relay_number: entry.id, 
-                    date: moment().format('YYYY-MM-DD hh:mm'),
+                    date: moment().format('YYYY-MM-DD HH:mm:ss Z'),
                     nr_of_fish: entry.nr_of_fish, 
                     avg_fish_kg: entry.avg_fish_kg, 
                     biomass: entry.biomass, 
@@ -232,7 +232,7 @@ $(function () {
         var midnight_tomorrow = new Date().setHours(24, 0, 0, 0);
         //update every x seconds, testing with: 
         //var midnight_tomorrow = new Date();
-        //midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 10);
+        //midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 60);
         window.setTimeout(daily_event_updater, midnight_tomorrow - datetime_now);
 
     }
