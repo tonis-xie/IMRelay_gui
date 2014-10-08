@@ -1,5 +1,4 @@
-﻿
-function find_nearest_value_from_array(input_value) {
+﻿function find_nearest_value_from_array(input_value) {
 
     var relay_toggle_array_values = [0, 1 / 10, 2 / 10, 3 / 10, 4 / 10, 5 / 10, 6 / 10, 7 / 10, 8 / 10, 9 / 10];
     var closest = null;
@@ -119,25 +118,26 @@ function relay_event_scheduler() {
     var uuid_lock = localStorage["uuid_lock"];
 
     var message = JSON.stringify({'uuid': uuid_lock, 'relays': current_relay_states});
-    console.log(message);
+    console.log(current_relay_states);    
 
-    $.ajax({
-        url: "http://" + g_LDA.ip_address,
-        type: "POST",
-        data: message,
-        timeout: 1000,
-        success: {
+    if (g_LDA.ip_address.indexOf("192.168.") > -1) {    
 
-        },
-        error: function (request, status, error) {
+        $.ajax({
+            url: "http://" + g_LDA.ip_address,
+            type: "POST",
+            data: message,
+            timeout: 1000,            
+            error: function (request, status, error) {
 
-            if (error === "timeout") {
-                console.log("error: timeout");
-            } else {
-                console.log(request.status, request.responseText, status, error);
+                if (error === "timeout") {
+                    console.log("error: timeout");
+                } else {
+                    console.log(request.status, request.responseText, status, error);
+                }
+
             }
+        });
 
-        }
-    });
+    }   
 
 }
