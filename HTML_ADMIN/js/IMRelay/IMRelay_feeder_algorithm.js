@@ -123,7 +123,7 @@ function relay_event_scheduler() {
     if (g_LDA.ip_address.indexOf("192.168.") > -1) {    
 
         $.ajax({
-            url: "http://" + g_LDA.ip_address,
+            url: "http://" + g_LDA.ip_address + "/relays.ajax",            
             type: "POST",
             data: message,
             timeout: 1000,            

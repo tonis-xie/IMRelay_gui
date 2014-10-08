@@ -64,8 +64,8 @@ $(document).ready(function () {
         (function (ip_local_subnet) {
 
             $.ajax({
-                url: "http://192.168.1." + ip_local_subnet + "/IMRelay_v2",
-                type: "OPTIONS",
+                url: "http://192.168.1." + ip_local_subnet + "/autodiscovery_imrelay",
+                type: "GET",
                 timeout: 1000,
                 success: function (data) {
                     var mac_addr = JSON.parse(data);
