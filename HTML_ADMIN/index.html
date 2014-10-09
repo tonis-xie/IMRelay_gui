@@ -21,6 +21,8 @@
     <script src="js/plugins/vis/vis-custom.min.js" type="text/javascript"></script>
     <!-- Dynatable -->
     <link href="css/dynatable/jquery.dynatable.css" rel="stylesheet" type="text/css" />
+    <!-- jQueryUI -->
+    <link rel="stylesheet" href="css/jquery-ui.min.css" />
 
     <!-- Theme style -->
     <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
@@ -214,6 +216,7 @@
                     <li class="treeview">
                         <a id="log_menu_button" href="#">
                             <i class="fa fa-bar-chart-o"></i>
+                            <i class="fa fa-angle-left pull-right"></i>
                             <span>Log</span>
                         </a>
                         <ul class="treeview-menu">
@@ -223,12 +226,13 @@
                     </li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-folder"></i> <span>Themes</span>
+                            <i class="fa fa-folder"></i> <span>Customize GUI</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="#" data-theme="blue" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Blue</a></li>
-                            <li><a href="#" data-theme="black" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Black</a></li>
+                            <li><a href="#" data-theme="blue" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Blue theme</a></li>
+                            <li><a href="#" data-theme="black" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Black theme</a></li>
+                            <li><a href="#"><p>Text size: <span id="font_size">100 %</span></p><div id="font_size_slider"></div></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -435,6 +439,9 @@
     <script src="js/plugins/dynatable/jquery.dynatable.min.js" type="text/javascript"></script>
     <!-- table2csv -->
     <script src="js/plugins/table2csv/table2csv.js" type="text/javascript"></script>
+    <!-- jQueryUI -->
+    <script src="js/plugins/jqueryui/jquery-ui.min.js"></script>
+
 
     <!-- IMRelay App -->
     <script src="js/IMRelay/IMRelay_jqueryknob.js" type="text/javascript"></script>

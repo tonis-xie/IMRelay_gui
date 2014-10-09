@@ -93,6 +93,17 @@ $(document).ready(function () {
 
     });
 
+    $( "#font_size_slider" ).slider({
+        value:100,
+        min: 80,
+        max: 200,
+        step: 10,
+        slide: function( event, ui ) {
+            $( "#feeding_table td, #feeding_table th, #feeding_table button" ).css( "font-size", ui.value + "%" );
+            $( "#font_size" ).html( ui.value + "%" );
+        }
+    });
+
     /*
 
     $("a#relay_list_tabbutton").click(function () {
