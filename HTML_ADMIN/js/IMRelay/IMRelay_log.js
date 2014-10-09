@@ -32,7 +32,8 @@ $(function () {
 
     $('#log_table').dynatable({        
         dataset: {
-            records: g_LDA.log_table.get()
+            records: g_LDA.log_table.get(),
+            perPageOptions: [10,20,50,100,200,500,1000]
         },        
         inputs: {
             queries: $('#search_relay_id')
