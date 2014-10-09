@@ -1,13 +1,16 @@
 $(function () {
 
+    $("a#download_log_button").click(save_table_to_csv);
+
     function save_table_to_csv() {
 
         var csv = "data:text/csv; charset=utf-8,";
         csv += $('#log_table').table2CSV({ delivery: 'value' });
 
-        $('#download_log_button').attr("href", encodeURI(csv));
-        $('#download_log_button').attr("download", "log_2014-10-03.csv");
-
+        var dl = document.createElement("a");
+        dl.setAttribute("href", encodeURI(csv));
+        dl.setAttribute("download", "IMRelay_log.csv");
+        dl.click();
     }
 
     g_LDA.log_table = new vis.DataSet();
