@@ -1,5 +1,5 @@
 ﻿// Called when the Visualization API is loaded.
-$(function () {
+$(document).ready(function () {
 
     function create_html_button(id) {
 

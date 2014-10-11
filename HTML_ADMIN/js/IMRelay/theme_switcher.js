@@ -9,7 +9,7 @@
     "yeti": "css/bootstrap_themes/yeti/bootstrap.css"
 }
 
-$(function () {
+$(window).load(function () {
  
     var themesheet = $('<link href="' + themes['default'] + '" rel="stylesheet" />');
     themesheet.appendTo('head');

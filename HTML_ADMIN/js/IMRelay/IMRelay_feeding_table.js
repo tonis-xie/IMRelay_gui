@@ -3,7 +3,7 @@ var g_LDA = {};
 g_LDA.relay = [];
 g_LDA.feed = [];
 
-$(function () {
+$(document).ready(function () {
 
     function feeding_table_button_cell_writer(id) {
 
