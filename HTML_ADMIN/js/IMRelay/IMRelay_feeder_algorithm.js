@@ -1,5 +1,4 @@
-﻿
-function find_nearest_value_from_array(input_value) {
+﻿function find_nearest_value_from_array(input_value) {
 
     var relay_toggle_array_values = [0, 1 / 10, 2 / 10, 3 / 10, 4 / 10, 5 / 10, 6 / 10, 7 / 10, 8 / 10, 9 / 10];
     var closest = null;
@@ -105,36 +104,58 @@ function relay_event_scheduler() {
             //increase feed_progress_today value per tick
             g_LDA.feed[relay_id - 1] += (feeder_speed[relay_id - 1].feeder_speed_kg_pr_min / 60);
 
+            $("#feeding_table th").each(function (index) {
+
+                if ($(this).attr('data-dynatable-column') == 'feed_progress_today') {
+                    var cell = $('table#feeding_table tr:nth-child(' + relay_id + ') td:nth-child(' + (index + 1) + ')');
+                    cell[0].innerText = (g_LDA.feed[relay_id - 1]).toFixed(3);
+                }
+
+            });
+
         } else if (g_LDA.relay[relay_id - 1].off > 0) {
             --g_LDA.relay[relay_id - 1].off;
             current_relay_states[relay_id - 1] = 0;
         }
 
     }
+ 
+    var uuid_lock = localStorage["uuid_lock"];
 
-    for (each = 0; each < 16; each++) {
-        relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each]);
-    }
+    var message = JSON.stringify({'uuid': uuid_lock, 'relays': current_relay_states});
+    console.log(current_relay_states);    
 
-    console.log(current_relay_states);
+    (function send_relays_to_device_over_ajax(current_relay_states) {
 
-    $.ajax({
-        url: "http://" + g_LDA.ip_address,
-        type: "POST",
-        data: JSON.stringify(current_relay_states),
-        timeout: 1000,
-        success: {
+        if (g_LDA.ip_address.indexOf("192.168.1.") > -1 || g_LDA.ip_address.indexOf("169.254.4.") > -1) {
 
-        },
-        error: function (request, status, error) {
+            $.ajax({
+                url: "http://" + g_LDA.ip_address + "/relays.ajax",
+                type: "POST",
+                data: message,
+                timeout: 1000,
+                success: function () {
+                    for (each = 0; each < 16; each++) {
+                        relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each], false);
+                    }
+                },
+                error: function (request, status, error) {
 
-            if (error === "timeout") {
-                console.log("error: timeout");
-            } else {
-                console.log(request.status, request.responseText, status, error);
-            }
+                    for (each = 0; each < 16; each++) {
+                        relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each], true);
+                    }
+
+                    if (error === "timeout") {
+                        console.log("error: timeout");
+                    } else {
+                        console.log(request.status, request.responseText, status, error);
+                    }
+
+                }
+            });
 
         }
-    });
+
+    })(current_relay_states);
 
 }

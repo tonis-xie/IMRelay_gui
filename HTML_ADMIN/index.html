@@ -10,17 +10,17 @@
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- ionicons -->
     <link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- hammer v2.0.2 -->
-    <!-- <script src="js/plugins/hammer/hammer.min.js" type="text/javascript"></script> -->
     <!-- moment v2.8.2 -->
     <script src="js/plugins/moment/moment.min.js" type="text/javascript"></script>
     <!-- vis v3.4.0 -->
     <link href="css/vis/vis.min.css" rel="stylesheet" type="text/css" />
-    <link href="css/vis/vis_timeline_theme.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/vis/vis_timeline_theme.css" rel="stylesheet" type="text/css" />
     <!-- Compiled with Dataset + Timeline and Hammer. Moment is exluded -->
     <script src="js/plugins/vis/vis-custom.min.js" type="text/javascript"></script>
     <!-- Dynatable -->
     <link href="css/dynatable/jquery.dynatable.css" rel="stylesheet" type="text/css" />
+    <!-- jQueryUI -->
+    <link rel="stylesheet" href="css/jquery-ui.min.css" />
 
     <!-- Theme style -->
     <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
@@ -51,10 +51,11 @@
             </a>
             <div class="navbar-right">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" id="connected_device_identifier">No device found</a></li>
+                    <!--<li><a href="#" id="connected_device_identifier">No device found</a></li>-->
                     <!-- Tasks: style can be found in dropdown.less -->
                     <li class="dropdown tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span style="margin-right:10px" id="connected_device_identifier">No device found</span>
                             <i class="fa fa-tasks"></i>
                             <span id="connected_device_counter" class="label label-error">0</span>
                         </a>
@@ -201,42 +202,36 @@
                 <ul class="sidebar-menu">
                     <li class="active">
                         <a id="timeline_menu_button" href=" #">
-                            <i class="fa fa-dashboard"></i>
+                            <i class="fa fa-clock-o"></i>
                             <span>Timeline</span>
                         </a>
                     </li>
                     <li>
                         <a id="feeder_settings_button" href="#">
-                            <i class="fa fa-bar-chart-o"></i>
+                            <i class="fa fa-table"></i>
                             <span>Feeder settings</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="treeview">
                         <a id="log_menu_button" href="#">
-                            <i class="fa fa-bar-chart-o"></i>
+                            <i class="fa fa-file-text-o"></i>
+                            <i class="fa fa-angle-left pull-right"></i>
                             <span>Log</span>
                         </a>
-                    </li>
-                    <li>
-                        <a id="download_log_button" href="#">
-                            <i class="fa fa-download"></i>
-                            <span>Download log</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a id="clear_localstorage_button" href="#">
-                            <i class="fa fa-download"></i>
-                            <span>Delete all data</span>
-                        </a>
+                        <ul class="treeview-menu">
+                            <li><a id="download_log_button" href="#"><i class="fa fa-download"></i><span>Download log</span></a></li>
+                            <li><a id="clear_localstorage_button" href="#"><i class="fa fa-times"></i><span>Delete all data</span></a></li>
+                        </ul>
                     </li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-folder"></i> <span>Themes</span>
+                            <i class="fa fa-text-width"></i> <span>Customize GUI</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="#" data-theme="blue" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Blue</a></li>
-                            <li><a href="#" data-theme="black" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Black</a></li>
+                            <li><a href="#" data-theme="blue" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Blue theme</a></li>
+                            <li><a href="#" data-theme="black" class="adminlte-link"><i class="fa fa-angle-double-right"></i> Black theme</a></li>
+                            <li><a href="#"><p>Text size: <span id="font_size">100 %</span></p><div id="font_size_slider"></div></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -358,13 +353,14 @@
                                             <th data-dynatable-no-sort="true" data-dynatable-column="state">State</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="start_date">Start Date</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="nr_of_fish">Fish [#]</th>
+                                            <th data-dynatable-no-sort="true" data-dynatable-column="nr_of_dead_fish">Dead fish [#]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="avg_fish_kg">Fish [g]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="biomass">Biomass [Kg]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="feeder_speed_kg_pr_min">Feeder [Kg/min]</th>
+                                            <th data-dynatable-no-sort="true" data-dynatable-column="biomass">Biomass [kg]</th>
+                                            <th data-dynatable-no-sort="true" data-dynatable-column="feeder_speed_kg_pr_min">Feeder [kg/min]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="feeding_percent">Feed [%]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="required_feed_pr_day">Feed [Kg/day]</th>
+                                            <th data-dynatable-no-sort="true" data-dynatable-column="required_feed_pr_day">Feed [kg/day]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="growth_factor">Feed factor</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="feed_progress_today">Kg today</th>
+                                            <th data-dynatable-no-sort="true" data-dynatable-column="feed_progress_today">Fed today [kg]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="time_feeder_active">Active time [min]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="time_feeding_intervals">Feeding duration [min]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="feeder_toggle_speed">On [%]</th>
@@ -409,13 +405,14 @@
                                             <th data-dynatable-column="relay_number">#</th>
                                             <th data-dynatable-column="date">Date</th>
                                             <th data-dynatable-column="nr_of_fish">Fish [#]</th>
+                                            <th data-dynatable-column="nr_of_dead_fish">Dead fish [#]</th>
                                             <th data-dynatable-column="avg_fish_kg">Fish [g]</th>
-                                            <th data-dynatable-column="biomass">Biomass [Kg]</th>
-                                            <th data-dynatable-column="feeder_speed_kg_pr_min">Feeder [Kg/min]</th>
+                                            <th data-dynatable-column="biomass">Biomass [kg]</th>
+                                            <th data-dynatable-column="feeder_speed_kg_pr_min">Feeder [kg/min]</th>
                                             <th data-dynatable-column="feeding_percent">Feed [%]</th>
-                                            <th data-dynatable-column="required_feed_pr_day">Feed [Kg/day]</th>
+                                            <th data-dynatable-column="required_feed_pr_day">Feed [kg/day]</th>
                                             <th data-dynatable-column="growth_factor">Feed factor</th>
-                                            <th data-dynatable-column="feed_progress_today">Kg today</th>
+                                            <th data-dynatable-column="feed_progress_today">Fed today [kg]</th>
                                             <th data-dynatable-column="time_feeder_active">Active time [min]</th>
                                             <th data-dynatable-column="time_feeding_intervals">Feeding duration [min]</th>
                                             <th data-dynatable-column="feeder_toggle_speed">On [%]</th>
@@ -443,6 +440,9 @@
     <script src="js/plugins/dynatable/jquery.dynatable.min.js" type="text/javascript"></script>
     <!-- table2csv -->
     <script src="js/plugins/table2csv/table2csv.js" type="text/javascript"></script>
+    <!-- jQueryUI -->
+    <script src="js/plugins/jqueryui/jquery-ui.min.js"></script>
+
 
     <!-- IMRelay App -->
     <script src="js/IMRelay/IMRelay_jqueryknob.js" type="text/javascript"></script>
@@ -450,7 +450,6 @@
     <script src="js/IMRelay/IMRelay_feeding_table.js" type="text/javascript"></script>
     <script src="js/IMRelay/IMRelay_vis.js" type="text/javascript"></script>
     <script src="js/IMRelay/IMRelay_feeder_algorithm.js" type="text/javascript"></script>
-    <script src="js/IMRelay/IMRelay_connect.js" type="text/javascript"></script>
     <!-- <script src="js/IMRelay/IMRelay_serial_handler.js" type="text/javascript"></script> -->
     <!-- include IMRelay as last script -->
     <script src="js/IMRelay/IMRelay.js" type="text/javascript"></script>
@@ -462,6 +461,9 @@
 
     <!-- Bootstrap theme switcher -->
     <script src="js/IMRelay/theme_switcher.js" type="text/javascript"></script>
+
+    <!-- Connect to device -->
+    <script src="js/IMRelay/IMRelay_connect.js" type="text/javascript"></script>
 
 </body>
 </html>

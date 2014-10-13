@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿$(document).ready(function () {
+    "use strict";
+
     /* jQueryKnob */
 
     $(".knob").knob({
@@ -60,21 +62,17 @@
 });
 
 
-function relay_indicator_control(relay_number, active, error) {
+function relay_indicator_control(relay_number, active, error, timeout) {
 
     var value1 = active ? "50%" : "";
     var value2, value3;
 
-    value2 = active ? error ? "rgba(255, 0, 0, 0.35)" : "rgba(31, 141, 255, 0.35)" : "";
-    value3 = active ? error ? "rgba(255, 0, 0, 0.7) 0px 0px 36px" : "rgba(31, 141, 255, 0.7) 0px 0px 36px" : ""
-
-    /*if (error) {
-        value2 = active ? "rgba(255, 0, 0, 0.35)" : "";
-        value3 = active ? "rgba(255, 0, 0, 0.7) 0px 0px 36px" : "";
-    } else {
-        value2 = active ? "rgba(31, 141, 255, 0.35)" : "";
-        value3 = active ? "rgba(31, 141, 255, 0.7) 0px 0px 36px" : "";
-    }*/
+    /* if active is false, no color. */
+    /* if error and timeout is false, blue.  */
+    /* if error is true, red.  */
+    /* if error is false, and timeout is true, yellow.  */
+    value2 = active ? (error | timeout) ? timeout ? "rgba(255, 64, 0, 0.35)"              : "rgba(255, 0, 0, 0.35)"             : "rgba(31, 141, 255, 0.35)"             : "";
+    value3 = active ? (error | timeout) ? timeout ? "rgba(255, 64, 0, 0.35) 0px 0px 36px" : "rgba(255, 0, 0, 0.7) 0px 0px 36px" : "rgba(31, 141, 255, 0.7) 0px 0px 36px" : ""
 
     var cell = $('#imrelay_knob_row > div > div canvas')[relay_number - 1];
 
