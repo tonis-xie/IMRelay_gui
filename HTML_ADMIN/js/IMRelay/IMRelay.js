@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    "use strict";
 
     function hide_timeline(hide) {
         //Find the box parent

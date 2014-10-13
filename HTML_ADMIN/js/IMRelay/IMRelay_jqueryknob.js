@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    "use strict";
+
     /* jQueryKnob */
 
     $(".knob").knob({
