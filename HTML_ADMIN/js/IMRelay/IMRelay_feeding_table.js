@@ -4,6 +4,7 @@ g_LDA.relay = [];
 g_LDA.feed = [];
 
 $(document).ready(function () {
+    "use strict";
 
     function feeding_table_button_cell_writer(id) {
 
@@ -232,7 +233,7 @@ $(document).ready(function () {
         var midnight_tomorrow = new Date().setHours(24, 0, 0, 0);
         //update every x seconds, testing with: 
         //var midnight_tomorrow = new Date();
-        //midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 60);
+        //midnight_tomorrow.setSeconds(midnight_tomorrow.getSeconds() + 30);
         window.setTimeout(daily_event_updater, midnight_tomorrow - datetime_now);
 
     }

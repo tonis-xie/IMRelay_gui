@@ -1,5 +1,6 @@
 ﻿// Called when the Visualization API is loaded.
 $(document).ready(function () {
+    "use strict";
 
     function create_html_button(id) {
 
@@ -10,8 +11,8 @@ $(document).ready(function () {
         html_group_button.innerText = id + ': Disabled';
 
         return html_group_button;
-    }
-    
+    }        
+
     g_LDA.groups = new vis.DataSet();
 
     for (var i = 1; i <= 16; i++) {

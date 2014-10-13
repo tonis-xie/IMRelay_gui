@@ -10,7 +10,8 @@
 }
 
 $(window).load(function () {
- 
+    "use strict";
+
     var themesheet = $('<link href="' + themes['default'] + '" rel="stylesheet" />');
     themesheet.appendTo('head');
 

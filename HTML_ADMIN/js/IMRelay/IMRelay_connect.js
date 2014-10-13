@@ -1,6 +1,7 @@
 ﻿g_LDA.ip_address = "";
 
 $(window).load(function () {
+    "use strict";
 
     function generateUUID() {
         var d = new Date().getTime();

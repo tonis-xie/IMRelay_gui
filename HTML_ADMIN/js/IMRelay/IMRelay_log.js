@@ -1,4 +1,5 @@
 $(window).load(function () {
+    "use strict";
 
     $("a#download_log_button").click(save_table_to_csv);
 
