@@ -17,13 +17,14 @@ $(window).load(function () {
         var log_table_json = JSON.parse(log_table_localstorage);
         g_LDA.log_table.update(log_table_json);
     }
-
+    
     g_LDA.log_table.on('*', function () {
 
         var log_table_to_localstorage = g_LDA.log_table.get();
         localStorage["feeder.log"] = JSON.stringify(log_table_to_localstorage);
         dynatable_log.settings.dataset.originalRecords = log_table_to_localstorage;
         dynatable_log.process();
+        
     });
 
     $('#log_table').dynatable({        
@@ -38,7 +39,7 @@ $(window).load(function () {
 
     var dynatable_log = $('#log_table').data('dynatable');
     dynatable_log.sorts.clear();
-    dynatable_log.sorts.add('date', 1); // 1=ASCENDING, -1=DESCENDING
+    dynatable_log.sorts.add('date', 0); // 1=ASCENDING, -1=DESCENDING
     dynatable_log.process();
 
 })

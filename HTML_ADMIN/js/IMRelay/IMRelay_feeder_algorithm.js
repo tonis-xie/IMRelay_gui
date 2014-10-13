@@ -104,14 +104,11 @@ function relay_event_scheduler() {
             //increase feed_progress_today value per tick
             g_LDA.feed[relay_id - 1] += (feeder_speed[relay_id - 1].feeder_speed_kg_pr_min / 60);
 
-            //$("#feeding_table th[data-dynatable-column='feed_progress_today']:nth-child(" + relay_id - 1 + ")").innerText = "9000";
-            //console.log($("#feeding_table th[data-dynatable-column='feed_progress_today']:nth-child(" + relay_id - 1 + ")"));
-
-            var ss = $("#feeding_table th").each(function (index) {
+            $("#feeding_table th").each(function (index) {
 
                 if ($(this).attr('data-dynatable-column') == 'feed_progress_today') {
-                    //console.log(index);
-                    return index;
+                    var cell = $('table#feeding_table tr:nth-child(' + relay_id + ') td:nth-child(' + (index + 1) + ')');
+                    cell[0].innerText = (g_LDA.feed[relay_id - 1]).toFixed(3);
                 }
 
             });
