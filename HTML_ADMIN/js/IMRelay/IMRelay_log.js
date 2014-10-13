@@ -1,17 +1,13 @@
 $(window).load(function () {
     "use strict";
 
-    $("a#download_log_button").click(save_table_to_csv);
-
-    function save_table_to_csv() {
+    function generate_csv_from_table() {
 
         var csv = "data:text/csv; charset=utf-8,";
         csv += $('#log_table').table2CSV({ delivery: 'value' });
 
-        var dl = document.createElement("a");
-        dl.setAttribute("href", encodeURI(csv));
-        dl.setAttribute("download", "IMRelay_log.csv");
-        dl.click();
+        $('a#download_log_button').attr("href", encodeURI(csv));
+        $('a#download_log_button').attr("download", "IMRelay_log.csv");
     }
 
     g_LDA.log_table = new vis.DataSet();
@@ -28,7 +24,6 @@ $(window).load(function () {
         localStorage["feeder.log"] = JSON.stringify(log_table_to_localstorage);
         dynatable_log.settings.dataset.originalRecords = log_table_to_localstorage;
         dynatable_log.process();
-
     });
 
     $('#log_table').dynatable({        
@@ -39,12 +34,11 @@ $(window).load(function () {
         inputs: {
             queries: $('#search_relay_id')
         }
-    });
+    }).bind('dynatable:afterProcess', generate_csv_from_table);
 
     var dynatable_log = $('#log_table').data('dynatable');
     dynatable_log.sorts.clear();
     dynatable_log.sorts.add('date', 1); // 1=ASCENDING, -1=DESCENDING
     dynatable_log.process();
-
 
 })
