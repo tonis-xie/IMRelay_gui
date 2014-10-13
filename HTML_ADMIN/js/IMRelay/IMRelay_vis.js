@@ -216,6 +216,11 @@ $(document).ready(function () {
                 if (item.end > g_LDA.items._data[key].start && item.end < g_LDA.items._data[key].end) {
                     return 1;
                 }
+
+                // Check if item is around another visitem
+                if (item.start < g_LDA.items._data[key].start && item.end > g_LDA.items._data[key].end) {
+                    return 1;
+                }
             }
         }
 
