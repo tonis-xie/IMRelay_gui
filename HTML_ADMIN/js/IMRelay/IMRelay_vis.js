@@ -158,23 +158,9 @@ $(document).ready(function () {
         //maxHeight: '28px',
         min: start_date,
         //minHeight: '28px',
-        onAdd: function (item, callback) {
-            if ((start_date <= item.start) && (end_date >= item.end) && (item.start < item.end) || (moment(item.end).format("hh:mm:ss") === "00:00:00")) {
-                item.content = moment(item.start).format("hh:mm:ss") + " - " + moment(item.end).format("hh:mm:ss");
-                callback(item); // send back adjusted item
-            } else {
-                callback(null); // cancel updating the item
-            }
-        },
         //onUpdate
-        onMove: function (item, callback) {
-            if ((start_date <= item.start) && (end_date >= item.end) && (item.start < item.end) || (moment(item.end).format("hh:mm:ss") === "00:00:00")) {
-                item.content = moment(item.start).format("hh:mm:ss") + " - " + moment(item.end).format("hh:mm:ss");
-                callback(item); // send back adjusted item
-            } else {
-                callback(null); // cancel updating the item
-            }
-        },
+        onAdd: check_if_valid_visitem,
+        onMove: check_if_valid_visitem,
         onRemove: function (item, callback) {
             if (confirm('Remove item from relay ' + item.group + '? ' + '(' + item.content + ')')) {
                 callback(item); // confirm deletion
@@ -197,6 +183,44 @@ $(document).ready(function () {
         zoomMin: 1000 * 60
 
     };
+
+    function check_if_valid_visitem(item, callback) {
+        if (check_if_collision_against_other_visitem(item)) {
+            callback(null);
+        } else if (item.start < start_date) {
+            callback(null);
+        } else if (item.end > end_date) {
+            callback(null);
+        } else if (item.start >= item.end) {
+            callback(null); // cancel updating the item
+        } else {
+            item.content = moment(item.start).format("HH:mm:ss") + " - " + moment(item.end).format("HH:mm:ss");
+            callback(item); // send back adjusted item
+        }
+    }
+
+
+    function check_if_collision_against_other_visitem(item) {
+
+        for (var key in g_LDA.items._data) {
+
+            // Find the visitems belonging to the same relay
+            if (g_LDA.items._data[key].group == item.group && g_LDA.items._data[key].id != item.id) {
+
+                // Check if item.start is within another visitem
+                if (item.start > g_LDA.items._data[key].start && item.start < g_LDA.items._data[key].end) {
+                    return 1;
+                }
+
+                // Check if item.end is within another visitem
+                if (item.end > g_LDA.items._data[key].start && item.end < g_LDA.items._data[key].end) {
+                    return 1;
+                }
+            }
+        }
+
+        return 0;
+    }
 
     var container = document.getElementById('vis_timeline');
     var timeline = new vis.Timeline(container, g_LDA.items, options);
