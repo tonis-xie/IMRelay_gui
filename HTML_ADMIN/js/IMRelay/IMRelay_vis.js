@@ -208,17 +208,17 @@ $(document).ready(function () {
             if (g_LDA.items._data[key].group == item.group && g_LDA.items._data[key].id != item.id) {
 
                 // Check if item.start is within another visitem
-                if (item.start > g_LDA.items._data[key].start && item.start < g_LDA.items._data[key].end) {
+                if (item.start >= g_LDA.items._data[key].start && item.start <= g_LDA.items._data[key].end) {
                     return 1;
                 }
 
                 // Check if item.end is within another visitem
-                if (item.end > g_LDA.items._data[key].start && item.end < g_LDA.items._data[key].end) {
+                if (item.end >= g_LDA.items._data[key].start && item.end <= g_LDA.items._data[key].end) {
                     return 1;
                 }
 
                 // Check if item is around another visitem
-                if (item.start < g_LDA.items._data[key].start && item.end > g_LDA.items._data[key].end) {
+                if (item.start <= g_LDA.items._data[key].start && item.end >= g_LDA.items._data[key].end) {
                     return 1;
                 }
             }
