@@ -45,7 +45,7 @@ $(document).ready(function () {
     }
 
     function feeding_table_column_iseditable(column_name) {
-        var editable_columns = ["nr_of_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent", "growth_factor"];
+        var editable_columns = ["nr_of_fish", "nr_of_dead_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent", "growth_factor"];
         return $.inArray(column_name, editable_columns) !== -1 ? true : false;
     }
 
@@ -59,6 +59,7 @@ $(document).ready(function () {
                                         ("0" + start_date_datetime_object.getDate().toString()).slice(-2);
 
         record.start_date = start_date_datetime_string;
+        record.nr_of_fish = record.nr_of_fish - record.nr_of_dead_fish;
         record.biomass = (record.nr_of_fish * record.avg_fish_kg / 1000);
         record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
         record.time_feeder_active = +((record.required_feed_pr_day / record.feeder_speed_kg_pr_min) * 60).toFixed(0);
@@ -140,6 +141,7 @@ $(document).ready(function () {
                 g_LDA.feeding_table.update([{
                     id: btn_num,
                     nr_of_fish: read.nr_of_fish,
+                    nr_of_dead_fish: read.nr_of_dead_fish,
                     avg_fish_kg: read.avg_fish_kg,
                     feeder_speed_kg_pr_min: read.feeder_speed_kg_pr_min,
                     feeding_percent: read.feeding_percent,
@@ -162,6 +164,7 @@ $(document).ready(function () {
                     relay_number: entry.id, 
                     date: moment().format('YYYY-MM-DD HH:mm:ss Z'),
                     nr_of_fish: entry.nr_of_fish, 
+                    nr_of_dead_fish: entry.nr_of_dead_fish, 
                     avg_fish_kg: entry.avg_fish_kg, 
                     biomass: entry.biomass, 
                     feeder_speed_kg_pr_min: entry.feeder_speed_kg_pr_min,
@@ -202,27 +205,29 @@ $(document).ready(function () {
                             update_feeder_table[key].growth_factor
                         );
 
+                    update_feeder_table[key].nr_of_fish = update_feeder_table[key].nr_of_fish - update_feeder_table[key].nr_of_dead_fish;
+
                 }
 
             }
 
             g_LDA.feeding_table.update([
-                { id: 1, avg_fish_kg: update_feeder_table[0].avg_fish_kg, feed_progress_today: 0 },
-                { id: 2, avg_fish_kg: update_feeder_table[1].avg_fish_kg, feed_progress_today: 0 },
-                { id: 3, avg_fish_kg: update_feeder_table[2].avg_fish_kg, feed_progress_today: 0 },
-                { id: 4, avg_fish_kg: update_feeder_table[3].avg_fish_kg, feed_progress_today: 0 },
-                { id: 5, avg_fish_kg: update_feeder_table[4].avg_fish_kg, feed_progress_today: 0 },
-                { id: 6, avg_fish_kg: update_feeder_table[5].avg_fish_kg, feed_progress_today: 0 },
-                { id: 7, avg_fish_kg: update_feeder_table[6].avg_fish_kg, feed_progress_today: 0 },
-                { id: 8, avg_fish_kg: update_feeder_table[7].avg_fish_kg, feed_progress_today: 0 },
-                { id: 9, avg_fish_kg: update_feeder_table[8].avg_fish_kg, feed_progress_today: 0 },
-                { id: 10, avg_fish_kg: update_feeder_table[9].avg_fish_kg, feed_progress_today: 0 },
-                { id: 11, avg_fish_kg: update_feeder_table[10].avg_fish_kg, feed_progress_today: 0 },
-                { id: 12, avg_fish_kg: update_feeder_table[11].avg_fish_kg, feed_progress_today: 0 },
-                { id: 13, avg_fish_kg: update_feeder_table[12].avg_fish_kg, feed_progress_today: 0 },
-                { id: 14, avg_fish_kg: update_feeder_table[13].avg_fish_kg, feed_progress_today: 0 },
-                { id: 15, avg_fish_kg: update_feeder_table[14].avg_fish_kg, feed_progress_today: 0 },
-                { id: 16, avg_fish_kg: update_feeder_table[15].avg_fish_kg, feed_progress_today: 0 }
+                { id:  1, nr_of_fish: update_feeder_table[ 0].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 0].avg_fish_kg, feed_progress_today: 0 },
+                { id:  2, nr_of_fish: update_feeder_table[ 1].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 1].avg_fish_kg, feed_progress_today: 0 },
+                { id:  3, nr_of_fish: update_feeder_table[ 2].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 2].avg_fish_kg, feed_progress_today: 0 },
+                { id:  4, nr_of_fish: update_feeder_table[ 3].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 3].avg_fish_kg, feed_progress_today: 0 },
+                { id:  5, nr_of_fish: update_feeder_table[ 4].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 4].avg_fish_kg, feed_progress_today: 0 },
+                { id:  6, nr_of_fish: update_feeder_table[ 5].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 5].avg_fish_kg, feed_progress_today: 0 },
+                { id:  7, nr_of_fish: update_feeder_table[ 6].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 6].avg_fish_kg, feed_progress_today: 0 },
+                { id:  8, nr_of_fish: update_feeder_table[ 7].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 7].avg_fish_kg, feed_progress_today: 0 },
+                { id:  9, nr_of_fish: update_feeder_table[ 8].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 8].avg_fish_kg, feed_progress_today: 0 },
+                { id: 10, nr_of_fish: update_feeder_table[ 9].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[ 9].avg_fish_kg, feed_progress_today: 0 },
+                { id: 11, nr_of_fish: update_feeder_table[10].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[10].avg_fish_kg, feed_progress_today: 0 },
+                { id: 12, nr_of_fish: update_feeder_table[11].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[11].avg_fish_kg, feed_progress_today: 0 },
+                { id: 13, nr_of_fish: update_feeder_table[12].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[12].avg_fish_kg, feed_progress_today: 0 },
+                { id: 14, nr_of_fish: update_feeder_table[13].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[13].avg_fish_kg, feed_progress_today: 0 },
+                { id: 15, nr_of_fish: update_feeder_table[14].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[14].avg_fish_kg, feed_progress_today: 0 },
+                { id: 16, nr_of_fish: update_feeder_table[15].nr_of_fish, nr_of_dead_fish: 0, avg_fish_kg: update_feeder_table[15].avg_fish_kg, feed_progress_today: 0 }
             ]);
 
             window.location.reload();
@@ -252,6 +257,7 @@ $(document).ready(function () {
                 id: i,
                 start_date: '0',
                 nr_of_fish: '0',
+                nr_of_dead_fish: '0',
                 avg_fish_kg: '0',
                 feeder_speed_kg_pr_min: '0',
                 feeding_percent: '0',
