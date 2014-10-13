@@ -185,7 +185,7 @@ $(document).ready(function () {
     };
 
     function check_if_valid_visitem(item, callback) {
-        if (0) {
+        if (check_if_collision_against_other_visitem(item)) {
             callback(null);
         } else if (item.start < start_date) {
             callback(null);
@@ -197,6 +197,29 @@ $(document).ready(function () {
             item.content = moment(item.start).format("HH:mm:ss") + " - " + moment(item.end).format("HH:mm:ss");
             callback(item); // send back adjusted item
         }
+    }
+
+
+    function check_if_collision_against_other_visitem(item) {
+
+        for (var key in g_LDA.items._data) {
+
+            // Find the visitems belonging to the same relay
+            if (g_LDA.items._data[key].group == item.group && g_LDA.items._data[key].id != item.id) {
+
+                // Check if item.start is within another visitem
+                if (item.start > g_LDA.items._data[key].start && item.start < g_LDA.items._data[key].end) {
+                    return 1;
+                }
+
+                // Check if item.end is within another visitem
+                if (item.end > g_LDA.items._data[key].start && item.end < g_LDA.items._data[key].end) {
+                    return 1;
+                }
+            }
+        }
+
+        return 0;
     }
 
     var container = document.getElementById('vis_timeline');
