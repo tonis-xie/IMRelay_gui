@@ -1,6 +1,6 @@
 ﻿g_LDA.ip_address = "";
 
-$(document).ready(function () {
+$(window).load(function () {
 
     function generateUUID() {
         var d = new Date().getTime();
@@ -59,32 +59,40 @@ $(document).ready(function () {
 
     }
 
-    for (var ip_local_subnet = 2; ip_local_subnet < 255; ip_local_subnet++) {
+    setTimeout(function () {
 
-        (function (ip_local_subnet) {
+        for (var ip_local_subnet = 0; ip_local_subnet < 256; ip_local_subnet++) {
 
-            $.ajax({
-                url: "http://192.168.1." + ip_local_subnet + "/autodiscovery_imrelay",
-                type: "GET",
-                timeout: 1000,
-                success: function (data) {
-                    var mac_addr = JSON.parse(data);
-                    add_imrelay_device_to_list("192.168.1." + ip_local_subnet, mac_addr.id);
+            (function (ip_local_subnet) {
 
-                }
-            }).error(function (jXHR) {
-                // Disable global error logging
-                $.event.global.ajaxError = false;
-            }).complete(function () {
-                // Enable global error logging
-                $.event.global.ajaxError = true;
-            });
+                $.ajax({
+                    url: "http://192.168.1." + ip_local_subnet + "/autodiscovery_imrelay",
+                    //url: "http://169.254.4." + ip_local_subnet + "/autodiscovery_imrelay",
+                    type: "GET",
+                    timeout: 1000,
+                    success: function (data) {
+                        var mac_addr = JSON.parse(data);
+                        add_imrelay_device_to_list("192.168.1." + ip_local_subnet, mac_addr.id);
+                        //add_imrelay_device_to_list("169.254.4." + ip_local_subnet, mac_addr.id);
 
-        })(ip_local_subnet);
+                    }
+                }).error(function (jXHR) {
+                    // Disable global error logging
+                    $.event.global.ajaxError = false;
+                }).complete(function () {
+                    // Enable global error logging
+                    $.event.global.ajaxError = true;
+                });
 
-    }
+            })(ip_local_subnet);
 
-    window.setInterval(relay_event_scheduler, 1000);
+        }
+
+        window.setInterval(relay_event_scheduler, 1000);
+
+    }, 1000);
+
+    
 
 });
 

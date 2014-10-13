@@ -110,34 +110,43 @@ function relay_event_scheduler() {
         }
 
     }
-
-    for (each = 0; each < 16; each++) {
-        relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each]);
-    }
-
+ 
     var uuid_lock = localStorage["uuid_lock"];
 
     var message = JSON.stringify({'uuid': uuid_lock, 'relays': current_relay_states});
     console.log(current_relay_states);    
 
-    if (g_LDA.ip_address.indexOf("192.168.") > -1) {    
+    (function send_relays_to_device_over_ajax(current_relay_states) {
 
-        $.ajax({
-            url: "http://" + g_LDA.ip_address + "/relays.ajax",            
-            type: "POST",
-            data: message,
-            timeout: 1000,            
-            error: function (request, status, error) {
+        if (g_LDA.ip_address.indexOf("192.168.1.") > -1 || g_LDA.ip_address.indexOf("169.254.4.") > -1) {
 
-                if (error === "timeout") {
-                    console.log("error: timeout");
-                } else {
-                    console.log(request.status, request.responseText, status, error);
+            $.ajax({
+                url: "http://" + g_LDA.ip_address + "/relays.ajax",
+                type: "POST",
+                data: message,
+                timeout: 1000,
+                success: function () {
+                    for (each = 0; each < 16; each++) {
+                        relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each], false);
+                    }
+                },
+                error: function (request, status, error) {
+
+                    for (each = 0; each < 16; each++) {
+                        relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each], true);
+                    }
+
+                    if (error === "timeout") {
+                        console.log("error: timeout");
+                    } else {
+                        console.log(request.status, request.responseText, status, error);
+                    }
+
                 }
+            });
 
-            }
-        });
+        }
 
-    }   
+    })(current_relay_states);
 
 }
