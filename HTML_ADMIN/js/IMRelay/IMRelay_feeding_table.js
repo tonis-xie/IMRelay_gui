@@ -59,8 +59,7 @@ $(document).ready(function () {
                                         ("0" + start_date_datetime_object.getDate().toString()).slice(-2);
 
         record.start_date = start_date_datetime_string;
-        record.nr_of_fish = record.nr_of_fish - record.nr_of_dead_fish;
-        record.biomass = (record.nr_of_fish * record.avg_fish_kg / 1000);
+        record.biomass = ((record.nr_of_fish - record.nr_of_dead_fish) * record.avg_fish_kg / 1000);
         record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
         record.time_feeder_active = +((record.required_feed_pr_day / record.feeder_speed_kg_pr_min) * 60).toFixed(0);
 
