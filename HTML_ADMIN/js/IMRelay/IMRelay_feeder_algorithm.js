@@ -103,26 +103,8 @@ function relay_event_scheduler() {
 
         //set relay output to 0 or 1
         if (g_LDA.relay[relay_id - 1].on > 0) {
-
             --g_LDA.relay[relay_id - 1].on;
             current_relay_states[relay_id - 1] = 1;
-
-            if (g_LDA.relay[relay_id - 1].type === "feeder") {
-
-                //increase feed_progress_today value per tick
-                g_LDA.feed[relay_id - 1] += (feeder_speed[relay_id - 1].feeder_speed_kg_pr_min / 60);
-
-                $("#feeding_table th").each(function (index) {
-
-                    if ($(this).attr('data-dynatable-column') == 'feed_progress_today') {
-                        var cell = $('table#feeding_table tr:nth-child(' + relay_id + ') td:nth-child(' + (index + 1) + ')');
-                        cell[0].innerText = (g_LDA.feed[relay_id - 1]).toFixed(3);
-                    }
-
-                });
-
-            }
-
         } else if (g_LDA.relay[relay_id - 1].off > 0) {
             --g_LDA.relay[relay_id - 1].off;
             current_relay_states[relay_id - 1] = 0;
@@ -130,7 +112,7 @@ function relay_event_scheduler() {
 
     }
  
-    var uuid_lock = localStorage["uuid_lock"];
+    var uuid_lock = localStorage.uuid_lock;
 
     var message = JSON.stringify({'uuid': uuid_lock, 'relays': current_relay_states});
     console.log(current_relay_states);    
@@ -143,15 +125,40 @@ function relay_event_scheduler() {
                 url: "http://" + g_LDA.ip_address + "/relays.ajax",
                 type: "POST",
                 data: message,
-                timeout: 1000,
+                timeout: 500,
                 success: function () {
-                    for (each = 0; each < 16; each++) {
-                        relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each], false);
+
+                    var get_index_from_colum_id;
+
+                    $("#feeding_table th").each(function (index) {
+
+                        if ($(this).attr('data-dynatable-column') === 'feed_progress_today') {
+                            get_index_from_colum_id = index;
+                        }
+
+                    });
+
+                    for (var relay_counter = 0; relay_counter < 16; relay_counter++) {
+
+                        var is_relay_active = current_relay_states[relay_counter] === 1;
+                        relay_indicator_control(relay_counter + 1, is_relay_active, error[relay_counter], false);
+
+                        if (is_relay_active && g_LDA.relay[relay_counter].type === "feeder") {
+
+                            //increase feed_progress_today value per tick
+                            g_LDA.feed[relay_counter] += (feeder_speed[relay_counter].feeder_speed_kg_pr_min / 60);
+
+                            var cell = $('table#feeding_table tr:nth-child(' + (relay_counter + 1) + ') td:nth-child(' + (get_index_from_colum_id + 1) + ')');
+                            cell.text((g_LDA.feed[relay_counter]).toFixed(3));
+
+                        }
+                        
                     }
+
                 },
                 error: function (request, status, error) {
 
-                    for (each = 0; each < 16; each++) {
+                    for (var each = 0; each < 16; each++) {
                         relay_indicator_control(each + 1, current_relay_states[each] === 1, error[each], true);
                     }
 

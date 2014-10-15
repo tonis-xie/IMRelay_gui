@@ -128,7 +128,7 @@ $(document).ready(function () {
         }
     });
 
-    var device_subnet_localstorage = localStorage["device_subnet"];
+    var device_subnet_localstorage = localStorage.device_subnet;
     if (device_subnet_localstorage != null) {
         $("a span#device_subnet").text(device_subnet_localstorage);
     }
@@ -138,7 +138,7 @@ $(document).ready(function () {
         //var subnet_label = $(this).find("h3").text();
         var device_subnet = $(this).find("p").text();
         $("a span#device_subnet").text(device_subnet);
-        localStorage["device_subnet"] = device_subnet;
+        localStorage.device_subnet = device_subnet;
         window.location.reload();
 
     });
