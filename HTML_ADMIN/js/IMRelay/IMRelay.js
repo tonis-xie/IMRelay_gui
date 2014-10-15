@@ -129,9 +129,10 @@ $(document).ready(function () {
 
     $("ul#device_subnet_list > li > a").click(function () {
 
-        //var subnet_label = $(this).find("h3")[0].innerText.split(' ')[3];
-        var device_subnet = $(this).find("p")[0].innerText.split(' ')[1];
-        $("#device_subnet").innerText = device_subnet;
+        //var subnet_label = $(this).find("h3").text();
+        var device_subnet = $(this).find("p").text();
+
+        $("a span#device_subnet").text(device_subnet);
 
     });
 
