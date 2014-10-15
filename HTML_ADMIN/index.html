@@ -378,11 +378,33 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-lg-12">
+                                <div style="float: left;">
+                                    Relay #:
+                                    <select id="event_search_relay_id" name="relay_number">
+                                        <option></option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                        <option>13</option>
+                                        <option>14</option>
+                                        <option>15</option>
+                                        <option>16</option>
+                                    </select>
+                                </div>
                                 <table id="event_table" class="table table-bordered table-responsive table-condensed">
                                     <thead>
                                         <tr>
-                                            <th data-dynatable-column="id">#</th>
-                                            <th data-dynatable-column="function">Function</th>
+                                            <th data-dynatable-column="relay_number">Relay #</th>
+                                            <th data-dynatable-column="state">State</th>
                                             <th data-dynatable-column="start_time">Start time</th>
                                             <th data-dynatable-column="end_time">End time</th>
                                             <th data-dynatable-column="time_on">Time on</th>
@@ -504,6 +526,7 @@
     <script src="js/IMRelay/IMRelay_feeding_table.js" type="text/javascript"></script>
     <script src="js/IMRelay/IMRelay_vis.js" type="text/javascript"></script>
     <script src="js/IMRelay/IMRelay_feeder_algorithm.js" type="text/javascript"></script>
+    <script src="js/IMRelay/IMRelay_event_settings.js" type="text/javascript"></script>
     <!-- <script src="js/IMRelay/IMRelay_serial_handler.js" type="text/javascript"></script> -->
     <!-- include IMRelay as last script -->
     <script src="js/IMRelay/IMRelay.js" type="text/javascript"></script>

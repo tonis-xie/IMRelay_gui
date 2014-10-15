@@ -126,6 +126,10 @@ $(document).ready(function () {
         }
         
         g_LDA.feeding_table.update(total_active_feeding_time);
+
+        // Tell event table that the timeline has been updated
+        dynatable_event.settings.dataset.originalRecords = g_LDA.items.get();
+        dynatable_event.process();
         
     });
 
@@ -278,5 +282,37 @@ $(document).ready(function () {
 
         }
     }
+
+    /* Event settings table */
+    function event_table_row_writer(rowIndex, record, columns, cellWriter) {
+        record.relay_number = record.group;
+        record.start_time = moment(record.start, "X").format("HH:mm:ss");
+        record.end_time = moment(record.end, "X").format("HH:mm:ss");
+
+
+        var tr = '';
+
+        // grab the record's attribute for each column
+        for (var i = 0, len = columns.length; i < len; i++) {
+          tr += cellWriter(columns[i], record);
+        }
+
+        return '<tr>' + tr + '</tr>';
+    }
+
+
+    $('#event_table').dynatable({
+        dataset: {
+            records: g_LDA.items.get(),
+        },
+        writers: {
+            _rowWriter: event_table_row_writer
+        },
+        inputs: {
+            queries: $('#event_search_relay_id')
+        }
+    });
+
+    var dynatable_event = $('#event_table').data('dynatable');
 
 });
