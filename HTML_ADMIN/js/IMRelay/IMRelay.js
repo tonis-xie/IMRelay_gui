@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     function hide_timeline(hide) {
         //Find the box parent
-        var box = $(".box").eq(0);
+        var box = $(".box").eq(1);
         //Find the body and the footer
         var bf = box.find(".box-body");
         if (hide) {
@@ -21,7 +21,7 @@ $(document).ready(function () {
 
     function hide_table(hide) {
         //Find the box parent
-        var box = $(".box").eq(1);
+        var box = $(".box").eq(2);
         //Find the body and the footer
         var bf = box.find(".box-body");
         if (hide) {
@@ -39,7 +39,7 @@ $(document).ready(function () {
 
     function hide_log(hide) {
         //Find the box parent
-        var box = $(".box").eq(2);
+        var box = $(".box").eq(3);
         //Find the body and the footer
         var bf = box.find(".box-body");
         if (hide) {
