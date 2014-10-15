@@ -17,7 +17,7 @@ $(document).ready(function () {
         }
     }
 
-    function hide_table(hide) {
+    function hide_event_settings(hide) {
         //Find the box parent
         var bf = $(".box").eq(2);
         if (hide) {
@@ -33,9 +33,25 @@ $(document).ready(function () {
         }
     }
 
-    function hide_log(hide) {
+    function hide_table(hide) {
         //Find the box parent
         var bf = $(".box").eq(3);
+        if (hide) {
+            //bf.slideUp();
+            //bf.hide();
+            bf.css({'visibility':'hidden'});
+            bf.css({'position':'absolute'});
+        } else {
+            //bf.slideDown();
+            //bf.show();
+            bf.css({'visibility':'visible'});
+            bf.css({'position':'static'});
+        }
+    }
+
+    function hide_log(hide) {
+        //Find the box parent
+        var bf = $(".box").eq(4);
         if (hide) {
             //bf.slideUp();
             //bf.hide();
@@ -52,6 +68,16 @@ $(document).ready(function () {
     $("a#timeline_menu_button").click(function () {
 
         hide_timeline(false);
+        hide_event_settings(true);
+        hide_table(true);
+        hide_log(true);
+
+    });
+
+    $("a#event_settings_button").click(function () {
+
+        hide_timeline(true);
+        hide_event_settings(false);
         hide_table(true);
         hide_log(true);
 
@@ -60,6 +86,7 @@ $(document).ready(function () {
     $("a#feeder_settings_button").click(function () {        
 
         hide_timeline(true);
+        hide_event_settings(true);
         hide_table(false);
         hide_log(true);
 
@@ -68,6 +95,7 @@ $(document).ready(function () {
     $("a#log_menu_button").click(function () {
 
         hide_timeline(true);
+        hide_event_settings(true);
         hide_table(true);
         hide_log(false);
 
