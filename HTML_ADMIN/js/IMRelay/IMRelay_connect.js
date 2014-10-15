@@ -66,7 +66,7 @@ $(window).load(function () {
 
             (function (ip_local_subnet) {
 
-               var subnet_ip_on_machine = $("#device_subnet").innerText;
+               var subnet_ip_on_machine = $("#device_subnet").text();
 
                 $.ajax({
                     url: "http://" + subnet_ip_on_machine + ip_local_subnet + "/autodiscovery_imrelay",
