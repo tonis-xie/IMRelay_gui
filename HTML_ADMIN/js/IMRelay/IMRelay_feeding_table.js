@@ -73,16 +73,36 @@ $(document).ready(function () {
 
         /* Calculate on-off times */
         record.feeder_toggle_speed = relay_indicator_toggle_factor.toFixed(0);
-        g_LDA.relay[rowIndex] = {
-            total_on_ticks: record.time_feeder_active,
-            total_off_ticks: record.time_feeding_intervals - record.time_feeder_active,
-            toggle_factor: (record.time_feeder_active / record.time_feeding_intervals),
-            on_ticks_remaining: record.time_feeder_active,
-            off_ticks_remaining: record.time_feeding_intervals - record.time_feeder_active,
-            accumulate: 0,
-            on: 0,
-            off: 0
-        };
+
+        if (record.state === "generic") {
+
+            g_LDA.relay[rowIndex] = {
+                type: "generic",
+                total_on_ticks: record.time_feeder_active,
+                total_off_ticks: record.time_feeding_intervals - record.time_feeder_active,
+                toggle_factor: 0,
+                on_ticks_remaining: 0,
+                off_ticks_remaining: 0,
+                accumulate: 0,
+                on: 0,
+                off: 0
+            };
+
+        } else {
+
+            g_LDA.relay[rowIndex] = {
+                type: "feeder",
+                total_on_ticks: record.time_feeder_active,
+                total_off_ticks: record.time_feeding_intervals - record.time_feeder_active,
+                toggle_factor: (record.time_feeder_active / record.time_feeding_intervals),
+                on_ticks_remaining: record.time_feeder_active,
+                off_ticks_remaining: record.time_feeding_intervals - record.time_feeder_active,
+                accumulate: 0,
+                on: 0,
+                off: 0
+            };
+
+        }
 
         record.avg_fish_kg = (+record.avg_fish_kg).toFixed(0);
         record.biomass = (+record.biomass).toFixed(0);
