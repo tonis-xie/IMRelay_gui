@@ -51,6 +51,28 @@
             </a>
             <div class="navbar-right">
                 <ul class="nav navbar-nav">
+
+                    <li class="dropdown tasks-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span style="margin-right:10px" id="device_subnet">169.254.4.</span>
+                            <i class="fa fa-sitemap"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">Choose subnet:</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul id="device_subnet_list" class="menu">
+                                    <li><a href="#"><h3>DHCP</h3><p>192.168.1.</p></a></li>
+                                    <li><a href="#"><h3>Auto IP</h3><p>169.254.4.</p></a></li>
+                                </ul>
+                            </li>
+                            <!--<li class="footer">
+                                <a href="#">Search for new devices (not implemented)</a>
+                            </li>-->
+                        </ul>
+                    </li>
+
+
                     <!--<li><a href="#" id="connected_device_identifier">No device found</a></li>-->
                     <!-- Tasks: style can be found in dropdown.less -->
                     <li class="dropdown tasks-menu">
@@ -207,6 +229,12 @@
                         </a>
                     </li>
                     <li>
+                        <a id="event_settings_button" href="#">
+                            <i class="fa fa-gear"></i>
+                            <span>Event settings</span>
+                        </a>
+                    </li>
+                    <li>
                         <a id="feeder_settings_button" href="#">
                             <i class="fa fa-table"></i>
                             <span>Feeder settings</span>
@@ -242,6 +270,7 @@
         <!-- Right side column. Contains the navbar and content of the page -->
         <aside class="right-side">
             <!-- Content Header (Page header) -->
+            <!--
             <section class="content-header">
                 <h1>
                     Dashboard
@@ -252,6 +281,7 @@
                     <li class="active">Dashboard</li>
                 </ol>
             </section>
+            -->
 
             <!-- Main content -->
             <section class="adminLTE_content">
@@ -334,11 +364,35 @@
                             </div><!-- ./col -->
                         </div><!-- /.row -->
                     </div><!-- /.box-header -->
+                </div><!-- /.box -->
+
+                <div class="box">
                     <div class="box-body">
-                        <!-- Main row -->
                         <div class="row">
                             <div class="col-lg-12" id="vis_timeline"></div>
                         </div><!-- /.row (main row) -->
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+                <div class="box">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table id="event_table" class="table table-bordered table-responsive table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th data-dynatable-column="id">#</th>
+                                            <th data-dynatable-column="function">Function</th>
+                                            <th data-dynatable-column="start_time">Start time</th>
+                                            <th data-dynatable-column="end_time">End time</th>
+                                            <th data-dynatable-column="time_on">Time on</th>
+                                            <th data-dynatable-column="time_off">Time off</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div><!-- /.row -->
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
 
@@ -360,7 +414,7 @@
                                             <th data-dynatable-no-sort="true" data-dynatable-column="feeding_percent">Feed [%]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="required_feed_pr_day">Feed [kg/day]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="growth_factor">Feed factor</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="feed_progress_today">Fed today [kg]</th>
+                                            <th data-dynatable-no-sort="true" data-dynatable-column="feed_progress_today">Feed progress [kg]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="time_feeder_active">Active time [min]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="time_feeding_intervals">Feeding duration [min]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="feeder_toggle_speed">On [%]</th>

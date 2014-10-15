@@ -3,9 +3,23 @@ $(document).ready(function () {
 
     function hide_timeline(hide) {
         //Find the box parent
-        var box = $(".box").eq(0);
-        //Find the body and the footer
-        var bf = box.find(".box-body");
+        var bf = $(".box").eq(1);
+        if (hide) {
+            //bf.slideUp();
+            //bf.hide();
+            bf.css({'visibility':'hidden'});
+            bf.css({'position':'absolute'});
+        } else {
+            //bf.slideDown();
+            //bf.show();
+            bf.css({'visibility':'visible'});
+            bf.css({'position':'static'});
+        }
+    }
+
+    function hide_event_settings(hide) {
+        //Find the box parent
+        var bf = $(".box").eq(2);
         if (hide) {
             //bf.slideUp();
             //bf.hide();
@@ -21,9 +35,7 @@ $(document).ready(function () {
 
     function hide_table(hide) {
         //Find the box parent
-        var box = $(".box").eq(1);
-        //Find the body and the footer
-        var bf = box.find(".box-body");
+        var bf = $(".box").eq(3);
         if (hide) {
             //bf.slideUp();
             //bf.hide();
@@ -39,9 +51,7 @@ $(document).ready(function () {
 
     function hide_log(hide) {
         //Find the box parent
-        var box = $(".box").eq(2);
-        //Find the body and the footer
-        var bf = box.find(".box-body");
+        var bf = $(".box").eq(4);
         if (hide) {
             //bf.slideUp();
             //bf.hide();
@@ -58,6 +68,16 @@ $(document).ready(function () {
     $("a#timeline_menu_button").click(function () {
 
         hide_timeline(false);
+        hide_event_settings(true);
+        hide_table(true);
+        hide_log(true);
+
+    });
+
+    $("a#event_settings_button").click(function () {
+
+        hide_timeline(true);
+        hide_event_settings(false);
         hide_table(true);
         hide_log(true);
 
@@ -66,6 +86,7 @@ $(document).ready(function () {
     $("a#feeder_settings_button").click(function () {        
 
         hide_timeline(true);
+        hide_event_settings(true);
         hide_table(false);
         hide_log(true);
 
@@ -74,11 +95,13 @@ $(document).ready(function () {
     $("a#log_menu_button").click(function () {
 
         hide_timeline(true);
+        hide_event_settings(true);
         hide_table(true);
         hide_log(false);
 
     });
 
+    hide_event_settings(true);
     hide_table(true);
     hide_log(true);
 
@@ -103,6 +126,21 @@ $(document).ready(function () {
             $( "#feeding_table td, #feeding_table th, #feeding_table button" ).css( "font-size", ui.value + "%" );
             $( "#font_size" ).html( ui.value + "%" );
         }
+    });
+
+    var device_subnet_localstorage = localStorage["device_subnet"];
+    if (device_subnet_localstorage != null) {
+        $("a span#device_subnet").text(device_subnet_localstorage);
+    }
+
+    $("ul#device_subnet_list > li > a").click(function () {
+
+        //var subnet_label = $(this).find("h3").text();
+        var device_subnet = $(this).find("p").text();
+        $("a span#device_subnet").text(device_subnet);
+        localStorage["device_subnet"] = device_subnet;
+        window.location.reload();
+
     });
 
     /*

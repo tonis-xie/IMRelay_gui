@@ -64,11 +64,16 @@ function relay_event_scheduler() {
         //reset relay settings if on and off has reached 0
         if ((g_LDA.relay[relay_id - 1].on <= 0) && (g_LDA.relay[relay_id - 1].off <= 0)) {
 
+            if (g_LDA.relay[relay_id - 1].type === "generic") {
 
-            if ((g_LDA.relay[relay_id - 1].on_ticks_remaining + g_LDA.relay[relay_id - 1].off_ticks_remaining) >= 10) {
+                g_LDA.relay[relay_id - 1].on = g_LDA.relay[relay_id - 1].total_on_ticks;
+                g_LDA.relay[relay_id - 1].off = g_LDA.relay[relay_id - 1].total_off_ticks;
+
+            } else if ((g_LDA.relay[relay_id - 1].on_ticks_remaining + g_LDA.relay[relay_id - 1].off_ticks_remaining) >= 10) {
 
                 //Bresenham Line Algorithm. Accumulate delta error over time
                 g_LDA.relay[relay_id - 1].accumulate += g_LDA.relay[relay_id - 1].toggle_factor;
+                //Calculate new toggle factor each time?
                 /*g_LDA.relay[relay_id - 1].accumulate += (g_LDA.relay[relay_id - 1].on_ticks_remaining
                                                           /
                                                           (g_LDA.relay[relay_id - 1].on_ticks_remaining + g_LDA.relay[relay_id - 1].off_ticks_remaining));*/
@@ -101,17 +106,22 @@ function relay_event_scheduler() {
 
             --g_LDA.relay[relay_id - 1].on;
             current_relay_states[relay_id - 1] = 1;
-            //increase feed_progress_today value per tick
-            g_LDA.feed[relay_id - 1] += (feeder_speed[relay_id - 1].feeder_speed_kg_pr_min / 60);
 
-            $("#feeding_table th").each(function (index) {
+            if (g_LDA.relay[relay_id - 1].type === "feeder") {
 
-                if ($(this).attr('data-dynatable-column') == 'feed_progress_today') {
-                    var cell = $('table#feeding_table tr:nth-child(' + relay_id + ') td:nth-child(' + (index + 1) + ')');
-                    cell[0].innerText = (g_LDA.feed[relay_id - 1]).toFixed(3);
-                }
+                //increase feed_progress_today value per tick
+                g_LDA.feed[relay_id - 1] += (feeder_speed[relay_id - 1].feeder_speed_kg_pr_min / 60);
 
-            });
+                $("#feeding_table th").each(function (index) {
+
+                    if ($(this).attr('data-dynatable-column') == 'feed_progress_today') {
+                        var cell = $('table#feeding_table tr:nth-child(' + relay_id + ') td:nth-child(' + (index + 1) + ')');
+                        cell[0].innerText = (g_LDA.feed[relay_id - 1]).toFixed(3);
+                    }
+
+                });
+
+            }
 
         } else if (g_LDA.relay[relay_id - 1].off > 0) {
             --g_LDA.relay[relay_id - 1].off;
