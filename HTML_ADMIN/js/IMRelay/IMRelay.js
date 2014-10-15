@@ -101,6 +101,7 @@ $(document).ready(function () {
 
     });
 
+    hide_event_settings(true);
     hide_table(true);
     hide_log(true);
 
