@@ -127,6 +127,14 @@ $(document).ready(function () {
         }
     });
 
+    $("ul#device_subnet_list > li > a").click(function () {
+
+        //var subnet_label = $(this).find("h3")[0].innerText.split(' ')[3];
+        var device_subnet = $(this).find("p")[0].innerText.split(' ')[1];
+        $("#device_subnet").innerText = device_subnet;
+
+    });
+
     /*
 
     $("a#relay_list_tabbutton").click(function () {

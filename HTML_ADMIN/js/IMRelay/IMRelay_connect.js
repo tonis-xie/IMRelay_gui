@@ -66,14 +66,16 @@ $(window).load(function () {
 
             (function (ip_local_subnet) {
 
+               var subnet_ip_on_machine = $("#device_subnet").innerText;
+
                 $.ajax({
-                    url: "http://192.168.1." + ip_local_subnet + "/autodiscovery_imrelay",
+                    url: "http://" + subnet_ip_on_machine + ip_local_subnet + "/autodiscovery_imrelay",
                     //url: "http://169.254.4." + ip_local_subnet + "/autodiscovery_imrelay",
                     type: "GET",
                     timeout: 1000,
                     success: function (data) {
                         var mac_addr = JSON.parse(data);
-                        add_imrelay_device_to_list("192.168.1." + ip_local_subnet, mac_addr.id);
+                        add_imrelay_device_to_list(subnet_ip_on_machine + ip_local_subnet, mac_addr.id);
                         //add_imrelay_device_to_list("169.254.4." + ip_local_subnet, mac_addr.id);
 
                     }
