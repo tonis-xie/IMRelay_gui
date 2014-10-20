@@ -286,8 +286,8 @@ $(document).ready(function () {
     /* Event settings table */
     function event_table_row_writer(rowIndex, record, columns, cellWriter) {
         record.relay_number = record.group;
-        record.start_time = moment(record.start, "X").format("HH:mm:ss");
-        record.end_time = moment(record.end, "X").format("HH:mm:ss");
+        record.start_time = moment(record.start).format("HH:mm:ss");
+        record.end_time = moment(record.end).format("HH:mm:ss");
 
 
         var tr = '';
