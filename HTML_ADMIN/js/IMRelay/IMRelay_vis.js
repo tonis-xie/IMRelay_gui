@@ -166,11 +166,13 @@ $(document).ready(function () {
         onAdd: check_if_valid_visitem,
         onMove: check_if_valid_visitem,
         onRemove: function (item, callback) {
+
             if (confirm('Remove item from relay ' + item.group + '? ' + '(' + item.content + ')')) {
                 callback(item); // confirm deletion
             } else {
                 callback(null); // cancel deletion
             }
+
         },
         orientation: 'bottom',
         //padding
@@ -189,6 +191,7 @@ $(document).ready(function () {
     };
 
     function check_if_valid_visitem(item, callback) {
+
         if (check_if_collision_against_other_visitem(item)) {
             callback(null);
         } else if (item.start < start_date) {
@@ -201,6 +204,7 @@ $(document).ready(function () {
             item.content = moment(item.start).format("HH:mm:ss") + " - " + moment(item.end).format("HH:mm:ss");
             callback(item); // send back adjusted item
         }
+
     }
 
 
@@ -225,6 +229,7 @@ $(document).ready(function () {
                 if (item.start <= g_LDA.items._data[key].start && item.end >= g_LDA.items._data[key].end) {
                     return 1;
                 }
+
             }
         }
 
@@ -269,6 +274,7 @@ $(document).ready(function () {
     var timeline_groups_localstorage = localStorage["timeline.groups"];
 
     if (timeline_groups_localstorage != null) {
+
         var timeline_groups_json = JSON.parse(timeline_groups_localstorage);
         g_LDA.groups.update(timeline_groups_json);
 
@@ -281,10 +287,12 @@ $(document).ready(function () {
             }
 
         }
+
     }
 
     /* Event settings table */
     function event_table_row_writer(rowIndex, record, columns, cellWriter) {
+
         record.relay_number = record.group;
         record.start_time = moment(record.start).format("HH:mm:ss");
         record.end_time = moment(record.end).format("HH:mm:ss");
@@ -317,5 +325,57 @@ $(document).ready(function () {
     });
 
     var dynatable_event = $('#event_table').data('dynatable');
+    
+    function create_date_from_string_hh_mm_ss(s) {
+
+        /* match: HH:mm:ss */
+        if (s.match(/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/)) {
+
+            var d = new Date();
+
+            var pieces = s.split(':');
+            var hour = parseInt(pieces[0], 10);
+            var minute = parseInt(pieces[1], 10);
+            var second = parseInt(pieces[2], 10);
+
+            d.setHours(hour);
+            d.setMinutes(minute);
+            d.setSeconds(second);
+
+            return d;
+        } else {
+            return false;
+        }
+
+    }
+
+    function on_event_table_edit(item_unique_id, relay_id, start_time, end_time, time_on, time_off) {
+
+        g_LDA.relay[relay_id - 1].total_on_ticks = time_on;
+        g_LDA.relay[relay_id -1].total_off_ticks = time_off;
+
+        if (time_on > 0 || time_off > 0) {
+
+            g_LDA.feeding_table.update([{
+                id: relay_id,
+                state: "generic"
+            }]);
+
+        } else {
+
+            g_LDA.feeding_table.update([{
+                id: relay_id,
+                state: "feeder"
+            }]);
+
+        }
+
+        g_LDA.items.update([{
+            id: item_unique_id,
+            start: create_date_from_string_hh_mm_ss(start_time),
+            end: create_date_from_string_hh_mm_ss(end_time)
+        }]);
+       
+    }
 
 });
