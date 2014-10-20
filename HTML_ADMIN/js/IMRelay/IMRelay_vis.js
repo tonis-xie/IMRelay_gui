@@ -291,6 +291,47 @@ $(document).ready(function () {
     }
 
     /* Event settings table */
+
+
+
+    function event_table_button_cell_writer(id) {
+
+        var html_group_button = document.createElement('button');
+        html_group_button.className = 'btn btn-default event_table_toogle_edit_button';
+        html_group_button.type = 'button';
+        html_group_button.dataset.id = id;
+        html_group_button.innerText = 'Edit';
+
+        return '<td style="width:65px;">' + html_group_button.outerHTML + '</td>';
+    }
+
+    function event_table_cell_writer(column, record, user_editable) {
+
+        var html = column.attributeWriter(record);
+        var td = '<td';
+
+        //column.textAlign = 'center';
+
+        if (column.hidden || column.textAlign) {
+
+            td += ' style="';
+
+            // keep cells aligned as their column headers are aligned
+            if (column.textAlign) {
+                td += 'text-align: ' + column.textAlign + ';';
+            }
+
+            td += '"';
+
+        }
+
+        if (user_editable) {
+            td += ' class="user_editable"';
+        }
+
+        return td + '>' + html + '</td>';
+    }
+
     function event_table_row_writer(rowIndex, record, columns, cellWriter) {
 
         record.relay_number = record.group;
@@ -300,9 +341,12 @@ $(document).ready(function () {
 
         var tr = '';
 
+        tr += event_table_button_cell_writer(record.id);
+
         // grab the record's attribute for each column
-        for (var i = 0, len = columns.length; i < len; i++) {
-          tr += cellWriter(columns[i], record);
+        for (var i = 1, len = columns.length; i < len; i++) {
+          //tr += cellWriter(columns[i], record, event_settings_column_iseditable(columns[i].id));
+          tr += cellWriter(columns[i], record, true);
         }
 
         return '<tr>' + tr + '</tr>';
@@ -317,10 +361,47 @@ $(document).ready(function () {
             records: g_LDA.items.get(),
         },
         writers: {
-            _rowWriter: event_table_row_writer
+            _rowWriter: event_table_row_writer,
+            _cellWriter: event_table_cell_writer
         },
         inputs: {
             queries: $('#event_search_relay_id')
+        }
+    });
+
+    $('#event_table').on('click', 'button.event_table_toogle_edit_button', function() {
+
+        var row = jQuery(this).closest("tr");
+        var columns = row.find("td");
+
+        var values_array = {};
+        jQuery.each(columns, function(i, item) {
+            var header = $(this).parents('table').find('th').eq(i);
+            header = header.text().replace(/\s+/g, '_').replace(/\#/g, 'nr').toLowerCase();
+            values_array[header] = item.innerHTML;
+        });
+
+        on_event_table_edit(values_array);
+
+        var cell = $('table#event_table tr:nth-child(' + btn_num + ') td.user_editable');
+        var is_editable = cell.is('.editable');
+        this.innerHTML = is_editable ? ('Edit') : ('Save');
+        cell.prop('contenteditable', !is_editable).toggleClass('editable');
+
+        if (is_editable) {
+
+            //var read = dynatable.records.getFromTable()[btn_num - 1];
+
+            //g_LDA.feeding_table.update([{
+            //    id: btn_num,
+            //    nr_of_fish: read.nr_of_fish,
+            //    nr_of_dead_fish: read.nr_of_dead_fish,
+            //    avg_fish_kg: read.avg_fish_kg,
+            //    feeder_speed_kg_pr_min: read.feeder_speed_kg_pr_min,
+            //    feeding_percent: read.feeding_percent,
+            //    growth_factor: read.growth_factor
+            //}]);
+
         }
     });
 
