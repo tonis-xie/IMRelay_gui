@@ -374,34 +374,28 @@ $(document).ready(function () {
         var row = jQuery(this).closest("tr");
         var columns = row.find("td");
 
-        var values_array = {};
-        jQuery.each(columns, function(i, item) {
-            var header = $(this).parents('table').find('th').eq(i);
-            header = header.text().replace(/\s+/g, '_').replace(/\#/g, 'nr').toLowerCase();
-            values_array[header] = item.innerHTML;
-        });
-
-        on_event_table_edit(values_array);
-
-        var cell = $('table#event_table tr:nth-child(' + btn_num + ') td.user_editable');
-        var is_editable = cell.is('.editable');
+        var cells = row.find('td.user_editable');
+        var is_editable = cells.is('.editable');
         this.innerHTML = is_editable ? ('Edit') : ('Save');
-        cell.prop('contenteditable', !is_editable).toggleClass('editable');
+        cells.prop('contenteditable', !is_editable).toggleClass('editable');
 
+        /* If the user saves the settings*/
         if (is_editable) {
+            var row_values = {};
+            jQuery.each(columns, function(i, item) {
+                var header = $(this).parents('table').find('th').eq(i);
+                header = header.text().replace(/\s+/g, '_').replace(/\#/g, 'nr').toLowerCase();
+                row_values[header] = item.innerHTML;
+            });
 
-            //var read = dynatable.records.getFromTable()[btn_num - 1];
+            row_values.edit = $(this).data("id");
+            //console.log(row_values.edit.data("id"));
+            //console.log($(this).data("id"));
+            //
 
-            //g_LDA.feeding_table.update([{
-            //    id: btn_num,
-            //    nr_of_fish: read.nr_of_fish,
-            //    nr_of_dead_fish: read.nr_of_dead_fish,
-            //    avg_fish_kg: read.avg_fish_kg,
-            //    feeder_speed_kg_pr_min: read.feeder_speed_kg_pr_min,
-            //    feeding_percent: read.feeding_percent,
-            //    growth_factor: read.growth_factor
-            //}]);
+            console.log(row_values);
 
+            on_event_table_edit(row_values);
         }
     });
 
@@ -430,31 +424,35 @@ $(document).ready(function () {
 
     }
 
-    function on_event_table_edit(item_unique_id, relay_id, start_time, end_time, time_on, time_off) {
+    function on_event_table_edit(row) {
 
-        g_LDA.relay[relay_id - 1].total_on_ticks = time_on;
-        g_LDA.relay[relay_id -1].total_off_ticks = time_off;
+        if ($.isNumeric(row.time_on) && $.isNumeric(row.time_on)) {
+            g_LDA.relay[row.relay_nr - 1].total_on_ticks = row.time_on;
+            g_LDA.relay[row.relay_nr -1].total_off_ticks = row.time_off;
+        }
 
-        if (time_on > 0 || time_off > 0) {
+        if (row.time_on > 0 || row.time_off > 0) {
 
             g_LDA.feeding_table.update([{
-                id: relay_id,
+                id: parseInt(row.relay_nr,10),
                 state: "generic"
             }]);
 
         } else {
 
             g_LDA.feeding_table.update([{
-                id: relay_id,
+                id: parseInt(row.relay_nr,10),
                 state: "feeder"
             }]);
 
         }
 
+        console.log(row.edit);
+
         g_LDA.items.update([{
-            id: item_unique_id,
-            start: create_date_from_string_hh_mm_ss(start_time),
-            end: create_date_from_string_hh_mm_ss(end_time)
+            id: row.edit,
+            start: create_date_from_string_hh_mm_ss(row.start_time),
+            end: create_date_from_string_hh_mm_ss(row.end_time)
         }]);
        
     }
