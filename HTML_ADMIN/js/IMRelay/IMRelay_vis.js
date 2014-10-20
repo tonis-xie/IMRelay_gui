@@ -302,6 +302,9 @@ $(document).ready(function () {
 
 
     $('#event_table').dynatable({
+        features: {
+                paginate: false
+        },
         dataset: {
             records: g_LDA.items.get(),
         },
