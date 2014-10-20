@@ -1,5 +1,6 @@
-#feeding_table .editable {
-    background: #cec;
+#feeding_table .editable,
+#event_table .editable {
+    background: rgba(31,141,255, 0.1);
 }
 
 #feeding_table button {
