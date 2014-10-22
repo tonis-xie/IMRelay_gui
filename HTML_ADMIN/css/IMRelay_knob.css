@@ -25,7 +25,8 @@
     padding-left: 0;
 }
 
-#imrelay_knob_row > div > div {
+#imrelay_knob_row > div > div,
+#relay_radiobutton_chooser > div {
     padding-right: 0;
     padding-left: 0;
 }
