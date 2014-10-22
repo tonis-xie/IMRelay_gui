@@ -129,6 +129,9 @@ $(document).ready(function () {
 
         // Tell event table that the timeline has been updated
         dynatable_event.settings.dataset.originalRecords = g_LDA.items.get();
+        dynatable_event.queries.remove("relay_number");
+        dynatable_event.process();
+        dynatable_event.queries.add("relay_number", $("input[name=event_relay]:checked").val());
         dynatable_event.process();
         
     });
@@ -402,7 +405,9 @@ $(document).ready(function () {
     });
 
     var dynatable_event = $('#event_table').data('dynatable');
-    
+    dynatable_event.queries.add("relay_number", 1);
+    dynatable_event.process();
+
     function create_date_from_string_hh_mm_ss(s) {
 
         /* match: HH:mm:ss */
