@@ -292,6 +292,10 @@ $(document).ready(function () {
 
     /* Event settings table */
 
+    function event_table_column_iseditable(column_name) {
+        var editable_columns = ["state", "start_time", "end_time", "time_on", "time_off"];
+        return $.inArray(column_name, editable_columns) !== -1 ? true : false;
+    }
 
 
     function event_table_button_cell_writer(id) {
@@ -345,8 +349,7 @@ $(document).ready(function () {
 
         // grab the record's attribute for each column
         for (var i = 1, len = columns.length; i < len; i++) {
-          //tr += cellWriter(columns[i], record, event_settings_column_iseditable(columns[i].id));
-          tr += cellWriter(columns[i], record, true);
+          tr += cellWriter(columns[i], record, event_table_column_iseditable(columns[i].id));
         }
 
         return '<tr>' + tr + '</tr>';
@@ -389,11 +392,6 @@ $(document).ready(function () {
             });
 
             row_values.edit = $(this).data("id");
-            //console.log(row_values.edit.data("id"));
-            //console.log($(this).data("id"));
-            //
-
-            console.log(row_values);
 
             on_event_table_edit(row_values);
         }
@@ -449,6 +447,8 @@ $(document).ready(function () {
 
         console.log(row.edit);*/
 
+        var unique_id = row.edit;
+
         var item_to_update = g_LDA.items.get(unique_id);
         item_to_update.start = create_date_from_string_hh_mm_ss(row.start_time);
         item_to_update.end = create_date_from_string_hh_mm_ss(row.end_time);
@@ -457,11 +457,10 @@ $(document).ready(function () {
         check_if_valid_visitem(item_to_update, function (item) {
 
             g_LDA.items.update([
-               item 
+               item
             ]);
 
         });
-       
     }
 
 });
