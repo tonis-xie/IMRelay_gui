@@ -452,7 +452,7 @@ $(document).ready(function () {
         var item_to_update = g_LDA.items.get(unique_id);
         item_to_update.start = create_date_from_string_hh_mm_ss(row.start_time);
         item_to_update.end = create_date_from_string_hh_mm_ss(row.end_time);
-        item_to_update.ClassName = "vis_item_relay_event";
+        item_to_update.className = "vis_item_relay_event";
 
         check_if_valid_visitem(item_to_update, function (item) {
 
