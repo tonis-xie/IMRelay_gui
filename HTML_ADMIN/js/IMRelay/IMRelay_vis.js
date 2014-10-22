@@ -426,7 +426,7 @@ $(document).ready(function () {
 
     function on_event_table_edit(row) {
 
-        if ($.isNumeric(row.time_on) && $.isNumeric(row.time_on)) {
+        /*if ($.isNumeric(row.time_on) && $.isNumeric(row.time_on)) {
             g_LDA.relay[row.relay_nr - 1].total_on_ticks = row.time_on;
             g_LDA.relay[row.relay_nr -1].total_off_ticks = row.time_off;
         }
@@ -447,13 +447,20 @@ $(document).ready(function () {
 
         }
 
-        console.log(row.edit);
+        console.log(row.edit);*/
 
-        g_LDA.items.update([{
-            id: row.edit,
-            start: create_date_from_string_hh_mm_ss(row.start_time),
-            end: create_date_from_string_hh_mm_ss(row.end_time)
-        }]);
+        var item_to_update = g_LDA.items.get(unique_id);
+        item_to_update.start = create_date_from_string_hh_mm_ss(row.start_time);
+        item_to_update.end = create_date_from_string_hh_mm_ss(row.end_time);
+        item_to_update.ClassName = "vis_item_relay_event";
+
+        check_if_valid_visitem(item_to_update, function (item) {
+
+            g_LDA.items.update([
+               item 
+            ]);
+
+        });
        
     }
 
