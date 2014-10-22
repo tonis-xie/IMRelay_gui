@@ -30,3 +30,17 @@
     padding-right: 0;
     padding-left: 0;
 }
+
+input[name=event_relay] {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.radio_button_group {
+    display: inline-block;
+    text-align: center;
+}
+.radio_button_group label {
+    display: block;
+    font-weight: normal;
+}
