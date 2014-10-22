@@ -385,9 +385,9 @@ $(document).ready(function () {
         var columns = row.find("td");
 
         var cells = row.find('td.user_editable');
-        var is_editable = cells.is('.editable');
+        var is_editable = cells.is('.active');
         this.innerHTML = is_editable ? ('Edit') : ('Save');
-        cells.prop('contenteditable', !is_editable).toggleClass('editable');
+        cells.prop('contenteditable', !is_editable).toggleClass('active');
 
         /* If the user saves the settings*/
         if (is_editable) {

@@ -149,9 +149,9 @@ $(document).ready(function () {
         $('#toogle_edit_button' + btn_num).click(function () {
 
             var cell = $('table#feeding_table tr:nth-child(' + btn_num + ') td.user_editable');
-            var is_editable = cell.is('.editable');
+            var is_editable = cell.is('.active');
             this.innerHTML = is_editable ? (btn_num + ': Edit') : (btn_num + ': Save');
-            cell.prop('contenteditable', !is_editable).toggleClass('editable');
+            cell.prop('contenteditable', !is_editable).toggleClass('active');
 
             if (is_editable) {
 

@@ -318,6 +318,25 @@ table.text-center td,
 table.text-center th {
   text-align: center;
 }
+
+.table > thead > tr > .active,
+.table > tbody > tr > .active,
+.table > tfoot > tr > .active,
+.table > thead > .active > td,
+.table > tbody > .active > td,
+.table > tfoot > .active > td,
+.table > thead > .active > th,
+.table > tbody > .active > th,
+.table > tfoot > .active > th {
+    background-color: rgba(31,141,255, 0.1) !important;
+}
+
+.table-hover > tbody > tr > .active:hover,
+.table-hover > tbody > .active:hover > td,
+.table-hover > tbody > .active:hover > th {
+  background-color: rgba(31,141,255, 0.1) !important;
+}
+
 /* _fix for sparkline tooltip */
 .jqstooltip {
   padding: 5px!important;
