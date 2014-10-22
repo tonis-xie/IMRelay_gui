@@ -380,38 +380,36 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div style="float: left;">
+                                <div style="float: left; margin-bottom:15px;">
                                     Relay #:
-                                    <select id="event_search_relay_id" name="relay_number">
-                                        <option></option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                        <option>7</option>
-                                        <option>8</option>
-                                        <option>9</option>
-                                        <option>10</option>
-                                        <option>11</option>
-                                        <option>12</option>
-                                        <option>13</option>
-                                        <option>14</option>
-                                        <option>15</option>
-                                        <option>16</option>
-                                    </select>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="1"> 1 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="2"> 2 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="3"> 3 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="4"> 4 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="5"> 5 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="6"> 6 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="7"> 7 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="8"> 8 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="9"> 9 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="10"> 10 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="11"> 11 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="12"> 12 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="13"> 13 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="14"> 14 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="15"> 15 </label>
+                                    <label class="styled_radio radio-inline"><input type="radio" name="event_relay" value="16"> 16 </label>
                                 </div>
+                            </div>
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-lg-6">
                                 <table id="event_table" class="table table-bordered table-responsive table-condensed">
                                     <thead>
                                         <tr>
                                             <th data-dynatable-column="edit_button">Edit</th>
                                             <th data-dynatable-column="relay_number">Relay #</th>
-                                            <th data-dynatable-column="state">State</th>
                                             <th data-dynatable-column="start_time">Start time</th>
                                             <th data-dynatable-column="end_time">End time</th>
-                                            <th data-dynatable-column="time_on">Time on</th>
-                                            <th data-dynatable-column="time_off">Time off</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>

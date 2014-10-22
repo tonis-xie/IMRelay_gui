@@ -341,6 +341,7 @@ $(document).ready(function () {
         record.relay_number = record.group;
         record.start_time = moment(record.start).format("HH:mm:ss");
         record.end_time = moment(record.end).format("HH:mm:ss");
+        record.state = record.group;
 
 
         var tr = '';
@@ -358,7 +359,9 @@ $(document).ready(function () {
 
     $('#event_table').dynatable({
         features: {
-                paginate: false
+                paginate: false,
+                search: false,
+                recordCount: false
         },
         dataset: {
             records: g_LDA.items.get(),
@@ -368,7 +371,8 @@ $(document).ready(function () {
             _cellWriter: event_table_cell_writer
         },
         inputs: {
-            queries: $('#event_search_relay_id')
+            queries: $('input[name=inlineRadioOptions]')
+            //queries: $('#event_search_relay_id')
         }
     });
 
@@ -462,5 +466,16 @@ $(document).ready(function () {
 
         });
     }
+
+    $("input[name=event_relay]:radio").change(function () {
+        var value = $(this).val();
+        if (value === "") {
+            dynatable_event.queries.remove("relay_number");
+        } else {
+            dynatable_event.queries.add("relay_number",value);
+        }
+        dynatable_event.process();
+    });
+
 
 });
