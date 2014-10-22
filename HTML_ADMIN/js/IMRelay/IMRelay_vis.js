@@ -28,23 +28,6 @@ $(document).ready(function () {
 
         localStorage["timeline.groups"] = JSON.stringify(group_classnames_to_localstorage);
 
-        var feeding_table_json = g_LDA.feeding_table.get({
-            // output the specified fields only
-            fields: ['id', 'state']
-        });
-
-        for (var key in group_classnames_to_localstorage) {
-
-            if (group_classnames_to_localstorage[key].className === 'vis_group_disabled') {
-                feeding_table_json[key].state = 'inactive';
-            } else {
-                feeding_table_json[key].state = 'active';
-            }
-
-        }
-
-        g_LDA.feeding_table.update(feeding_table_json);
-
     });
 
     var start_date = new Date();
@@ -243,30 +226,19 @@ $(document).ready(function () {
     var timeline = new vis.Timeline(container, g_LDA.items, options);
     timeline.setGroups(g_LDA.groups);
 
-    function enable_vis_timeline_button_classes(btn_num) {
-        $("#vis_group_button_" + btn_num).removeClass('btn-default vis_btn_disabled').addClass('btn-success vis_btn_enabled');
-        $("#vis_group_button_" + btn_num).html(btn_num + ': Enabled');
-    }
-
-    function disable_vis_timeline_button_classes(btn_num) {
-        $("#vis_group_button_" + btn_num).removeClass('btn-success vis_btn_enabled').addClass('btn-default vis_btn_disabled');
-        $("#vis_group_button_" + btn_num).html(btn_num + ': Disabled');
-    }    
-
     function toggle_vis_timeline_button_classes(btn_num) {             
-
+      
         $("#vis_group_button_" + btn_num).click(function () {
 
-            if ($("#vis_group_button_" + btn_num).hasClass('vis_btn_disabled')) {
-                g_LDA.groups.update({ id: btn_num, className: 'vis_group_enabled' });
-                g_LDA.feeding_table.update({ id: btn_num, start_date: new Date().setHours(0, 0, 0, 0) });
-                enable_vis_timeline_button_classes(btn_num);
+            var group_to_edit = g_LDA.feeding_table.get(btn_num);
+
+            if (group_to_edit.state === 'inactive') {
+                g_LDA.feeding_table.update({ id: group_to_edit.id, state: "feeder" });
             } else {
-                g_LDA.groups.update({ id: btn_num, className: 'vis_group_disabled' });
-                disable_vis_timeline_button_classes(btn_num);
+                g_LDA.feeding_table.update({ id: group_to_edit.id, state: "inactive"});
             }
 
-        });        
+        });
 
     }
 
@@ -431,30 +403,40 @@ $(document).ready(function () {
 
     }
 
-    function on_event_table_edit(row) {
+    $("#update_relay_type_setting").click(function () {
 
-        /*if ($.isNumeric(row.time_on) && $.isNumeric(row.time_on)) {
-            g_LDA.relay[row.relay_nr - 1].total_on_ticks = row.time_on;
-            g_LDA.relay[row.relay_nr -1].total_off_ticks = row.time_off;
-        }
+        var relay_type = $("#relay_state_chooser").val();
+        var relay_nr = parseInt($("input[name=event_relay]:checked").val(), 10);        
 
-        if (row.time_on > 0 || row.time_off > 0) {
+        if (relay_type === "Generic") {
+
+            g_LDA.relay[relay_nr - 1].total_on_ticks = $("#time_on_chooser").val();
+            g_LDA.relay[relay_nr - 1].total_off_ticks = $("#time_off_chooser").val();
 
             g_LDA.feeding_table.update([{
-                id: parseInt(row.relay_nr,10),
+                id: relay_nr,
                 state: "generic"
             }]);
 
-        } else {
+        } else if (relay_type === 'Feeder') {
 
             g_LDA.feeding_table.update([{
-                id: parseInt(row.relay_nr,10),
+                id: relay_nr,
                 state: "feeder"
+            }]);
+
+        } else {            
+            
+            g_LDA.feeding_table.update([{
+                id: relay_nr,
+                state: "inactive"
             }]);
 
         }
 
-        console.log(row.edit);*/
+    });
+
+    function on_event_table_edit(row) {
 
         var unique_id = row.edit;
 

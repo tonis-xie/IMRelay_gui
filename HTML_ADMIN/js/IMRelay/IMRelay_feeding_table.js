@@ -3,6 +3,16 @@ var g_LDA = {};
 g_LDA.relay = [];
 g_LDA.feed = [];
 
+function enable_vis_timeline_button_classes(btn_num) {
+    $("#vis_group_button_" + btn_num).removeClass('btn-default vis_btn_disabled').addClass('btn-success vis_btn_enabled');
+    $("#vis_group_button_" + btn_num).html(btn_num + ': Enabled');
+}
+
+function disable_vis_timeline_button_classes(btn_num) {
+    $("#vis_group_button_" + btn_num).removeClass('btn-success vis_btn_enabled').addClass('btn-default vis_btn_disabled');
+    $("#vis_group_button_" + btn_num).html(btn_num + ': Disabled');
+}
+
 $(document).ready(function () {
     "use strict";
 
@@ -177,7 +187,7 @@ $(document).ready(function () {
 
         data_array.forEach(function (entry) {
 
-            if (entry.state === 'active') {
+            if (entry.state === 'feeder') {
 
                 g_LDA.log_table.add({
                     relay_number: entry.id, 
@@ -211,7 +221,7 @@ $(document).ready(function () {
 
             for (var key in update_feeder_table) {
 
-                if (update_feeder_table[key].state === 'active') {
+                if (update_feeder_table[key].state === 'feeder') {
 
                     // this adds (amount of food eaten per fish * feed factor) to average fish weight
                     // +operator converts strings to numbers
@@ -291,8 +301,28 @@ $(document).ready(function () {
 
     g_LDA.feeding_table.on('*', function () {
 
+        var group_buttons_json = g_LDA.groups.get({
+            // output the specified fields only
+            fields: ['id', 'className']
+        });
+
         var feeder_table_to_localstorage = g_LDA.feeding_table.get();
         localStorage["feeder.table"] = JSON.stringify(feeder_table_to_localstorage);
+
+        for (var key in feeder_table_to_localstorage) {
+
+            if (feeder_table_to_localstorage[key].state === 'inactive') {
+                group_buttons_json[key].className = 'vis_group_disabled';
+                disable_vis_timeline_button_classes(group_buttons_json[key].id);
+            } else {
+                group_buttons_json[key].className = 'vis_group_enabled';
+                enable_vis_timeline_button_classes(group_buttons_json[key].id);
+            }
+
+        }
+
+        g_LDA.groups.update(group_buttons_json);
+
         dynatable.settings.dataset.originalRecords = feeder_table_to_localstorage;
         dynatable.process();
 
