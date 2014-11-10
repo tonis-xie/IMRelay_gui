@@ -119,7 +119,7 @@ function relay_event_scheduler() {
 
     (function send_relays_to_device_over_ajax(current_relay_states) {
 
-        if (g_LDA.ip_address.indexOf("192.168.1.") > -1 || g_LDA.ip_address.indexOf("169.254.4.") > -1) {
+        if (g_LDA.ip_address.indexOf("192.168.11.") > -1 || g_LDA.ip_address.indexOf("169.254.4.") > -1) {
 
             $.ajax({
                 url: "http://" + g_LDA.ip_address + "/relays.ajax",
