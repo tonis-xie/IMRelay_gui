@@ -223,18 +223,18 @@ $(document).ready(function () {
 
                 if (update_feeder_table[key].state === 'feeder') {
 
+                    update_feeder_table[key].nr_of_fish = update_feeder_table[key].nr_of_fish - update_feeder_table[key].nr_of_dead_fish;
                     // this adds (amount of food eaten per fish * feed factor) to average fish weight
                     // +operator converts strings to numbers
                     update_feeder_table[key].avg_fish_kg = +update_feeder_table[key].avg_fish_kg +
                         (
-                            update_feeder_table[key].avg_fish_kg
-                            *
-                            update_feeder_table[key].feeding_percent / 100
-                            *
+                            //update_feeder_table[key].avg_fish_kg
+                            //*
+                            //update_feeder_table[key].feeding_percent / 100
+                            (update_feeder_table[key].feed_progress_today / update_feeder_table[key].nr_of_fish)
+                            /
                             update_feeder_table[key].growth_factor
                         );
-
-                    update_feeder_table[key].nr_of_fish = update_feeder_table[key].nr_of_fish - update_feeder_table[key].nr_of_dead_fish;
 
                 }
 
