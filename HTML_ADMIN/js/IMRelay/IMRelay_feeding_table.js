@@ -77,7 +77,7 @@ $(document).ready(function () {
             g_LDA.feed[rowIndex] = 0;
         }
 
-        record.feed_progress_today = (g_LDA.feed[rowIndex]).toFixed(1);
+        record.feed_progress_today = (+g_LDA.feed[rowIndex]).toFixed(3);
 
         var relay_indicator_toggle_factor = 100 * record.time_feeder_active / record.time_feeding_intervals;
 
@@ -200,7 +200,7 @@ $(document).ready(function () {
                     feeding_percent: entry.feeding_percent,
                     required_feed_pr_day: entry.required_feed_pr_day,
                     growth_factor: entry.growth_factor,
-                    feed_progress_today: entry.feed_progress_today,
+                    feed_progress_today: g_LDA.feed[entry.id - 1],
                     time_feeder_active: entry.time_feeder_active,
                     time_feeding_intervals: entry.time_feeding_intervals,
                     feeder_toggle_speed: entry.feeder_toggle_speed
@@ -224,17 +224,21 @@ $(document).ready(function () {
                 if (update_feeder_table[key].state === 'feeder') {
 
                     update_feeder_table[key].nr_of_fish = update_feeder_table[key].nr_of_fish - update_feeder_table[key].nr_of_dead_fish;
-                    // this adds (amount of food eaten per fish * feed factor) to average fish weight
-                    // +operator converts strings to numbers
-                    update_feeder_table[key].avg_fish_kg = +update_feeder_table[key].avg_fish_kg +
-                        (
-                            //update_feeder_table[key].avg_fish_kg
-                            //*
-                            //update_feeder_table[key].feeding_percent / 100
-                            (+update_feeder_table[key].feed_progress_today / +update_feeder_table[key].nr_of_fish)
-                            /
-                            +update_feeder_table[key].growth_factor
-                        );
+
+                    if (+g_LDA.feed[key] > 0) {
+
+                        // this adds (amount of food eaten per fish * feed factor) to average fish weight
+                        // +operator converts strings to numbers
+                        update_feeder_table[key].avg_fish_kg = +update_feeder_table[key].avg_fish_kg +
+                                                                (
+                                                                    (1000 * +g_LDA.feed[key])
+                                                                    /
+                                                                    +update_feeder_table[key].nr_of_fish
+                                                                    /
+                                                                    +update_feeder_table[key].growth_factor
+                                                                );
+
+                    }
 
                 }
 
