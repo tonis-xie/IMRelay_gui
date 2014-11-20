@@ -99,7 +99,7 @@ $(document).ready(function () {
             };
 
         } else {
-
+            
             g_LDA.relay[rowIndex] = {
                 type: "feeder",
                 total_on_ticks: record.time_feeder_active,
@@ -191,7 +191,7 @@ $(document).ready(function () {
 
                 g_LDA.log_table.add({
                     relay_number: entry.id, 
-                    date: moment().format('YYYY-MM-DD HH:mm:ss Z'),
+                    date: moment().subtract(1, 'days').format('YYYY-MM-DD'),
                     nr_of_fish: entry.nr_of_fish, 
                     nr_of_dead_fish: entry.nr_of_dead_fish, 
                     avg_fish_kg: entry.avg_fish_kg, 
@@ -216,8 +216,8 @@ $(document).ready(function () {
 
         if (!init) {
 
-            save_feeder_table_to_log(dynatable.settings.dataset.originalRecords);
             var update_feeder_table = g_LDA.feeding_table.get();
+            save_feeder_table_to_log(dynatable.settings.dataset.records);
 
             for (var key in update_feeder_table) {
 
@@ -231,9 +231,9 @@ $(document).ready(function () {
                             //update_feeder_table[key].avg_fish_kg
                             //*
                             //update_feeder_table[key].feeding_percent / 100
-                            (update_feeder_table[key].feed_progress_today / update_feeder_table[key].nr_of_fish)
+                            (+update_feeder_table[key].feed_progress_today / +update_feeder_table[key].nr_of_fish)
                             /
-                            update_feeder_table[key].growth_factor
+                            +update_feeder_table[key].growth_factor
                         );
 
                 }
@@ -284,6 +284,7 @@ $(document).ready(function () {
 
             g_LDA.feeding_table.add({
                 id: i,
+                state: 'inactive',
                 start_date: '0',
                 nr_of_fish: '0',
                 nr_of_dead_fish: '0',
