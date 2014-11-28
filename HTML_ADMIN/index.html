@@ -103,7 +103,7 @@
                             <li class="user-header bg-blue">
                                 <div class="lda_svg_logo">
                                     <svg width="195" height="60" viewBox="0 0 490 1" preserveAspectRatio="xMinYMin meet">
-                                        <path class="fish"
+                                        <path id="fish"
                                               d="m 271,  28
                                      c  66,   0
                                        126,  20
@@ -130,7 +130,7 @@
                                         13,  18
                                         30,  34
                                         49,  48 z" />
-                                        <path class="signal"
+                                        <path id="signal"
                                               d="m   3,  80
                                      l 292,   0
                                         18, -76
@@ -169,8 +169,8 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="lda_svg_logo">
-                        <svg width="195" height="125" viewBox="0 0 550 1" preserveAspectRatio="xMinYMin meet">
-                            <path class="fish"
+                        <svg id="animated_lda_logo" width="195" height="125" viewBox="0 0 550 1" preserveAspectRatio="xMinYMin meet">
+                            <path id="fish"
                                   d="m 271,  28
                                      c  66,   0
                                        126,  20
@@ -197,7 +197,7 @@
                                         13,  18
                                         30,  34
                                         49,  48 z" />
-                            <path class="signal"
+                            <path id="signal"
                                   d="m   3,  80
                                      l 292,   0
                                         18, -76
@@ -207,8 +207,9 @@
                                          9, -34
                                          9,  13
                                        115,   0" />
-                            <text x="33" y="278" class="lda">LDA</text>
-                            <text x="48" y="335" class="lda_nonabbrv">Lindem Data Acquisition AS</text>
+                            <circle id="ping" cx=496 cy=80 r=10 />
+                            <text x="33" y="278" id="lda">LDA</text>
+                            <text x="48" y="335" id="lda_nonabbrv">Lindem Data Acquisition AS</text>
                         </svg>
                     </div>
                 </div>
@@ -567,6 +568,8 @@
     <script src="js/plugins/table2csv/table2csv.js" type="text/javascript"></script>
     <!-- jQueryUI -->
     <script src="js/plugins/jqueryui/jquery-ui.min.js"></script>
+    <!-- Snap.svg -->
+    <script src="js/snap.svg-min.js"></script>
 
 
     <!-- IMRelay App -->

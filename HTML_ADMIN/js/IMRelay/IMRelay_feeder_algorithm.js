@@ -152,8 +152,20 @@ function relay_event_scheduler() {
                             cell.text((g_LDA.feed[relay_counter]).toFixed(3));
 
                         }
-                        
+
                     }
+
+                    /* Animate fish to indicate a live connection */
+                    var logo = Snap("#animated_lda_logo");
+                    var signal = logo.select("#signal");
+                    var ping = logo.select("#ping");
+
+                    var path_length = Snap.path.getTotalLength(signal);
+
+                    Snap.animate(0, path_length, function(value) {
+                        move_point = Snap.path.getPointAtLength(signal, value);
+                        ping.attr({ cx: move_point.x, cy: move_point.y });
+                    }, 800);
 
                 },
                 error: function (request, status, error) {
