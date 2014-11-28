@@ -160,12 +160,16 @@ function relay_event_scheduler() {
                     var signal = logo.select("#signal");
                     var ping = logo.select("#ping");
 
+                    ping.attr({"visibility": "visible"});
+
                     var path_length = Snap.path.getTotalLength(signal);
 
                     Snap.animate(0, path_length, function(value) {
                         move_point = Snap.path.getPointAtLength(signal, value);
                         ping.attr({ cx: move_point.x, cy: move_point.y });
-                    }, 800);
+                    }, 800, 0, function() {
+                        ping.attr({"visibility": "hidden"});
+                    });
 
                 },
                 error: function (request, status, error) {
