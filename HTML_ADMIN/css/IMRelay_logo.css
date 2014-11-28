@@ -23,28 +23,32 @@ svg > path {
     stroke-linejoin: round;
 }
 
-svg > .fish {
+svg > #fish {
     fill: #dddddd;
     stroke: #888888;
     stroke-width: 3;
 }
 
-svg > .signal {
+svg > #signal {
     fill: none;
     stroke: #1f8dff;
     stroke-width: 5;
+}
+
+svg > #ping {
+    fill: #1f8dff;
 }
 
 svg > text {
     fill: #1f8dff;
 }
 
-svg > .lda {
+svg > #lda {
     font-size: 150px;
     font-family: Syncopate;
 }
 
-svg > .lda_nonabbrv {
+svg > #lda_nonabbrv {
     font-size: 32px;
     font-family: Anonymous Pro;
 }

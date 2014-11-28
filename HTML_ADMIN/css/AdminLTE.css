@@ -318,6 +318,25 @@ table.text-center td,
 table.text-center th {
   text-align: center;
 }
+
+.table > thead > tr > .active,
+.table > tbody > tr > .active,
+.table > tfoot > tr > .active,
+.table > thead > .active > td,
+.table > tbody > .active > td,
+.table > tfoot > .active > td,
+.table > thead > .active > th,
+.table > tbody > .active > th,
+.table > tfoot > .active > th {
+    background-color: rgba(31,141,255, 0.1) !important;
+}
+
+.table-hover > tbody > tr > .active:hover,
+.table-hover > tbody > .active:hover > td,
+.table-hover > tbody > .active:hover > th {
+  background-color: rgba(31,141,255, 0.1) !important;
+}
+
 /* _fix for sparkline tooltip */
 .jqstooltip {
   padding: 5px!important;
@@ -1641,19 +1660,28 @@ body > .header .logo .icon {
 */
 .btn {
   font-weight: 500;
-  /*-webkit-border-radius: 3px;
+  -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  border-radius: 3px;*/
-  -webkit-border-radius: 0 !important;
-     -moz-border-radius: 0 !important;
-          border-radius: 0 !important;
-  border: 0 !important;
-  border-bottom: 1px solid #ddd !important;
-  /*border: 1px solid transparent;
-  margin: 1px;*/
-  /*-webkit-box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.09);
+  border-radius: 3px;
+  border: 1px solid transparent;
+  margin: 1px;
+/*
+  -webkit-box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.09);
   -moz-box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.09);
-  box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.09);*/
+  box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.09);
+*/
+}
+table .btn,
+#vis_timeline .btn {
+  font-weight: 500;
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
+  border: 0;
+  margin: 0;
+}
+#vis_timeline .btn {
+  border-bottom: 1px solid #ddd;
 }
 .btn.btn-default {
   background-color: #fafafa;

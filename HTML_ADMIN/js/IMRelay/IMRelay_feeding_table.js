@@ -3,6 +3,16 @@ var g_LDA = {};
 g_LDA.relay = [];
 g_LDA.feed = [];
 
+function enable_vis_timeline_button_classes(btn_num) {
+    $("#vis_group_button_" + btn_num).removeClass('btn-default vis_btn_disabled').addClass('btn-success vis_btn_enabled');
+    $("#vis_group_button_" + btn_num).html(btn_num + ': Enabled');
+}
+
+function disable_vis_timeline_button_classes(btn_num) {
+    $("#vis_group_button_" + btn_num).removeClass('btn-success vis_btn_enabled').addClass('btn-default vis_btn_disabled');
+    $("#vis_group_button_" + btn_num).html(btn_num + ': Disabled');
+}
+
 $(document).ready(function () {
     "use strict";
 
@@ -45,7 +55,7 @@ $(document).ready(function () {
     }
 
     function feeding_table_column_iseditable(column_name) {
-        var editable_columns = ["nr_of_fish", "nr_of_dead_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent", "growth_factor"];
+        var editable_columns = ["relay_name", "nr_of_fish", "nr_of_dead_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent", "growth_factor"];
         return $.inArray(column_name, editable_columns) !== -1 ? true : false;
     }
 
@@ -67,7 +77,7 @@ $(document).ready(function () {
             g_LDA.feed[rowIndex] = 0;
         }
 
-        record.feed_progress_today = (g_LDA.feed[rowIndex]).toFixed(1);
+        record.feed_progress_today = (+g_LDA.feed[rowIndex]).toFixed(3);
 
         var relay_indicator_toggle_factor = 100 * record.time_feeder_active / record.time_feeding_intervals;
 
@@ -149,9 +159,9 @@ $(document).ready(function () {
         $('#toogle_edit_button' + btn_num).click(function () {
 
             var cell = $('table#feeding_table tr:nth-child(' + btn_num + ') td.user_editable');
-            var is_editable = cell.is('.editable');
+            var is_editable = cell.is('.active');
             this.innerHTML = is_editable ? (btn_num + ': Edit') : (btn_num + ': Save');
-            cell.prop('contenteditable', !is_editable).toggleClass('editable');
+            cell.prop('contenteditable', !is_editable).toggleClass('active');
 
             if (is_editable) {
 
@@ -159,6 +169,7 @@ $(document).ready(function () {
 
                 g_LDA.feeding_table.update([{
                     id: btn_num,
+                    relay_name: read.relay_name,
                     nr_of_fish: read.nr_of_fish,
                     nr_of_dead_fish: read.nr_of_dead_fish,
                     avg_fish_kg: read.avg_fish_kg,
@@ -177,11 +188,12 @@ $(document).ready(function () {
 
         data_array.forEach(function (entry) {
 
-            if (entry.state === 'active') {
+            if (entry.state === 'feeder') {
 
                 g_LDA.log_table.add({
                     relay_number: entry.id, 
-                    date: moment().format('YYYY-MM-DD HH:mm:ss Z'),
+                    date: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+                    relay_name: entry.relay_name,
                     nr_of_fish: entry.nr_of_fish, 
                     nr_of_dead_fish: entry.nr_of_dead_fish, 
                     avg_fish_kg: entry.avg_fish_kg, 
@@ -190,7 +202,7 @@ $(document).ready(function () {
                     feeding_percent: entry.feeding_percent,
                     required_feed_pr_day: entry.required_feed_pr_day,
                     growth_factor: entry.growth_factor,
-                    feed_progress_today: entry.feed_progress_today,
+                    feed_progress_today: g_LDA.feed[entry.id - 1],
                     time_feeder_active: entry.time_feeder_active,
                     time_feeding_intervals: entry.time_feeding_intervals,
                     feeder_toggle_speed: entry.feeder_toggle_speed
@@ -206,25 +218,29 @@ $(document).ready(function () {
 
         if (!init) {
 
-            save_feeder_table_to_log(dynatable.settings.dataset.originalRecords);
             var update_feeder_table = g_LDA.feeding_table.get();
+            save_feeder_table_to_log(dynatable.settings.dataset.records);
 
             for (var key in update_feeder_table) {
 
-                if (update_feeder_table[key].state === 'active') {
-
-                    // this adds (amount of food eaten per fish * feed factor) to average fish weight
-                    // +operator converts strings to numbers
-                    update_feeder_table[key].avg_fish_kg = +update_feeder_table[key].avg_fish_kg +
-                        (
-                            update_feeder_table[key].avg_fish_kg
-                            *
-                            update_feeder_table[key].feeding_percent / 100
-                            *
-                            update_feeder_table[key].growth_factor
-                        );
+                if (update_feeder_table[key].state === 'feeder') {
 
                     update_feeder_table[key].nr_of_fish = update_feeder_table[key].nr_of_fish - update_feeder_table[key].nr_of_dead_fish;
+
+                    if (+g_LDA.feed[key] > 0) {
+
+                        // this adds (amount of food eaten per fish * feed factor) to average fish weight
+                        // +operator converts strings to numbers
+                        update_feeder_table[key].avg_fish_kg = +update_feeder_table[key].avg_fish_kg +
+                                                                (
+                                                                    (1000 * +g_LDA.feed[key])
+                                                                    /
+                                                                    +update_feeder_table[key].nr_of_fish
+                                                                    /
+                                                                    +update_feeder_table[key].growth_factor
+                                                                );
+
+                    }
 
                 }
 
@@ -274,6 +290,8 @@ $(document).ready(function () {
 
             g_LDA.feeding_table.add({
                 id: i,
+                relay_name: '',
+                state: 'inactive',
                 start_date: '0',
                 nr_of_fish: '0',
                 nr_of_dead_fish: '0',
@@ -291,8 +309,28 @@ $(document).ready(function () {
 
     g_LDA.feeding_table.on('*', function () {
 
+        var group_buttons_json = g_LDA.groups.get({
+            // output the specified fields only
+            fields: ['id', 'className']
+        });
+
         var feeder_table_to_localstorage = g_LDA.feeding_table.get();
         localStorage["feeder.table"] = JSON.stringify(feeder_table_to_localstorage);
+
+        for (var key in feeder_table_to_localstorage) {
+
+            if (feeder_table_to_localstorage[key].state === 'inactive') {
+                group_buttons_json[key].className = 'vis_group_disabled';
+                disable_vis_timeline_button_classes(group_buttons_json[key].id);
+            } else {
+                group_buttons_json[key].className = 'vis_group_enabled';
+                enable_vis_timeline_button_classes(group_buttons_json[key].id);
+            }
+
+        }
+
+        g_LDA.groups.update(group_buttons_json);
+
         dynatable.settings.dataset.originalRecords = feeder_table_to_localstorage;
         dynatable.process();
 

@@ -66,7 +66,11 @@ $(window).load(function () {
 
             (function (ip_local_subnet) {
 
-               var subnet_ip_on_machine = $("#device_subnet").text();
+                var subnet_ip_on_machine = $("#device_subnet").text();
+
+                if (subnet_ip_on_machine == "169.254.") {
+                    ip_local_subnet += ".0";
+                }
 
                 $.ajax({
                     url: "http://" + subnet_ip_on_machine + ip_local_subnet + "/autodiscovery_imrelay",
@@ -76,8 +80,6 @@ $(window).load(function () {
                     success: function (data) {
                         var mac_addr = JSON.parse(data);
                         add_imrelay_device_to_list(subnet_ip_on_machine + ip_local_subnet, mac_addr.id);
-                        //add_imrelay_device_to_list("169.254.4." + ip_local_subnet, mac_addr.id);
-
                     }
                 }).error(function (jXHR) {
                     // Disable global error logging

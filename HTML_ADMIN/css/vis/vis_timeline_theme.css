@@ -1,4 +1,10 @@
-﻿.vis.timeline .item {
+﻿.vis.timeline .vis_item_relay_event {
+  color: white;
+  background-color: red;
+  border-color: darkred;
+}
+
+.vis.timeline .item {
     padding: 0px;
 }
 

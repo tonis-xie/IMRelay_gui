@@ -28,23 +28,6 @@ $(document).ready(function () {
 
         localStorage["timeline.groups"] = JSON.stringify(group_classnames_to_localstorage);
 
-        var feeding_table_json = g_LDA.feeding_table.get({
-            // output the specified fields only
-            fields: ['id', 'state']
-        });
-
-        for (var key in group_classnames_to_localstorage) {
-
-            if (group_classnames_to_localstorage[key].className === 'vis_group_disabled') {
-                feeding_table_json[key].state = 'inactive';
-            } else {
-                feeding_table_json[key].state = 'active';
-            }
-
-        }
-
-        g_LDA.feeding_table.update(feeding_table_json);
-
     });
 
     var start_date = new Date();
@@ -126,6 +109,13 @@ $(document).ready(function () {
         }
         
         g_LDA.feeding_table.update(total_active_feeding_time);
+
+        // Tell event table that the timeline has been updated
+        dynatable_event.settings.dataset.originalRecords = g_LDA.items.get();
+        dynatable_event.queries.remove("relay_number");
+        dynatable_event.process();
+        dynatable_event.queries.add("relay_number", $("input[name=event_relay]:checked").val());
+        dynatable_event.process();
         
     });
 
@@ -162,11 +152,13 @@ $(document).ready(function () {
         onAdd: check_if_valid_visitem,
         onMove: check_if_valid_visitem,
         onRemove: function (item, callback) {
+
             if (confirm('Remove item from relay ' + item.group + '? ' + '(' + item.content + ')')) {
                 callback(item); // confirm deletion
             } else {
                 callback(null); // cancel deletion
             }
+
         },
         orientation: 'bottom',
         //padding
@@ -185,6 +177,7 @@ $(document).ready(function () {
     };
 
     function check_if_valid_visitem(item, callback) {
+
         if (check_if_collision_against_other_visitem(item)) {
             callback(null);
         } else if (item.start < start_date) {
@@ -197,6 +190,7 @@ $(document).ready(function () {
             item.content = moment(item.start).format("HH:mm:ss") + " - " + moment(item.end).format("HH:mm:ss");
             callback(item); // send back adjusted item
         }
+
     }
 
 
@@ -221,6 +215,7 @@ $(document).ready(function () {
                 if (item.start <= g_LDA.items._data[key].start && item.end >= g_LDA.items._data[key].end) {
                     return 1;
                 }
+
             }
         }
 
@@ -231,30 +226,19 @@ $(document).ready(function () {
     var timeline = new vis.Timeline(container, g_LDA.items, options);
     timeline.setGroups(g_LDA.groups);
 
-    function enable_vis_timeline_button_classes(btn_num) {
-        $("#vis_group_button_" + btn_num).removeClass('btn-default vis_btn_disabled').addClass('btn-success vis_btn_enabled');
-        $("#vis_group_button_" + btn_num).html(btn_num + ': Enabled');
-    }
-
-    function disable_vis_timeline_button_classes(btn_num) {
-        $("#vis_group_button_" + btn_num).removeClass('btn-success vis_btn_enabled').addClass('btn-default vis_btn_disabled');
-        $("#vis_group_button_" + btn_num).html(btn_num + ': Disabled');
-    }    
-
     function toggle_vis_timeline_button_classes(btn_num) {             
-
+      
         $("#vis_group_button_" + btn_num).click(function () {
 
-            if ($("#vis_group_button_" + btn_num).hasClass('vis_btn_disabled')) {
-                g_LDA.groups.update({ id: btn_num, className: 'vis_group_enabled' });
-                g_LDA.feeding_table.update({ id: btn_num, start_date: new Date().setHours(0, 0, 0, 0) });
-                enable_vis_timeline_button_classes(btn_num);
+            var group_to_edit = g_LDA.feeding_table.get(btn_num);
+
+            if (group_to_edit.state === 'inactive') {
+                g_LDA.feeding_table.update({ id: group_to_edit.id, state: "feeder" });
             } else {
-                g_LDA.groups.update({ id: btn_num, className: 'vis_group_disabled' });
-                disable_vis_timeline_button_classes(btn_num);
+                g_LDA.feeding_table.update({ id: group_to_edit.id, state: "inactive"});
             }
 
-        });        
+        });
 
     }
 
@@ -265,6 +249,7 @@ $(document).ready(function () {
     var timeline_groups_localstorage = localStorage["timeline.groups"];
 
     if (timeline_groups_localstorage != null) {
+
         var timeline_groups_json = JSON.parse(timeline_groups_localstorage);
         g_LDA.groups.update(timeline_groups_json);
 
@@ -277,6 +262,207 @@ $(document).ready(function () {
             }
 
         }
+
     }
+
+    /* Event settings table */
+
+    function event_table_column_iseditable(column_name) {
+        var editable_columns = ["state", "start_time", "end_time", "time_on", "time_off"];
+        return $.inArray(column_name, editable_columns) !== -1 ? true : false;
+    }
+
+
+    function event_table_button_cell_writer(id) {
+
+        var html_group_button = document.createElement('button');
+        html_group_button.className = 'btn btn-default event_table_toogle_edit_button';
+        html_group_button.type = 'button';
+        html_group_button.dataset.id = id;
+        html_group_button.innerText = 'Edit';
+
+        return '<td style="width:65px;">' + html_group_button.outerHTML + '</td>';
+    }
+
+    function event_table_cell_writer(column, record, user_editable) {
+
+        var html = column.attributeWriter(record);
+        var td = '<td';
+
+        //column.textAlign = 'center';
+
+        if (column.hidden || column.textAlign) {
+
+            td += ' style="';
+
+            // keep cells aligned as their column headers are aligned
+            if (column.textAlign) {
+                td += 'text-align: ' + column.textAlign + ';';
+            }
+
+            td += '"';
+
+        }
+
+        if (user_editable) {
+            td += ' class="user_editable"';
+        }
+
+        return td + '>' + html + '</td>';
+    }
+
+    function event_table_row_writer(rowIndex, record, columns, cellWriter) {
+
+        record.relay_number = record.group;
+        record.start_time = moment(record.start).format("HH:mm:ss");
+        record.end_time = moment(record.end).format("HH:mm:ss");
+        record.state = record.group;
+
+
+        var tr = '';
+
+        tr += event_table_button_cell_writer(record.id);
+
+        // grab the record's attribute for each column
+        for (var i = 1, len = columns.length; i < len; i++) {
+          tr += cellWriter(columns[i], record, event_table_column_iseditable(columns[i].id));
+        }
+
+        return '<tr>' + tr + '</tr>';
+    }
+
+
+    $('#event_table').dynatable({
+        features: {
+                paginate: false,
+                search: false,
+                recordCount: false
+        },
+        dataset: {
+            records: g_LDA.items.get(),
+        },
+        writers: {
+            _rowWriter: event_table_row_writer,
+            _cellWriter: event_table_cell_writer
+        },
+        inputs: {
+            queries: $('input[name=inlineRadioOptions]')
+            //queries: $('#event_search_relay_id')
+        }
+    });
+
+    $('#event_table').on('click', 'button.event_table_toogle_edit_button', function() {
+
+        var row = jQuery(this).closest("tr");
+        var columns = row.find("td");
+
+        var cells = row.find('td.user_editable');
+        var is_editable = cells.is('.active');
+        this.innerHTML = is_editable ? ('Edit') : ('Save');
+        cells.prop('contenteditable', !is_editable).toggleClass('active');
+
+        /* If the user saves the settings*/
+        if (is_editable) {
+            var row_values = {};
+            jQuery.each(columns, function(i, item) {
+                var header = $(this).parents('table').find('th').eq(i);
+                header = header.text().replace(/\s+/g, '_').replace(/\#/g, 'nr').toLowerCase();
+                row_values[header] = item.innerHTML;
+            });
+
+            row_values.edit = $(this).data("id");
+
+            on_event_table_edit(row_values);
+        }
+    });
+
+    var dynatable_event = $('#event_table').data('dynatable');
+    dynatable_event.queries.add("relay_number", 1);
+    dynatable_event.process();
+
+    function create_date_from_string_hh_mm_ss(s) {
+
+        /* match: HH:mm:ss */
+        if (s.match(/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/)) {
+
+            var d = new Date();
+
+            var pieces = s.split(':');
+            var hour = parseInt(pieces[0], 10);
+            var minute = parseInt(pieces[1], 10);
+            var second = parseInt(pieces[2], 10);
+
+            d.setHours(hour);
+            d.setMinutes(minute);
+            d.setSeconds(second);
+
+            return d;
+        } else {
+            return false;
+        }
+
+    }
+
+    $("#update_relay_type_setting").click(function () {
+
+        var relay_type = $("#relay_state_chooser").val();
+        var relay_nr = parseInt($("input[name=event_relay]:checked").val(), 10);        
+
+        if (relay_type === "Generic") {
+
+            g_LDA.relay[relay_nr - 1].total_on_ticks = $("#time_on_chooser").val();
+            g_LDA.relay[relay_nr - 1].total_off_ticks = $("#time_off_chooser").val();
+
+            g_LDA.feeding_table.update([{
+                id: relay_nr,
+                state: "generic"
+            }]);
+
+        } else if (relay_type === 'Feeder') {
+
+            g_LDA.feeding_table.update([{
+                id: relay_nr,
+                state: "feeder"
+            }]);
+
+        } else {            
+            
+            g_LDA.feeding_table.update([{
+                id: relay_nr,
+                state: "inactive"
+            }]);
+
+        }
+
+    });
+
+    function on_event_table_edit(row) {
+
+        var unique_id = row.edit;
+
+        var item_to_update = g_LDA.items.get(unique_id);
+        item_to_update.start = create_date_from_string_hh_mm_ss(row.start_time);
+        item_to_update.end = create_date_from_string_hh_mm_ss(row.end_time);
+        item_to_update.className = "vis_item_relay_event";
+
+        check_if_valid_visitem(item_to_update, function (item) {
+
+            g_LDA.items.update([
+               item
+            ]);
+
+        });
+    }
+
+    $("input[name=event_relay]:radio").change(function () {
+        var value = $(this).val();
+        if (value === "") {
+            dynatable_event.queries.remove("relay_number");
+        } else {
+            dynatable_event.queries.add("relay_number",value);
+        }
+        dynatable_event.process();
+    });
+
 
 });
