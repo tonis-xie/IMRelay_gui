@@ -55,7 +55,7 @@ $(document).ready(function () {
     }
 
     function feeding_table_column_iseditable(column_name) {
-        var editable_columns = ["nr_of_fish", "nr_of_dead_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent", "growth_factor"];
+        var editable_columns = ["relay_name", "nr_of_fish", "nr_of_dead_fish", "avg_fish_kg", "feeder_speed_kg_pr_min", "feeding_percent", "growth_factor"];
         return $.inArray(column_name, editable_columns) !== -1 ? true : false;
     }
 
@@ -99,7 +99,7 @@ $(document).ready(function () {
             };
 
         } else {
-            
+
             g_LDA.relay[rowIndex] = {
                 type: "feeder",
                 total_on_ticks: record.time_feeder_active,
@@ -169,6 +169,7 @@ $(document).ready(function () {
 
                 g_LDA.feeding_table.update([{
                     id: btn_num,
+                    relay_name: read.relay_name,
                     nr_of_fish: read.nr_of_fish,
                     nr_of_dead_fish: read.nr_of_dead_fish,
                     avg_fish_kg: read.avg_fish_kg,
@@ -192,6 +193,7 @@ $(document).ready(function () {
                 g_LDA.log_table.add({
                     relay_number: entry.id, 
                     date: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+                    relay_name: entry.relay_name,
                     nr_of_fish: entry.nr_of_fish, 
                     nr_of_dead_fish: entry.nr_of_dead_fish, 
                     avg_fish_kg: entry.avg_fish_kg, 
@@ -288,6 +290,7 @@ $(document).ready(function () {
 
             g_LDA.feeding_table.add({
                 id: i,
+                relay_name: '',
                 state: 'inactive',
                 start_date: '0',
                 nr_of_fish: '0',
