@@ -82,7 +82,13 @@ $(document).ready(function () {
         var relay_indicator_toggle_factor = 100 * record.time_feeder_active / record.time_feeding_intervals;
 
         /* Calculate on-off times */
-        record.feeder_toggle_speed = relay_indicator_toggle_factor.toFixed(0);
+        if ( relay_indicator_toggle_factor < 0.1 ) {
+            record.feeder_toggle_speed = "<0.1";
+        } else if ( relay_indicator_toggle_factor < 1 ) {
+            record.feeder_toggle_speed = relay_indicator_toggle_factor.toFixed(1);
+        } else {
+            record.feeder_toggle_speed = relay_indicator_toggle_factor.toFixed(0);
+        }
 
         if (record.state === "generic") {
 
