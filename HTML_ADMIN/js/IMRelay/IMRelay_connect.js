@@ -34,11 +34,9 @@ $(window).load(function () {
         var num_items = $("#device_discovery_list li").length;
         $("#connected_device_counter").html(num_items);
 
-        /* set color on device counter depending on number of devices found. 1 is green, >1 is yellow */
-        if (num_items === 1) {
-            $("#connected_device_counter").removeClass("label-error label-warning").addClass("label-success");            
-        } else if (num_items > 1) {
-            $("#connected_device_counter").removeClass("label-error label-success").addClass("label-warning");
+        /* set yellow color if device is found */
+        if (num_items >= 1) {
+            $("#connected_device_counter").removeClass("label-danger label-success").addClass("label-warning");
         }
 
         if ($("#connected_device_identifier")[0].innerText === "No device found") {
