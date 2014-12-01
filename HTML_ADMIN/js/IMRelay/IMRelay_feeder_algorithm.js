@@ -171,6 +171,9 @@ function relay_event_scheduler() {
                         ping.attr({"visibility": "hidden"});
                     });
 
+                    /* Set to green since we have success */
+                    $("#connected_device_counter").removeClass("label-danger label-warning").addClass("label-success");
+
                 },
                 error: function (request, status, error) {
 
@@ -183,6 +186,9 @@ function relay_event_scheduler() {
                     } else {
                         console.log(request.status, request.responseText, status, error);
                     }
+
+                    /* Set to red since we have an error */
+                    $("#connected_device_counter").removeClass("label-success label-warning").addClass("label-danger");
 
                 }
             });
