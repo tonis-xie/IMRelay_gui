@@ -59,6 +59,15 @@ $(document).ready(function () {
         return $.inArray(column_name, editable_columns) !== -1 ? true : false;
     }
 
+    $("table#feeding_table").on("input", "td", function(e) {
+
+        if ($.isNumeric($(this).html())) {
+            $(this).css("color", "green");
+        } else {
+            $(this).css("color", "red");
+        }
+    });
+
     function feeding_table_row_writer(rowIndex, record, columns, cellWriter) {
 
         var tr = '';
