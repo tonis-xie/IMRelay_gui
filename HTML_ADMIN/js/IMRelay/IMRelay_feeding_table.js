@@ -68,6 +68,19 @@ $(document).ready(function () {
         }
     });
 
+    $("table#feeding_table").on("keypress", "td", function(e) {
+
+        var regex = new RegExp("^[a-zA-Z0-9\.]+$");
+        var str = String.fromCharCode(e.which);
+
+        if (regex.test(str)) {
+            return true;
+        }
+
+        e.preventDefault();
+        return false;
+    });
+
     function feeding_table_row_writer(rowIndex, record, columns, cellWriter) {
 
         var tr = '';
