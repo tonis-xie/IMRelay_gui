@@ -59,6 +59,28 @@ $(document).ready(function () {
         return $.inArray(column_name, editable_columns) !== -1 ? true : false;
     }
 
+    $("table#feeding_table").on("input", "td", function(e) {
+
+        if ($.isNumeric($(this).html())) {
+            $(this).css("color", "green");
+        } else {
+            $(this).css("color", "red");
+        }
+    });
+
+    $("table#feeding_table").on("keypress", "td", function(e) {
+
+        var regex = new RegExp("^[a-zA-Z0-9\.]+$");
+        var str = String.fromCharCode(e.which);
+
+        if (regex.test(str)) {
+            return true;
+        }
+
+        e.preventDefault();
+        return false;
+    });
+
     function feeding_table_row_writer(rowIndex, record, columns, cellWriter) {
 
         var tr = '';
