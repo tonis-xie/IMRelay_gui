@@ -1,14 +1,21 @@
-﻿.knob-label {
+﻿.knob_label_center {
   margin:0 auto;
   margin-top: -55px;
-  margin-bottom: 20px;  
+  margin-bottom: 20px;
   width: 50px;
   height: 50px;
   line-height: 50px;
   text-align: center;
   color: #333;
   font-weight: 100;
-  font-size: 12px;  
+  font-size: 12px;
+}
+
+.knob_label_below {
+  margin: 5px;
+  color: white;
+  background: #1f8dff;
+  border-radius: 5px;
 }
 
 #imrelay_knob_row > div > div canvas {

@@ -142,6 +142,9 @@ $(document).ready(function () {
         record.time_feeder_active = (record.time_feeder_active / 60).toFixed(1);
         record.time_feeding_intervals = (record.time_feeding_intervals / 60).toFixed(1);
 
+        /* Update relay names */
+        $('#imrelay_knob_row > div > div div.knob_label_below').eq(rowIndex).text(record.relay_name);
+
         $('#jknob' + (rowIndex + 1)).val(relay_indicator_toggle_factor).trigger('change');
 
         if (relay_indicator_toggle_factor > 90) {
@@ -185,21 +188,27 @@ $(document).ready(function () {
             this.innerHTML = is_editable ? (btn_num + ': Edit') : (btn_num + ': Save');
             cell.prop('contenteditable', !is_editable).toggleClass('active');
 
+            /* Row is saved */
             if (is_editable) {
 
-                var read = dynatable.records.getFromTable()[btn_num - 1];
+                var read = dynatable.records.getFromTable();
 
-                g_LDA.feeding_table.update([{
-                    id: btn_num,
-                    relay_name: read.relay_name,
-                    nr_of_fish: read.nr_of_fish,
-                    nr_of_dead_fish: read.nr_of_dead_fish,
-                    avg_fish_kg: read.avg_fish_kg,
-                    feeder_speed_kg_pr_min: read.feeder_speed_kg_pr_min,
-                    feeding_percent: read.feeding_percent,
-                    growth_factor: read.growth_factor
-                }]);
+                /* Iterate and save all rows */
+                var new_values = [];
+                for (var relay_id = 0; relay_id < read.length; relay_id++) {
+                    new_values.push({
+                        id: relay_id+1,
+                        relay_name: read[relay_id].relay_name,
+                        nr_of_fish: read[relay_id].nr_of_fish,
+                        nr_of_dead_fish: read[relay_id].nr_of_dead_fish,
+                        avg_fish_kg: read[relay_id].avg_fish_kg,
+                        feeder_speed_kg_pr_min: read[relay_id].feeder_speed_kg_pr_min,
+                        feeding_percent: read[relay_id].feeding_percent,
+                        growth_factor: read[relay_id].growth_factor
+                    });
+                }
 
+                g_LDA.feeding_table.update(new_values);
             }
 
         });
