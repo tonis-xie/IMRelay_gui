@@ -2,58 +2,36 @@
 $(document).ready(function () {
     "use strict";
 
-    $('body').on("click", ".vis_controls", function() {
-
-        $(this).addClass('active').siblings().removeClass('active');
-
-        //if ($(this).attr("id") == "controls_new_pad") {
-        //    tool_state = "pad";
-        //} else if ($(this).attr("id") == "controls_new_elementline") {
-        //    tool_state = "elementline";
-        //} else if ($(this).attr("id") == "controls_new_elementarc") {
-        //    tool_state = "elementarc";
-        //} else if ($(this).attr("id") == "controls_new_pin") {
-        //    tool_state = "pin";
-        //}
-    });
-
     function create_html_button(id) {
 
         var div = document.createElement('div');
-        div.className = 'vis_controls';
+        div.className = 'vis_controls btn-group';
+        div.role = "group";
         div.id = 'vis_controls_id_' + id;
 
         var play_button = document.createElement('button');
-        play_button.className = 'btn btn-default vis_btn_disabled';
+        play_button.className = 'btn btn-default';
         play_button.type = 'button';
-        // TODO wrong
-        play_button.innerHtml = '<i class="fa fa-play"></i>';
+        var play_icon = document.createElement('i');
+        play_icon.className = 'fa fa-play';
+        play_button.appendChild(play_icon);
         div.appendChild(play_button);
 
         var pause_button = document.createElement('button');
+        pause_button.className = 'btn btn-default';
+        pause_button.type = 'button';
+        var pause_icon = document.createElement('i');
+        pause_icon.className = 'fa fa-pause';
+        pause_button.appendChild(pause_icon);
         div.appendChild(pause_button);
 
         var stop_button = document.createElement('button');
+        stop_button.className = 'btn btn-default';
+        stop_button.type = 'button';
+        var stop_icon = document.createElement('i');
+        stop_icon.className = 'fa fa-stop';
+        stop_button.appendChild(stop_icon);
         div.appendChild(stop_button);
-
-
-        //<div class="btn-group" id="controls_mode">
-        //    <button class="btn btn-default active" id="controls_new_pad"
-        //    data-container="body" data-placement="bottom"
-        //    title="Add new pad"><i class="fa fa-square"></i></button>
-
-        //    <button class="btn btn-default" id="controls_new_pin"
-        //    data-container="body" data-placement="bottom"
-        //    title="Add new pin"><i class="fa fa-dot-circle-o"></i></button>
-
-        //    <button class="btn btn-default" id="controls_new_elementline"
-        //    data-container="body" data-placement="bottom"
-        //    title="Add new silkscreen line"><i class="fa fa-pencil"></i></button>
-
-        //    <button class="btn btn-default" id="controls_new_elementarc"
-        //    data-container="body" data-placement="bottom"
-        //    title="Add new silkscreen arc (or circle)"><i class="fa fa-circle-o"></i></button>
-        //</div>
 
         return div;
     }        
@@ -273,16 +251,17 @@ $(document).ready(function () {
 
     function toggle_vis_timeline_button_classes(btn_num) {             
       
-        $("#vis_group_button_" + btn_num).click(function () {
+        $("#vis_controls_id_" + btn_num + " button:nth-child(1)").click(function () {
+            g_LDA.feeding_table.update({ id: btn_num, state: "feeder" });
+        });
 
-            var group_to_edit = g_LDA.feeding_table.get(btn_num);
+        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").click(function () {
+            g_LDA.feeding_table.update({ id: btn_num, state: "feeder" });
+            //paused_vis_timeline_button_classes(btn_num);
+        });
 
-            if (group_to_edit.state === 'inactive') {
-                g_LDA.feeding_table.update({ id: group_to_edit.id, state: "feeder" });
-            } else {
-                g_LDA.feeding_table.update({ id: group_to_edit.id, state: "inactive"});
-            }
-
+        $("#vis_controls_id_" + btn_num + " button:nth-child(3)").click(function () {
+            g_LDA.feeding_table.update({ id: btn_num, state: "inactive" });
         });
 
     }

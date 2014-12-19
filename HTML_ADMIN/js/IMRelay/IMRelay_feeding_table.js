@@ -4,14 +4,42 @@ g_LDA.relay = [];
 g_LDA.feed = [];
 
 function enable_vis_timeline_button_classes(btn_num) {
-    $("#vis_group_button_" + btn_num).removeClass('btn-default vis_btn_disabled').addClass('btn-success vis_btn_enabled');
-    $("#vis_group_button_" + btn_num).html(btn_num + ': Enabled');
+
+    //$("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-default').addClass('btn-success');
+    //$("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-warning').addClass('btn-default');
+    //$("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-danger').addClass('btn-default');
+
+    $("#vis_controls_id_" + btn_num + " button:nth-child(1)").addClass('active');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('active');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('active');
+
 }
 
 function disable_vis_timeline_button_classes(btn_num) {
-    $("#vis_group_button_" + btn_num).removeClass('btn-success vis_btn_enabled').addClass('btn-default vis_btn_disabled');
-    $("#vis_group_button_" + btn_num).html(btn_num + ': Disabled');
+
+    //$("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').addClass('btn-default');
+    //$("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-warning').addClass('btn-default');
+    //$("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-default').addClass('btn-danger');
+    
+    $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('active');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('active');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(3)").addClass('active');
+
 }
+
+function paused_vis_timeline_button_classes(btn_num) {
+
+    //$("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').addClass('btn-default');
+    //$("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-warning').addClass('btn-default');
+    //$("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-default').addClass('btn-danger');
+
+    $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('active');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('active');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('active');
+
+}
+
+
 
 $(document).ready(function () {
     "use strict";
