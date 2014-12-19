@@ -1682,6 +1682,7 @@ table .btn,
 }
 #vis_timeline .btn {
   border-bottom: 1px solid #ddd;
+  padding: 6px;  
 }
 .btn.btn-default {
   background-color: #fafafa;

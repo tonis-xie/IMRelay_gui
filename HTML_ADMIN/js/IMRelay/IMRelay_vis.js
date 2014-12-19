@@ -5,7 +5,7 @@ $(document).ready(function () {
     function create_html_button(id) {
 
         var div = document.createElement('div');
-        div.className = 'vis_controls btn-group';
+        div.className = 'vis_controls btn-group btn-group-sm';
         div.role = "group";
         div.id = 'vis_controls_id_' + id;
 
