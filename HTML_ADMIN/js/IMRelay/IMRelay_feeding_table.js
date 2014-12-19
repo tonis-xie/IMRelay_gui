@@ -148,6 +148,9 @@ $(document).ready(function () {
         record.time_feeder_active = (record.time_feeder_active / 60).toFixed(1);
         record.time_feeding_intervals = (record.time_feeding_intervals / 60).toFixed(1);
 
+        /* Update relay names */
+        $('#imrelay_knob_row > div > div div.knob_label_below').eq(rowIndex).text(record.relay_name);
+
         $('#jknob' + (rowIndex + 1)).val(relay_indicator_toggle_factor).trigger('change');
 
         if (relay_indicator_toggle_factor > 90) {
@@ -191,6 +194,7 @@ $(document).ready(function () {
             this.innerHTML = is_editable ? (btn_num + ': Edit') : (btn_num + ': Save');
             cell.prop('contenteditable', !is_editable).toggleClass('active');
 
+            /* Row is saved */
             if (is_editable) {
 
                 var read = dynatable.records.getFromTable()[btn_num - 1];
