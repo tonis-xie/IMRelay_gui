@@ -2,15 +2,60 @@
 $(document).ready(function () {
     "use strict";
 
+    $('body').on("click", ".vis_controls", function() {
+
+        $(this).addClass('active').siblings().removeClass('active');
+
+        //if ($(this).attr("id") == "controls_new_pad") {
+        //    tool_state = "pad";
+        //} else if ($(this).attr("id") == "controls_new_elementline") {
+        //    tool_state = "elementline";
+        //} else if ($(this).attr("id") == "controls_new_elementarc") {
+        //    tool_state = "elementarc";
+        //} else if ($(this).attr("id") == "controls_new_pin") {
+        //    tool_state = "pin";
+        //}
+    });
+
     function create_html_button(id) {
 
-        var html_group_button = document.createElement('button');
-        html_group_button.className = 'btn btn-default vis_btn_disabled';
-        html_group_button.type = 'button';
-        html_group_button.id = 'vis_group_button_' + id;
-        html_group_button.innerText = id + ': Disabled';
+        var div = document.createElement('div');
+        div.className = 'vis_controls';
+        div.id = 'vis_controls_id_' + id;
 
-        return html_group_button;
+        var play_button = document.createElement('button');
+        play_button.className = 'btn btn-default vis_btn_disabled';
+        play_button.type = 'button';
+        // TODO wrong
+        play_button.innerHtml = '<i class="fa fa-play"></i>';
+        div.appendChild(play_button);
+
+        var pause_button = document.createElement('button');
+        div.appendChild(pause_button);
+
+        var stop_button = document.createElement('button');
+        div.appendChild(stop_button);
+
+
+        //<div class="btn-group" id="controls_mode">
+        //    <button class="btn btn-default active" id="controls_new_pad"
+        //    data-container="body" data-placement="bottom"
+        //    title="Add new pad"><i class="fa fa-square"></i></button>
+
+        //    <button class="btn btn-default" id="controls_new_pin"
+        //    data-container="body" data-placement="bottom"
+        //    title="Add new pin"><i class="fa fa-dot-circle-o"></i></button>
+
+        //    <button class="btn btn-default" id="controls_new_elementline"
+        //    data-container="body" data-placement="bottom"
+        //    title="Add new silkscreen line"><i class="fa fa-pencil"></i></button>
+
+        //    <button class="btn btn-default" id="controls_new_elementarc"
+        //    data-container="body" data-placement="bottom"
+        //    title="Add new silkscreen arc (or circle)"><i class="fa fa-circle-o"></i></button>
+        //</div>
+
+        return div;
     }        
 
     g_LDA.groups = new vis.DataSet();
