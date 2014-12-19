@@ -85,12 +85,6 @@ $(document).ready(function () {
 
         var tr = '';
 
-        var start_date_datetime_object = new Date(record.start_date);
-        var start_date_datetime_string = start_date_datetime_object.getFullYear().toString() + '-' +
-                                        ("0" + (start_date_datetime_object.getMonth() + 1).toString()).slice(-2) + '-' +
-                                        ("0" + start_date_datetime_object.getDate().toString()).slice(-2);
-
-        record.start_date = start_date_datetime_string;
         record.biomass = ((record.nr_of_fish - record.nr_of_dead_fish) * record.avg_fish_kg / 1000);
         record.required_feed_pr_day = record.biomass * record.feeding_percent / 100;
         record.time_feeder_active = +((record.required_feed_pr_day / record.feeder_speed_kg_pr_min) * 60).toFixed(0);
@@ -320,7 +314,6 @@ $(document).ready(function () {
                 id: i,
                 relay_name: '',
                 state: 'inactive',
-                start_date: '0',
                 nr_of_fish: '0',
                 nr_of_dead_fish: '0',
                 avg_fish_kg: '0',
