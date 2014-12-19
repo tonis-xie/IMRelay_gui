@@ -197,19 +197,24 @@ $(document).ready(function () {
             /* Row is saved */
             if (is_editable) {
 
-                var read = dynatable.records.getFromTable()[btn_num - 1];
+                var read = dynatable.records.getFromTable();
 
-                g_LDA.feeding_table.update([{
-                    id: btn_num,
-                    relay_name: read.relay_name,
-                    nr_of_fish: read.nr_of_fish,
-                    nr_of_dead_fish: read.nr_of_dead_fish,
-                    avg_fish_kg: read.avg_fish_kg,
-                    feeder_speed_kg_pr_min: read.feeder_speed_kg_pr_min,
-                    feeding_percent: read.feeding_percent,
-                    growth_factor: read.growth_factor
-                }]);
+                /* Iterate and save all rows */
+                var new_values = [];
+                for (var relay_id = 0; relay_id < read.length; relay_id++) {
+                    new_values.push({
+                        id: relay_id+1,
+                        relay_name: read[relay_id].relay_name,
+                        nr_of_fish: read[relay_id].nr_of_fish,
+                        nr_of_dead_fish: read[relay_id].nr_of_dead_fish,
+                        avg_fish_kg: read[relay_id].avg_fish_kg,
+                        feeder_speed_kg_pr_min: read[relay_id].feeder_speed_kg_pr_min,
+                        feeding_percent: read[relay_id].feeding_percent,
+                        growth_factor: read[relay_id].growth_factor
+                    });
+                }
 
+                g_LDA.feeding_table.update(new_values);
             }
 
         });
