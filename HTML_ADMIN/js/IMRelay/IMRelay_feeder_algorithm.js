@@ -99,10 +99,15 @@ function relay_event_scheduler() {
 
             }
 
-        }
+        }           
+
+        var calc_biomass = (g_LDA.feeding_table._data[relay_id].nr_of_fish - g_LDA.feeding_table._data[relay_id].nr_of_dead_fish) * g_LDA.feeding_table._data[relay_id].avg_fish_kg / 1000;
+        var total_feed = calc_biomass * g_LDA.feeding_table._data[relay_id].feeding_percent / 100;       
 
         //set relay output to 0 or 1
-        if (g_LDA.relay[relay_id - 1].on > 0) {
+        if (g_LDA.relay[relay_id - 1].type === "feeder" && g_LDA.feed[relay_id - 1] >= total_feed) {
+            current_relay_states[relay_id - 1] = 0;
+        } else if (g_LDA.relay[relay_id - 1].on > 0) {
             --g_LDA.relay[relay_id - 1].on;
             current_relay_states[relay_id - 1] = 1;
         } else if (g_LDA.relay[relay_id - 1].off > 0) {
@@ -111,7 +116,7 @@ function relay_event_scheduler() {
         }
 
     }
- 
+
     var uuid_lock = localStorage.uuid_lock;
 
     var message = JSON.stringify({'uuid': uuid_lock, 'relays': current_relay_states});
