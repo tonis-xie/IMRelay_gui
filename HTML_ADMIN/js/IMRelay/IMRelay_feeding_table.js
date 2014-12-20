@@ -5,41 +5,37 @@ g_LDA.feed = [];
 
 function enable_vis_timeline_button_classes(btn_num) {
 
-    //$("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-default').addClass('btn-success');
-    //$("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-warning').addClass('btn-default');
-    //$("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-danger').addClass('btn-default');
+    if ($("#vis_controls_id_" + btn_num + " button:nth-child(1)").hasClass('btn-warning')) {
 
-    $("#vis_controls_id_" + btn_num + " button:nth-child(1)").addClass('active');
-    $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('active');
-    $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('active');
+
+    } else {
+
+        $("#vis_controls_id_" + btn_num + " button:nth-child(1)").addClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('active');
+
+        $("#vis_controls_id_" + btn_num + " button:nth-child(1)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(3)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+
+    }
 
 }
 
 function disable_vis_timeline_button_classes(btn_num) {
 
-    //$("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').addClass('btn-default');
-    //$("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-warning').addClass('btn-default');
-    //$("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-default').addClass('btn-danger');
-    
     $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('active');
     $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('active');
     $("#vis_controls_id_" + btn_num + " button:nth-child(3)").addClass('active');
 
-}
-
-function paused_vis_timeline_button_classes(btn_num) {
-
-    //$("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').addClass('btn-default');
-    //$("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-warning').addClass('btn-default');
-    //$("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-default').addClass('btn-danger');
-
-    $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('active');
-    $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('active');
-    $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('active');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
 
 }
-
-
 
 $(document).ready(function () {
     "use strict";

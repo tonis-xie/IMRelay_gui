@@ -252,16 +252,30 @@ $(document).ready(function () {
     function toggle_vis_timeline_button_classes(btn_num) {             
       
         $("#vis_controls_id_" + btn_num + " button:nth-child(1)").click(function () {
+
+            $("#vis_controls_id_" + btn_num + " button:nth-child(1)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(3)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
             g_LDA.feeding_table.update({ id: btn_num, state: "feeder" });
+
         });
 
         $("#vis_controls_id_" + btn_num + " button:nth-child(2)").click(function () {
+            
+            $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
             g_LDA.feeding_table.update({ id: btn_num, state: "feeder" });
-            //paused_vis_timeline_button_classes(btn_num);
+
         });
 
         $("#vis_controls_id_" + btn_num + " button:nth-child(3)").click(function () {
+            
+            $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+            $("#vis_controls_id_" +btn_num + " button:nth-child(3)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
             g_LDA.feeding_table.update({ id: btn_num, state: "inactive" });
+
         });
 
     }
