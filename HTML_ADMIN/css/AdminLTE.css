@@ -1684,6 +1684,11 @@ table .btn,
   border-bottom: 1px solid #ddd;
   padding: 6px;  
 }
+
+.vis_controls div {
+    width: 41px;
+}
+
 .btn.btn-default {
   background-color: #fafafa;
   color: #666;

@@ -5,21 +5,22 @@ g_LDA.feed = [];
 
 function enable_vis_timeline_button_classes(btn_num) {
 
-    if ($("#vis_controls_id_" + btn_num + " button:nth-child(1)").hasClass('btn-warning')) {
+    if ($("#vis_controls_id_" + btn_num + " button:nth-child(2)").hasClass('btn-warning')) {
 
-        $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('active');
-        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('active');
-        $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(3)").addClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(4)").removeClass('active');
 
     } else {
 
-        $("#vis_controls_id_" + btn_num + " button:nth-child(1)").addClass('active');
-        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('active');
         $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('active');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(4)").removeClass('active');
 
-        $("#vis_controls_id_" + btn_num + " button:nth-child(1)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+        $("#vis_controls_id_" + btn_num + " div:nth-child(1)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
         $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
         $("#vis_controls_id_" + btn_num + " button:nth-child(3)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+        $("#vis_controls_id_" + btn_num + " button:nth-child(4)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
 
     }
 
@@ -27,13 +28,14 @@ function enable_vis_timeline_button_classes(btn_num) {
 
 function disable_vis_timeline_button_classes(btn_num) {
 
-    $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('active');
     $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('active');
-    $("#vis_controls_id_" + btn_num + " button:nth-child(3)").addClass('active');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('active');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(4)").addClass('active');
 
-    $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+    $("#vis_controls_id_" + btn_num + " div:nth-child(1)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
     $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
     $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+    $("#vis_controls_id_" + btn_num + " button:nth-child(4)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
 
 }
 
@@ -132,6 +134,8 @@ $(document).ready(function () {
 
         if (record.state === "generic") {
 
+            $("#vis_controls_id_" + (rowIndex + 1) + " div:nth-child(1) i").removeClass('fa-cutlery').addClass('fa-plug').removeClass('fa-ban');
+
             g_LDA.relay[rowIndex] = {
                 type: "generic",
                 total_on_ticks: record.time_feeder_active,
@@ -145,6 +149,12 @@ $(document).ready(function () {
             };
 
         } else {
+
+            if (record.state === "feeder") {
+                $("#vis_controls_id_" + (rowIndex + 1) + " div:nth-child(1) i").addClass('fa-cutlery').removeClass('fa-plug').removeClass('fa-ban');
+            } else {
+                $("#vis_controls_id_" + (rowIndex + 1) + " div:nth-child(1) i").removeClass('fa-cutlery').removeClass('fa-plug').addClass('fa-ban');
+            }            
 
             g_LDA.relay[rowIndex] = {
                 type: "feeder",

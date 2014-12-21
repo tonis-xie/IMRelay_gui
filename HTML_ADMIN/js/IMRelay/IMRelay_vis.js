@@ -9,6 +9,14 @@ $(document).ready(function () {
         div.role = "group";
         div.id = 'vis_controls_id_' + id;
 
+        var relay_id_div = document.createElement('div');        
+        relay_id_div.className = 'btn btn-default disabled';
+        relay_id_div.innerText = (id < 10) ? "0" + id + " " : id + " ";
+        var state_icon = document.createElement('i');
+        state_icon.className = 'fa';
+        relay_id_div.appendChild(state_icon);
+        div.appendChild(relay_id_div);
+
         var play_button = document.createElement('button');
         play_button.className = 'btn btn-default';
         play_button.type = 'button';
@@ -251,29 +259,32 @@ $(document).ready(function () {
 
     function toggle_vis_timeline_button_classes(btn_num) {             
       
-        $("#vis_controls_id_" + btn_num + " button:nth-child(1)").click(function () {
+        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").click(function () {
 
-            $("#vis_controls_id_" + btn_num + " button:nth-child(1)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " div:nth-child(1)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
             $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
             $("#vis_controls_id_" + btn_num + " button:nth-child(3)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
-            g_LDA.feeding_table.update({ id: btn_num, state: "feeder" });
-
-        });
-
-        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").click(function () {
-            
-            $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
-            $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
-            $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(4)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
             g_LDA.feeding_table.update({ id: btn_num, state: "feeder" });
 
         });
 
         $("#vis_controls_id_" + btn_num + " button:nth-child(3)").click(function () {
             
-            $("#vis_controls_id_" + btn_num + " button:nth-child(1)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " div:nth-child(1)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(4)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            g_LDA.feeding_table.update({ id: btn_num, state: "feeder" });
+
+        });
+
+        $("#vis_controls_id_" + btn_num + " button:nth-child(4)").click(function () {
+            
+            $("#vis_controls_id_" + btn_num + " div:nth-child(1)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
             $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
-            $("#vis_controls_id_" +btn_num + " button:nth-child(3)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(4)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
             g_LDA.feeding_table.update({ id: btn_num, state: "inactive" });
 
         });
