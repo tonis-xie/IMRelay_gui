@@ -107,6 +107,8 @@ function relay_event_scheduler() {
         //set relay output to 0 or 1
         if (g_LDA.relay[relay_id - 1].type === "feeder" && g_LDA.feed[relay_id - 1] >= total_feed) {
             current_relay_states[relay_id - 1] = 0;
+        } else if ($("#vis_controls_id_" + relay_id + " button:nth-child(2)").hasClass('btn-warning')) {
+            current_relay_states[relay_id - 1] = 0;
         } else if (g_LDA.relay[relay_id - 1].on > 0) {
             --g_LDA.relay[relay_id - 1].on;
             current_relay_states[relay_id - 1] = 1;
