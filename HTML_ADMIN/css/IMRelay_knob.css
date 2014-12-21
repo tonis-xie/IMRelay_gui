@@ -7,15 +7,15 @@
   line-height: 50px;
   text-align: center;
   color: #333;
-  font-weight: 100;
   font-size: 12px;
 }
 
 .knob_label_below {
+  font-weight: bold;
+  color: #333;
   margin: 5px;
-  color: white;
-  background: #1f8dff;
-  border-radius: 5px;
+  margin-top: -10px;
+  border-radius: 2px;
 }
 
 #imrelay_knob_row > div > div canvas {
