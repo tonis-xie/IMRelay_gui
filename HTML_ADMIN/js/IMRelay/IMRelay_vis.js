@@ -11,7 +11,8 @@ $(document).ready(function () {
 
         var relay_id_div = document.createElement('div');        
         relay_id_div.className = 'btn btn-default disabled';
-        relay_id_div.innerText = (id < 10) ? "0" + id + " " : id + " ";
+        //relay_id_div.innerText = (id < 10) ? "0" + id + " " : id + " ";
+        relay_id_div.innerText = id + " ";
         var state_icon = document.createElement('i');
         state_icon.className = 'fa';
         relay_id_div.appendChild(state_icon);

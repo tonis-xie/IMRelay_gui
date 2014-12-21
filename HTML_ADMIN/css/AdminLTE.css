@@ -1687,6 +1687,8 @@ table .btn,
 
 .vis_controls div {
     width: 41px;
+    text-align: right;
+    color: black !important;
 }
 
 .btn.btn-default {
