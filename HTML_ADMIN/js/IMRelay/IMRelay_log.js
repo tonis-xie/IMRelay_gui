@@ -34,10 +34,15 @@ function write_log_table(relay_id) {
 
     var html_table;
     var json_log_to_write = g_LDA.log_table.get({ relay_number: relay_id });
-    var columns;
+    var len = $("#log_table").find("tr:first th").length;
+    var columns = [];
+
+    for (var i = 0; i < len; i++) {
+        columns[i] = $('#log_table').find('th').eq(i).attr('data-dynatable-column');        
+    }
 
     for (row in json_log_to_write) {
-        html_table += log_table_row_writer(json_log_to_write[row]);
+        html_table += log_table_row_writer(json_log_to_write[row], columns);
     }
 
     $("#log_table > tbody").append(html_table);
@@ -57,15 +62,12 @@ function log_table_cell_writer(cell_content) {
     return td + '>' + cell_content + '</td>';
 }
 
-function log_table_row_writer(row) {
+function log_table_row_writer(row, columns) {
 
     var tr = '';
-    var len = $("#log_table").find("tr:first th").length;
-    var th;
 
-    for (var i = 0; i < len; i++) {
-        th = $('#log_table').find('th').eq(i).attr('data-dynatable-column');
-        tr += log_table_cell_writer(row[th]);
+    for (var i = 0; i < columns.length; i++) {
+        tr += log_table_cell_writer(row[columns[i]]);
     }
 
     return '<tr>' + tr + '</tr>';
