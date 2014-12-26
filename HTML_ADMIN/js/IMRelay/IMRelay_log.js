@@ -1,15 +1,6 @@
 $(window).load(function () {
     "use strict";
 
-    function generate_csv_from_table() {
-
-        var csv = "data:text/csv; charset=utf-8,";
-        csv += $('#log_table').table2CSV({ delivery: 'value' });
-
-        $('a#download_log_button').attr("href", encodeURI(csv));
-        $('a#download_log_button').attr("download", "IMRelay_log.csv");
-    }
-
     g_LDA.log_table = new vis.DataSet();
     var log_table_localstorage = localStorage["feeder.log"];
 
@@ -17,29 +8,65 @@ $(window).load(function () {
         var log_table_json = JSON.parse(log_table_localstorage);
         g_LDA.log_table.update(log_table_json);
     }
-    
+
     g_LDA.log_table.on('*', function () {
 
         var log_table_to_localstorage = g_LDA.log_table.get();
         localStorage["feeder.log"] = JSON.stringify(log_table_to_localstorage);
-        dynatable_log.settings.dataset.originalRecords = log_table_to_localstorage;
-        dynatable_log.process();
-        
+
+        var value = $("input[name=event_relay]:radio").val();
+        write_log_table(value);
+
     });
 
-    $('#log_table').dynatable({        
-        dataset: {
-            records: g_LDA.log_table.get(),
-            perPageOptions: [10,20,50,100,200,500,1000]
-        },        
-        inputs: {
-            queries: $('#search_relay_id')
-        }
-    }).bind('dynatable:afterProcess', generate_csv_from_table);
+});
 
-    var dynatable_log = $('#log_table').data('dynatable');
-    dynatable_log.sorts.clear();
-    dynatable_log.sorts.add('date', 0); // 1=ASCENDING, -1=DESCENDING
-    dynatable_log.process();
+function generate_csv_from_table() {
 
-})
+    var csv = "data:text/csv; charset=utf-8,";
+    csv += $('#log_table').table2CSV({ delivery: 'value' });
+
+    $('a#download_log_button').attr("href", encodeURI(csv));
+    $('a#download_log_button').attr("download", "IMRelay_log.csv");
+}
+
+function write_log_table(relay_id) {
+
+    var html_table;
+    var json_log_to_write = g_LDA.log_table.get({ relay_number: relay_id });
+    var columns;
+
+    for (row in json_log_to_write) {
+        html_table += log_table_row_writer(json_log_to_write[row]);
+    }
+
+    $("#log_table > tbody").append(html_table);
+
+    console.log("html_table", html_table);
+
+    generate_csv_from_table();
+
+}
+
+function log_table_cell_writer(cell_content) {
+
+    var td = '<td';
+    //td += ' style="text-align: right;"';
+    //td += ' class="user_editable"';
+
+    return td + '>' + cell_content + '</td>';
+}
+
+function log_table_row_writer(row) {
+
+    var tr = '';
+    var len = $("#log_table").find("tr:first th").length;
+    var th;
+
+    for (var i = 0; i < len; i++) {
+        th = $('#log_table').find('th').eq(i).attr('data-dynatable-column');
+        tr += log_table_cell_writer(row[th]);
+    }
+
+    return '<tr>' + tr + '</tr>';
+}

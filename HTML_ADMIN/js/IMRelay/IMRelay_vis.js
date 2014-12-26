@@ -505,13 +505,18 @@ $(document).ready(function () {
     }
 
     $("input[name=event_relay]:radio").change(function () {
+
         var value = $(this).val();
+
         if (value === "") {
             dynatable_event.queries.remove("relay_number");
         } else {
             dynatable_event.queries.add("relay_number",value);
         }
+
         dynatable_event.process();
+        write_log_table(value);
+
     });
 
 
