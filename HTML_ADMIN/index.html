@@ -234,7 +234,7 @@
                         </a>
                     </li>
                     <li class="treeview">
-                        <a id="log_menu_button" href="#">
+                        <a id="event_settings_button" href="#">
                             <i class="fa fa-file-text-o"></i>
                             <i class="fa fa-angle-left pull-right"></i>
                             <span>Log</span>
@@ -243,12 +243,6 @@
                             <li><a id="download_log_button" href="#"><i class="fa fa-download"></i><span>Download log</span></a></li>
                             <li><a id="clear_localstorage_button" href="#"><i class="fa fa-times"></i><span>Delete all data</span></a></li>
                         </ul>
-                    </li>
-                    <li>
-                        <a id="event_settings_button" href="#">
-                            <i class="fa fa-gear"></i>
-                            <span>Relay settings</span>
-                        </a>
                     </li>
                     <li class="treeview">
                         <a href="#">
@@ -480,6 +474,32 @@
                                 </div>
                             </div>
                         </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table id="log_table" class="table table-bordered table-responsive table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th data-dynatable-column="relay_number">#</th>
+                                            <th data-dynatable-column="relay_name">Relay name</th>
+                                            <th data-dynatable-column="date">Date</th>
+                                            <th data-dynatable-column="nr_of_fish">Fish [#]</th>
+                                            <th data-dynatable-column="nr_of_dead_fish">Dead fish [#]</th>
+                                            <th data-dynatable-column="avg_fish_kg">Fish [g]</th>
+                                            <th data-dynatable-column="biomass">Biomass [kg]</th>
+                                            <th data-dynatable-column="feeder_speed_kg_pr_min">Feeder [kg/min]</th>
+                                            <th data-dynatable-column="feeding_percent">Feed [%]</th>
+                                            <th data-dynatable-column="required_feed_pr_day">Feed [kg/day]</th>
+                                            <th data-dynatable-column="growth_factor">Feed factor</th>
+                                            <th data-dynatable-column="feed_progress_today">Fed today [kg]</th>
+                                            <th data-dynatable-column="time_feeder_active">Active time [min]</th>
+                                            <th data-dynatable-column="time_feeding_intervals">Feeding duration [min]</th>
+                                            <th data-dynatable-column="feeder_toggle_speed">On [%]</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div><!-- /.row -->
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
 
@@ -505,37 +525,6 @@
                                             <th data-dynatable-no-sort="true" data-dynatable-column="time_feeder_active">Active time [min]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="time_feeding_intervals">Feeding duration [min]</th>
                                             <th data-dynatable-no-sort="true" data-dynatable-column="feeder_toggle_speed">On [%]</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div><!-- /.row -->
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
-
-                <div class="box">
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <table id="log_table" class="table table-bordered table-responsive table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th data-dynatable-column="relay_number">#</th>
-                                            <th data-dynatable-column="relay_name">Relay name</th>
-                                            <th data-dynatable-column="date">Date</th>
-                                            <th data-dynatable-column="nr_of_fish">Fish [#]</th>
-                                            <th data-dynatable-column="nr_of_dead_fish">Dead fish [#]</th>
-                                            <th data-dynatable-column="avg_fish_kg">Fish [g]</th>
-                                            <th data-dynatable-column="biomass">Biomass [kg]</th>
-                                            <th data-dynatable-column="feeder_speed_kg_pr_min">Feeder [kg/min]</th>
-                                            <th data-dynatable-column="feeding_percent">Feed [%]</th>
-                                            <th data-dynatable-column="required_feed_pr_day">Feed [kg/day]</th>
-                                            <th data-dynatable-column="growth_factor">Feed factor</th>
-                                            <th data-dynatable-column="feed_progress_today">Fed today [kg]</th>
-                                            <th data-dynatable-column="time_feeder_active">Active time [min]</th>
-                                            <th data-dynatable-column="time_feeding_intervals">Feeding duration [min]</th>
-                                            <th data-dynatable-column="feeder_toggle_speed">On [%]</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
