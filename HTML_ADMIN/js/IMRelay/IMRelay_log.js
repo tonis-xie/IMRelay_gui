@@ -33,8 +33,10 @@ function generate_csv_from_table() {
 function write_log_table(relay_id) {
 
     $("#log_table > tbody").html("");
+    $("#log_table > tfoot").html("");
 
-    var html_table;
+    var html_table_body;
+    var html_table_foot;
     var json_log_to_write = g_LDA.log_table.get({
 
         filter: function (item) {
@@ -45,18 +47,46 @@ function write_log_table(relay_id) {
 
     var len = $("#log_table").find("tr:first th").length;
     var columns = [];
+    var footer = [];
 
     for (var i = 0; i < len; i++) {
-        columns[i] = $('#log_table').find('th').eq(i).attr('data-dynatable-column');        
+        columns[i] = $('#log_table').find('th').eq(i).attr('data-dynatable-column');
+        footer[columns[i]] = "";
     }
+    
+    footer.relay_name = "SUM"
+    footer.nr_of_dead_fish = 0;
+    footer.required_feed_pr_day = 0;
+    footer.feed_progress_today = 0;
+    footer.time_feeder_active = 0;
+    footer.time_feeding_intervals = 0;
+
+    var rows_in_json = 0;
 
     for (row in json_log_to_write) {
-        html_table += log_table_row_writer(json_log_to_write[row], columns);
+    
+        html_table_body += log_table_row_writer(json_log_to_write[row], columns);
+        footer.nr_of_dead_fish += +json_log_to_write[row].nr_of_dead_fish;
+        footer.required_feed_pr_day += +json_log_to_write[row].required_feed_pr_day;
+        footer.feed_progress_today += +json_log_to_write[row].feed_progress_today;
+        footer.time_feeder_active += +json_log_to_write[row].time_feeder_active;
+        footer.time_feeding_intervals += +json_log_to_write[row].time_feeding_intervals;
+        rows_in_json++;
+
     }
 
-    $("#log_table > tbody").append(html_table);
+    footer.date = rows_in_json + " days";
+    footer.required_feed_pr_day = footer.required_feed_pr_day.toFixed(3);
+    footer.feed_progress_today = footer.feed_progress_today.toFixed(3);
+    footer.time_feeder_active = footer.time_feeder_active.toFixed(1);
+    footer.time_feeding_intervals = footer.time_feeding_intervals.toFixed(1);
 
-    console.log("html_table", html_table);
+    html_table_foot += log_table_row_writer(footer, columns);
+
+    $("#log_table > tbody").append(html_table_body);
+    $("#log_table > tfoot").append(html_table_foot);
+
+    console.log("html_table", html_table_body);
 
     generate_csv_from_table();
 
