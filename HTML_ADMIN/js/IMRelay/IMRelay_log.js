@@ -32,8 +32,17 @@ function generate_csv_from_table() {
 
 function write_log_table(relay_id) {
 
+    $("#log_table > tbody").html("");
+
     var html_table;
-    var json_log_to_write = g_LDA.log_table.get({ relay_number: relay_id });
+    var json_log_to_write = g_LDA.log_table.get({
+
+        filter: function (item) {
+            return item.relay_number == relay_id;            
+        }
+
+    });
+
     var len = $("#log_table").find("tr:first th").length;
     var columns = [];
 
