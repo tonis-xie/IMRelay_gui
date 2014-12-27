@@ -63,6 +63,9 @@ $(document).ready(function () {
         hide_event_settings(false);
         hide_table(true);
 
+        var relay_nr = parseInt($("input[name=event_relay]:checked").val(), 10);
+        write_log_table(relay_nr);
+
     });
 
     $("a#feeder_settings_button").click(function () {        
