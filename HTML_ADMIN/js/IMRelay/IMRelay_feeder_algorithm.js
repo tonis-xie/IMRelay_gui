@@ -88,8 +88,6 @@ function relay_event_scheduler() {
                 g_LDA.relay[relay_id - 1].on_ticks_remaining -= on_time;
                 g_LDA.relay[relay_id - 1].off_ticks_remaining -= (10 - on_time);
 
-                //console.log("acc", g_LDA.relay[relay_id - 1].accumulate, "on", g_LDA.relay[relay_id - 1].on, "off", g_LDA.relay[relay_id - 1].off, "on_rem", g_LDA.relay[relay_id - 1].on_ticks_remaining, "off_rem", g_LDA.relay[relay_id - 1].off_ticks_remaining);
-
             } else {
 
                 g_LDA.relay[relay_id - 1].on = g_LDA.relay[relay_id - 1].on_ticks_remaining;

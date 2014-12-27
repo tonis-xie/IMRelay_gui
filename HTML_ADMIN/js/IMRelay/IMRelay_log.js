@@ -86,8 +86,6 @@ function write_log_table(relay_id) {
     $("#log_table > tbody").append(html_table_body);
     $("#log_table > tfoot").append(html_table_foot);
 
-    console.log("html_table", html_table_body);
-
     generate_csv_from_table();
 
 }
