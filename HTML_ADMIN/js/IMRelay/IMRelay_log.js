@@ -76,11 +76,6 @@ function write_log_table(relay_id) {
     }
 
     footer.date = rows_in_json + " days";
-    footer.required_feed_pr_day = footer.required_feed_pr_day.toFixed(3);
-    footer.feed_progress_today = footer.feed_progress_today.toFixed(3);
-    footer.time_feeder_active = footer.time_feeder_active.toFixed(1);
-    footer.time_feeding_intervals = footer.time_feeding_intervals.toFixed(1);
-
     html_table_foot += log_table_row_writer(footer, columns);
 
     $("#log_table > tbody").append(html_table_body);
@@ -104,7 +99,18 @@ function log_table_row_writer(row, columns) {
     var tr = '';
 
     for (var i = 0; i < columns.length; i++) {
-        tr += log_table_cell_writer(row[columns[i]]);
+
+        var val = row[columns[i]];
+        if (columns[i] == "required_feed_pr_day" || columns[i] == "feed_progress_today") {
+            val = parseInt(val).toFixed(3);
+            tr += log_table_cell_writer(val);
+        } else if (columns[i] == "time_feeder_active" || columns[i] == "time_feeding_intervals") {
+            val = parseInt(val).toFixed(1);
+            tr += log_table_cell_writer(val);
+        } else {
+            tr += log_table_cell_writer(val);
+        }
+        
     }
 
     return '<tr>' + tr + '</tr>';
