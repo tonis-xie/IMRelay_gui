@@ -2,7 +2,11 @@
     text-align: center;
 }
 
-#log_table > tfoot {
+#log_table thead th {
+    text-align: center;
+}
+
+#log_table tfoot {
     font-weight: bold;
 }
 
