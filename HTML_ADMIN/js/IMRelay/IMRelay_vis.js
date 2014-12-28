@@ -52,14 +52,26 @@ $(document).ready(function () {
 
     for (var i = 1; i <= 16; i++) {
         g_LDA.groups.add({ id: i, className: 'vis_group_disabled', content: create_html_button(i), value: i });
-    }    
-   
+    }      
+
     g_LDA.groups.on('*', function (event, properties, senderId) {
 
         var group_classnames_to_localstorage = g_LDA.groups.get({
             // output the specified fields only
             fields: ['id', 'className']
         });
+
+        for (var ids = 0; ids < 16; ids++) {            
+
+            if (group_classnames_to_localstorage[ids].className === "vis_group_disabled") {
+                $("#vis_controls_id_" + (ids + 1) + " div:nth-child(1) i").removeClass('fa-cutlery').removeClass('fa-plug').addClass('fa-ban');
+            } else if (g_LDA.relay[ids].type === "generic") {
+                $("#vis_controls_id_" + (ids + 1) + " div:nth-child(1) i").removeClass('fa-cutlery').addClass('fa-plug').removeClass('fa-ban');
+            } else {
+                $("#vis_controls_id_" + (ids + 1) + " div:nth-child(1) i").addClass('fa-cutlery').removeClass('fa-plug').removeClass('fa-ban');
+            }
+
+        }
 
         localStorage["timeline.groups"] = JSON.stringify(group_classnames_to_localstorage);
 

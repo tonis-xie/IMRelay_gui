@@ -130,11 +130,9 @@ $(document).ready(function () {
             record.feeder_toggle_speed = relay_indicator_toggle_factor.toFixed(1);
         } else {
             record.feeder_toggle_speed = relay_indicator_toggle_factor.toFixed(0);
-        }
+        }        
 
         if (record.state === "generic") {
-
-            $("#vis_controls_id_" + (rowIndex + 1) + " div:nth-child(1) i").removeClass('fa-cutlery').addClass('fa-plug').removeClass('fa-ban');
 
             g_LDA.relay[rowIndex] = {
                 type: "generic",
@@ -149,12 +147,6 @@ $(document).ready(function () {
             };
 
         } else {
-
-            if (record.state === "feeder") {
-                $("#vis_controls_id_" + (rowIndex + 1) + " div:nth-child(1) i").addClass('fa-cutlery').removeClass('fa-plug').removeClass('fa-ban');
-            } else {
-                $("#vis_controls_id_" + (rowIndex + 1) + " div:nth-child(1) i").removeClass('fa-cutlery').removeClass('fa-plug').addClass('fa-ban');
-            }            
 
             g_LDA.relay[rowIndex] = {
                 type: "feeder",
