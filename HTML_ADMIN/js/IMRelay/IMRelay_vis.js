@@ -9,10 +9,13 @@ $(document).ready(function () {
         div.role = "group";
         div.id = 'vis_controls_id_' + id;
 
-        var relay_id_div = document.createElement('div');        
+        var relay_id_div = document.createElement('div');
         relay_id_div.className = 'btn btn-default disabled';
         //relay_id_div.innerText = (id < 10) ? "0" + id + " " : id + " ";
-        relay_id_div.innerText = id + " ";
+        //relay_id_div.innerText = id + " ";
+        var relay_number_div = document.createElement('div');
+        relay_number_div.innerText = id;
+        relay_id_div.appendChild(relay_number_div);
         var state_icon = document.createElement('i');
         state_icon.className = 'fa';
         relay_id_div.appendChild(state_icon);

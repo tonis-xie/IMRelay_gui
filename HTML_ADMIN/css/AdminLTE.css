@@ -1685,9 +1685,16 @@ table .btn,
   padding: 6px;  
 }
 
-.vis_controls div {
-    width: 41px;
+.vis_controls div > div {
+    display: inline-block;
+    width: 15px;
+    margin-right: 6px;
     text-align: right;
+    color: black !important;
+}
+
+.vis_controls div > i {
+    width: 20px;    
     color: black !important;
 }
 
