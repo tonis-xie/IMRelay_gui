@@ -4,27 +4,74 @@ $(document).ready(function () {
 
     function create_html_button(id) {
 
-        var html_group_button = document.createElement('button');
-        html_group_button.className = 'btn btn-default vis_btn_disabled';
-        html_group_button.type = 'button';
-        html_group_button.id = 'vis_group_button_' + id;
-        html_group_button.innerText = id + ': Disabled';
+        var div = document.createElement('div');
+        div.className = 'vis_controls btn-group btn-group-sm';
+        div.role = "group";
+        div.id = 'vis_controls_id_' + id;
 
-        return html_group_button;
+        var relay_id_div = document.createElement('div');
+        relay_id_div.className = 'btn btn-default disabled';
+        //relay_id_div.innerText = (id < 10) ? "0" + id + " " : id + " ";
+        //relay_id_div.innerText = id + " ";
+        var relay_number_div = document.createElement('div');
+        relay_number_div.innerText = id;
+        relay_id_div.appendChild(relay_number_div);
+        var state_icon = document.createElement('i');
+        state_icon.className = 'fa';
+        relay_id_div.appendChild(state_icon);
+        div.appendChild(relay_id_div);
+
+        var play_button = document.createElement('button');
+        play_button.className = 'btn btn-default';
+        play_button.type = 'button';
+        var play_icon = document.createElement('i');
+        play_icon.className = 'fa fa-play';
+        play_button.appendChild(play_icon);
+        div.appendChild(play_button);
+
+        var pause_button = document.createElement('button');
+        pause_button.className = 'btn btn-default';
+        pause_button.type = 'button';
+        var pause_icon = document.createElement('i');
+        pause_icon.className = 'fa fa-pause';
+        pause_button.appendChild(pause_icon);
+        div.appendChild(pause_button);
+
+        var stop_button = document.createElement('button');
+        stop_button.className = 'btn btn-default';
+        stop_button.type = 'button';
+        var stop_icon = document.createElement('i');
+        stop_icon.className = 'fa fa-stop';
+        stop_button.appendChild(stop_icon);
+        div.appendChild(stop_button);
+
+        return div;
     }        
 
     g_LDA.groups = new vis.DataSet();
 
     for (var i = 1; i <= 16; i++) {
         g_LDA.groups.add({ id: i, className: 'vis_group_disabled', content: create_html_button(i), value: i });
-    }    
-   
+    }      
+
     g_LDA.groups.on('*', function (event, properties, senderId) {
 
         var group_classnames_to_localstorage = g_LDA.groups.get({
             // output the specified fields only
             fields: ['id', 'className']
         });
+
+        for (var ids = 0; ids < 16; ids++) {            
+
+            if (group_classnames_to_localstorage[ids].className === "vis_group_disabled") {
+                $("#vis_controls_id_" + (ids + 1) + " div:nth-child(1) i").removeClass('fa-cutlery').removeClass('fa-plug').addClass('fa-ban');
+            } else if (g_LDA.relay[ids].type === "generic") {
+                $("#vis_controls_id_" + (ids + 1) + " div:nth-child(1) i").removeClass('fa-cutlery').addClass('fa-plug').removeClass('fa-ban');
+            } else {
+                $("#vis_controls_id_" + (ids + 1) + " div:nth-child(1) i").addClass('fa-cutlery').removeClass('fa-plug').removeClass('fa-ban');
+            }
+
+        }
 
         localStorage["timeline.groups"] = JSON.stringify(group_classnames_to_localstorage);
 
@@ -228,15 +275,33 @@ $(document).ready(function () {
 
     function toggle_vis_timeline_button_classes(btn_num) {             
       
-        $("#vis_group_button_" + btn_num).click(function () {
+        $("#vis_controls_id_" + btn_num + " button:nth-child(2)").click(function () {
 
-            var group_to_edit = g_LDA.feeding_table.get(btn_num);
+            $("#vis_controls_id_" + btn_num + " div:nth-child(1)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(2)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(3)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(4)").addClass('btn-success').removeClass('btn-warning').removeClass('btn-default');
+            g_LDA.feeding_table.update({ id: btn_num, state: "feeder" });
 
-            if (group_to_edit.state === 'inactive') {
-                g_LDA.feeding_table.update({ id: group_to_edit.id, state: "feeder" });
-            } else {
-                g_LDA.feeding_table.update({ id: group_to_edit.id, state: "inactive"});
-            }
+        });
+
+        $("#vis_controls_id_" + btn_num + " button:nth-child(3)").click(function () {
+            
+            $("#vis_controls_id_" + btn_num + " div:nth-child(1)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(4)").removeClass('btn-success').addClass('btn-warning').removeClass('btn-default');
+            g_LDA.feeding_table.update({ id: btn_num, state: "feeder" });
+
+        });
+
+        $("#vis_controls_id_" + btn_num + " button:nth-child(4)").click(function () {
+            
+            $("#vis_controls_id_" + btn_num + " div:nth-child(1)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(2)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(3)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+            $("#vis_controls_id_" + btn_num + " button:nth-child(4)").removeClass('btn-success').removeClass('btn-warning').addClass('btn-default');
+            g_LDA.feeding_table.update({ id: btn_num, state: "inactive" });
 
         });
 
@@ -455,13 +520,18 @@ $(document).ready(function () {
     }
 
     $("input[name=event_relay]:radio").change(function () {
+
         var value = $(this).val();
+
         if (value === "") {
             dynatable_event.queries.remove("relay_number");
         } else {
             dynatable_event.queries.add("relay_number",value);
         }
+
         dynatable_event.process();
+        write_log_table(value);
+
     });
 
 

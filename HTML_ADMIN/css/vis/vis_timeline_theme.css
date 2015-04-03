@@ -1,16 +1,27 @@
 ﻿.vis.timeline .vis_item_relay_event {
-  color: white;
-  background-color: red;
-  border-color: darkred;
+    color: black;
+    background-color: rgba(31, 141, 255, 0.5);
+    border-color: #1f8dff;
 }
 
 .vis.timeline .item {
     padding: 0px;
+    color: black;
+    background-color: rgba(31, 141, 255, 0.5);
+    border-color: #1f8dff;
+}
+
+.vis.timeline .item.selected {
+    font-weight: bold;
+    color: white;
+    background-color: #1f8dff;
+    border-color: #1f8dff;
 }
 
 .vis.timeline .item.range, .vis.timeline .item.rangeoverflow {
     height: 21px;
-    bottom: 4px !important;
+    top: 5px !important;
+    bottom: 5px !important;
 }
 
 .vis.timeline .item.range .content {

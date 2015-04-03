@@ -1,3 +1,15 @@
+#log_table {
+    text-align: center;
+}
+
+#log_table thead th {
+    text-align: center;
+}
+
+#log_table tfoot {
+    font-weight: bold;
+}
+
 #feeding_table button,
 #event_table button {
     width: 65px;

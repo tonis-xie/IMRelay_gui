@@ -2,17 +2,8 @@
     "use strict";
 
     /* jQueryKnob */
-
     $(".knob").knob({
-        /*change : function (value) {
-         //console.log("change : " + value);
-         },
-         release : function (value) {
-         console.log("release : " + value);
-         },
-         cancel : function () {
-         console.log("cancel : " + this.value);
-         },*/
+
         draw: function () {
 
             // "tron" case
@@ -32,6 +23,7 @@
                         && (eat = eat + 0.3);
 
                 if (this.o.displayPrevious) {
+
                     ea = this.startAngle + this.angle(this.value);
                     this.o.cursor
                             && (sa = ea - 0.3)
@@ -40,6 +32,7 @@
                     this.g.strokeStyle = this.previousColor;
                     this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
                     this.g.stroke();
+
                 }
 
                 this.g.beginPath();
@@ -55,7 +48,9 @@
 
                 return false;
             }
+
         }
+
     });
     /* END JQUERY KNOB */
 
