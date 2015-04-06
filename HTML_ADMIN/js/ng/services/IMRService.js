@@ -1,6 +1,6 @@
 angular.module('IMRService', [])
     .service('IMRService', function() {
-        var chosenSubnet = '169.254.4.';
+        var chosenSubnet = localStorage.device_subnet || '169.254.4.';
         this.GetChosenSubnet = function() {
             return chosenSubnet;
         };

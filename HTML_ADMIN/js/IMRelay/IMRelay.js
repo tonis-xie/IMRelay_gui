@@ -1,83 +1,83 @@
 $(document).ready(function () {
     "use strict";
 
-    function hide_timeline(hide) {
-        //Find the box parent
-        var bf = $(".box").eq(1);
-        if (hide) {
-            //bf.slideUp();
-            //bf.hide();
-            bf.css({'visibility':'hidden'});
-            bf.css({'position':'absolute'});
-        } else {
-            //bf.slideDown();
-            //bf.show();
-            bf.css({'visibility':'visible'});
-            bf.css({'position':'static'});
-        }
-    }
-
-    function hide_event_settings(hide) {
-        //Find the box parent
-        var bf = $(".box").eq(2);
-        if (hide) {
-            //bf.slideUp();
-            //bf.hide();
-            bf.css({'visibility':'hidden'});
-            bf.css({'position':'absolute'});
-        } else {
-            //bf.slideDown();
-            //bf.show();
-            bf.css({'visibility':'visible'});
-            bf.css({'position':'static'});
-        }
-    }
-
-    function hide_table(hide) {
-        //Find the box parent
-        var bf = $(".box").eq(3);
-        if (hide) {
-            //bf.slideUp();
-            //bf.hide();
-            bf.css({'visibility':'hidden'});
-            bf.css({'position':'absolute'});
-        } else {
-            //bf.slideDown();
-            //bf.show();
-            bf.css({'visibility':'visible'});
-            bf.css({'position':'static'});
-        }
-    }
-
-    $("a#timeline_menu_button").click(function () {
-
-        hide_timeline(false);
-        hide_event_settings(true);
-        hide_table(true);
-
-    });
-
-    $("a#event_settings_button").click(function () {
-
-        hide_timeline(true);
-        hide_event_settings(false);
-        hide_table(true);
-
-        var relay_nr = parseInt($("input[name=event_relay]:checked").val(), 10);
-        write_log_table(relay_nr);
-
-    });
-
-    $("a#feeder_settings_button").click(function () {        
-
-        hide_timeline(true);
-        hide_event_settings(true);
-        hide_table(false);
-
-    });
-
-    hide_event_settings(true);
-    hide_table(true);
+//    function hide_timeline(hide) {
+//        //Find the box parent
+//        var bf = $(".box").eq(1);
+//        if (hide) {
+//            //bf.slideUp();
+//            //bf.hide();
+//            bf.css({'visibility':'hidden'});
+//            bf.css({'position':'absolute'});
+//        } else {
+//            //bf.slideDown();
+//            //bf.show();
+//            bf.css({'visibility':'visible'});
+//            bf.css({'position':'static'});
+//        }
+//    }
+//
+//    function hide_event_settings(hide) {
+//        //Find the box parent
+//        var bf = $(".box").eq(2);
+//        if (hide) {
+//            //bf.slideUp();
+//            //bf.hide();
+//            bf.css({'visibility':'hidden'});
+//            bf.css({'position':'absolute'});
+//        } else {
+//            //bf.slideDown();
+//            //bf.show();
+//            bf.css({'visibility':'visible'});
+//            bf.css({'position':'static'});
+//        }
+//    }
+//
+//    function hide_table(hide) {
+//        //Find the box parent
+//        var bf = $(".box").eq(3);
+//        if (hide) {
+//            //bf.slideUp();
+//            //bf.hide();
+//            bf.css({'visibility':'hidden'});
+//            bf.css({'position':'absolute'});
+//        } else {
+//            //bf.slideDown();
+//            //bf.show();
+//            bf.css({'visibility':'visible'});
+//            bf.css({'position':'static'});
+//        }
+//    }
+//
+//    $("a#timeline_menu_button").click(function () {
+//
+//        hide_timeline(false);
+//        hide_event_settings(true);
+//        hide_table(true);
+//
+//    });
+//
+//    $("a#event_settings_button").click(function () {
+//
+//        hide_timeline(true);
+//        hide_event_settings(false);
+//        hide_table(true);
+//
+//        var relay_nr = parseInt($("input[name=event_relay]:checked").val(), 10);
+//        write_log_table(relay_nr);
+//
+//    });
+//
+//    $("a#feeder_settings_button").click(function () {        
+//
+//        hide_timeline(true);
+//        hide_event_settings(true);
+//        hide_table(false);
+//
+//    });
+//
+//    hide_event_settings(true);
+//    hide_table(true);
 
     $("a#clear_localstorage_button").click(function () {
 
@@ -102,10 +102,10 @@ $(document).ready(function () {
         }
     });
 
-    var device_subnet_localstorage = localStorage.device_subnet;
-    if (device_subnet_localstorage != null) {
-        $("a span#device_subnet").text(device_subnet_localstorage);
-    }
+//    var device_subnet_localstorage = localStorage.device_subnet;
+//    if (device_subnet_localstorage != null) {
+//        $("a span#device_subnet").text(device_subnet_localstorage);
+//    }
 
 //    $("ul#device_subnet_list > li > a").click(function () {
 //

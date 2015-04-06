@@ -11,6 +11,7 @@
     <script src="js/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
     <!-- AngularJS -->
     <script src="js/ng/angular.min.js"></script>
+    <script src="js/ng/angular-route.min.js"></script>
     <script src="js/ng/ngapp.js" type="text/javascript"></script>
     <script src="js/ng/services/IMRService.js" type="text/javascript"></script>
     <script src="js/ng/directives/slim-scroll.js" type="text/javascript"></script>
@@ -28,8 +29,8 @@
     <!-- Compiled with Dataset + Timeline and Hammer. Moment is exluded -->
     <script src="js/plugins/vis/vis-custom.min.js" type="text/javascript"></script>
     <!-- Dynatable -->
-    <link href="css/dynatable/jquery.dynatable.css" rel="stylesheet" type="text/css" />
-    <link href="css/IMRelay_dynatable.css" rel="stylesheet" type="text/css" />
+<!--    <link href="css/dynatable/jquery.dynatable.css" rel="stylesheet" type="text/css" />-->
+<!--    <link href="css/IMRelay_dynatable.css" rel="stylesheet" type="text/css" />-->
     <!-- jQueryUI -->
     <link rel="stylesheet" href="css/jquery-ui.min.css" />
 
@@ -215,19 +216,19 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="active">
-                        <a id="timeline_menu_button" href=" #">
+                        <a id="timeline_menu_button" href="#/feedingTimes">
                             <i class="fa fa-clock-o"></i>
                             <span>Feeding times</span>
                         </a>
                     </li>
                     <li>
-                        <a id="feeder_settings_button" href="#">
+                        <a id="feeder_settings_button" href="#/feederSettings">
                             <i class="fa fa-table"></i>
                             <span>Feeder settings</span>
                         </a>
                     </li>
                     <li class="treeview">
-                        <a id="event_settings_button" href="#">
+                        <a id="event_settings_button" href="#/feederLog">
                             <i class="fa fa-file-text-o"></i>
                             <i class="fa fa-angle-left pull-right"></i>
                             <span>Log</span>
@@ -271,7 +272,6 @@
 
             <!-- Main content -->
             <section class="adminLTE_content">
-
                 <div class="box">
                     <div class="box-header">
                         <!-- Relay stat boxes -->
@@ -368,165 +368,12 @@
                     </div><!-- /.box-header -->
                 </div><!-- /.box -->
 
-                <div class="box">
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-lg-12" id="vis_timeline"></div>
-                        </div><!-- /.row (main row) -->
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
+               <ng-view></ng-view>
+                
 
-                <div class="box">
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading"> Relay # </div>
-                                    <div class="panel-body" id="relay_radiobutton_chooser">
-                                        <div class="col-lg-3 col-xs-6">
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_1">   1 </label><input type="radio" name="event_relay" id="radio_button_1"  value="1" checked="checked"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_2">   2 </label><input type="radio" name="event_relay" id="radio_button_2"  value="2"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_3">   3 </label><input type="radio" name="event_relay" id="radio_button_3"  value="3"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_4">   4 </label><input type="radio" name="event_relay" id="radio_button_4"  value="4"></div>
-                                        </div>
-                                        <div class="col-lg-3 col-xs-6">
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_5">   5 </label><input type="radio" name="event_relay" id="radio_button_5"  value="5"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_6">   6 </label><input type="radio" name="event_relay" id="radio_button_6"  value="6"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_7">   7 </label><input type="radio" name="event_relay" id="radio_button_7"  value="7"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_8">   8 </label><input type="radio" name="event_relay" id="radio_button_8"  value="8"></div>
-                                        </div>
-                                        <div class="col-lg-3 col-xs-6">
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_9">   9 </label><input type="radio" name="event_relay" id="radio_button_9"  value="9"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_10"> 10 </label><input type="radio" name="event_relay" id="radio_button_10" value="10"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_11"> 11 </label><input type="radio" name="event_relay" id="radio_button_11" value="11"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_12"> 12 </label><input type="radio" name="event_relay" id="radio_button_12" value="12"></div>
-                                        </div>
-                                        <div class="col-lg-3 col-xs-6">
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_13"> 13 </label><input type="radio" name="event_relay" id="radio_button_13" value="13"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_14"> 14 </label><input type="radio" name="event_relay" id="radio_button_14" value="14"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_15"> 15 </label><input type="radio" name="event_relay" id="radio_button_15" value="15"></div>
-                                            <div class="col-xs-3 text-center radio_button_group"><label for="radio_button_16"> 16 </label><input type="radio" name="event_relay" id="radio_button_16" value="16"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                        <!--<div class="col-lg-6">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading"> Relay settings </div>
-                                    <div class="panel-body">
-                                        <form class="form-horizontal">
-                                            <div class="form-group">
-                                                <label for="relay_state_chooser" class="col-sm-2 control-label">State</label>
-                                                <div class="col-sm-10">
-                                                    <select id="relay_state_chooser" class="form-control">
-                                                        <option>Inactive</option>
-                                                        <option>Feeder</option>
-                                                        <option>Generic</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="time_on_chooser" class="col-sm-2 control-label">Time on</label>
-                                                <div class="col-sm-10">
-                                                    <input type="number" min="0" max="86400" class="form-control" id="time_on_chooser" placeholder="0">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="time_off_chooser" class="col-sm-2 control-label">Time off</label>
-                                                <div class="col-sm-10">
-                                                    <input type="number" min="0" max="86400" class="form-control" id="time_off_chooser" placeholder="0">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type='button' id="update_relay_type_setting" class="btn btn-default">Update</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>-->
-                            <div class="col-lg-6">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading"> Relay items </div>
-                                    <div class="panel-body">
-                                        <table id="event_table" class="table table-bordered table-responsive table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <th data-dynatable-no-sort="true" data-dynatable-column="edit_button">Edit</th>
-                                                    <th data-dynatable-no-sort="true" data-dynatable-column="relay_number">Relay #</th>
-                                                    <th data-dynatable-no-sort="true" data-dynatable-column="start_time">Start time</th>
-                                                    <th data-dynatable-no-sort="true" data-dynatable-column="end_time">End time</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- /.row -->
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <table id="log_table" class="table table-bordered table-responsive table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th data-dynatable-column="relay_number">#</th>
-                                            <th data-dynatable-column="relay_name">Relay name</th>
-                                            <th data-dynatable-column="date">Date</th>
-                                            <th data-dynatable-column="nr_of_fish">Fish [#]</th>
-                                            <th data-dynatable-column="nr_of_dead_fish">Dead fish [#]</th>
-                                            <th data-dynatable-column="avg_fish_kg">Fish [g]</th>
-                                            <th data-dynatable-column="biomass">Biomass [kg]</th>
-                                            <th data-dynatable-column="feeder_speed_kg_pr_min">Feeder [kg/min]</th>
-                                            <th data-dynatable-column="feeding_percent">Feed [%]</th>
-                                            <th data-dynatable-column="required_feed_pr_day">Feed [kg/day]</th>
-                                            <th data-dynatable-column="growth_factor">Feed factor</th>
-                                            <th data-dynatable-column="feed_progress_today">Fed today [kg]</th>
-                                            <th data-dynatable-column="time_feeder_active">Active time [min]</th>
-                                            <th data-dynatable-column="time_feeding_intervals">Feeding duration [min]</th>
-                                            <th data-dynatable-column="feeder_toggle_speed">On [%]</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                    <tfoot></tfoot>
-                                </table>
-                            </div>
-                        </div><!-- /.row -->
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
+                
 
-                <div class="box">
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <table id="feeding_table" class="table table-bordered table-responsive table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="id">#</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="relay_name">Relay name</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="state">State</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="nr_of_fish">Fish [#]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="nr_of_dead_fish">Dead fish [#]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="avg_fish_kg">Fish [g]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="biomass">Biomass [kg]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="feeder_speed_kg_pr_min">Feeder [kg/min]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="feeding_percent">Feed [%]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="required_feed_pr_day">Feed [kg/day]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="growth_factor">Feed factor</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="feed_progress_today">Feed progress [kg]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="time_feeder_active">Active time [min]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="time_feeding_intervals">Feeding duration [min]</th>
-                                            <th data-dynatable-no-sort="true" data-dynatable-column="feeder_toggle_speed">On [%]</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div><!-- /.row -->
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
+                
 
             </section><!-- /.content -->
         </aside><!-- /.right-side -->
@@ -538,7 +385,7 @@
     <!-- jQuery Knob Chart v1.2.10 -->
     <script src="js/plugins/jqueryKnob/jquery.knob.min.js" type="text/javascript"></script>
     <!-- dynatable v0.3.1 -->
-    <script src="js/plugins/dynatable/jquery.dynatable.min.js" type="text/javascript"></script>
+<!--    <script src="js/plugins/dynatable/jquery.dynatable.min.js" type="text/javascript"></script>-->
     <!-- table2csv -->
     <script src="js/plugins/table2csv/table2csv.js" type="text/javascript"></script>
     <!-- jQueryUI -->
@@ -548,10 +395,10 @@
 
     <!-- IMRelay App -->
     <script src="js/IMRelay/IMRelay_jqueryknob.js" type="text/javascript"></script>
-    <script src="js/IMRelay/IMRelay_log.js" type="text/javascript"></script>
-    <script src="js/IMRelay/IMRelay_feeding_table.js" type="text/javascript"></script>
-    <script src="js/IMRelay/IMRelay_vis.js" type="text/javascript"></script>
-    <script src="js/IMRelay/IMRelay_feeder_algorithm.js" type="text/javascript"></script>
+<!--    <script src="js/IMRelay/IMRelay_log.js" type="text/javascript"></script>-->
+<!--    <script src="js/IMRelay/IMRelay_feeding_table.js" type="text/javascript"></script>-->
+<!--    <script src="js/IMRelay/IMRelay_vis.js" type="text/javascript"></script>-->
+<!--    <script src="js/IMRelay/IMRelay_feeder_algorithm.js" type="text/javascript"></script>-->
     <!-- <script src="js/IMRelay/IMRelay_serial_handler.js" type="text/javascript"></script> -->
     <!-- include IMRelay as last script -->
     <script src="js/IMRelay/IMRelay.js" type="text/javascript"></script>
@@ -563,7 +410,7 @@
     <script src="js/IMRelay/theme_switcher.js" type="text/javascript"></script>
 
     <!-- Connect to device -->
-    <script src="js/IMRelay/IMRelay_connect.js" type="text/javascript"></script>
+<!--    <script src="js/IMRelay/IMRelay_connect.js" type="text/javascript"></script>-->
 
 </body>
 </html>
