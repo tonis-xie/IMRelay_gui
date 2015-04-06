@@ -1,4 +1,4 @@
-var app = angular.module("IMRApp", []);
+var app = angular.module("IMRApp", ['slimScroll']);
 
 // app.directive('knob', function() {
 //     return {

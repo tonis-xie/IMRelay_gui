@@ -41,17 +41,6 @@ $(function() {
     //Activate tooltips
     $("[data-toggle='tooltip']").tooltip();
 
-
-    /*
-     * ADD SLIMSCROLL TO THE TOP NAV DROPDOWNS
-     * ---------------------------------------
-     */
-    $(".navbar .menu").slimscroll({
-        height: "200px",
-        alwaysVisible: false,
-        size: "3px"
-    }).css("width", "100%");
-
     /* Sidebar tree view */
     $(".sidebar .treeview").tree();
 
