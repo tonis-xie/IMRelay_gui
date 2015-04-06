@@ -1,14 +1,14 @@
-var app = angular.module("IMRApp", ['slimScroll']);
+angular.module("IMRApp", ['slimScroll', 'dropDownDeviceSubnet'])
+    .controller('knobs-ctrl', function ($scope) {
+        $scope.knobIds = ['1', '2', '3', '4'];
+    });
 
-// app.directive('knob', function() {
+// .directive('knob', function() {
 //     return {
 //         restrict: 'A',
+//         replace: true,
 //         link: function(scope, element, attrs) {
 //             $(element).knob();
 //         }
 //     };
 // });
-
-app.controller('knobs-ctrl', function($scope) {
-  $scope.knobIds = ['1','2','3','4'];
-});

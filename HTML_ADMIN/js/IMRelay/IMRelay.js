@@ -107,15 +107,15 @@ $(document).ready(function () {
         $("a span#device_subnet").text(device_subnet_localstorage);
     }
 
-    $("ul#device_subnet_list > li > a").click(function () {
-
-        //var subnet_label = $(this).find("h3").text();
-        var device_subnet = $(this).find("p").text();
-        $("a span#device_subnet").text(device_subnet);
-        localStorage.device_subnet = device_subnet;
-        window.location.reload();
-
-    });
+//    $("ul#device_subnet_list > li > a").click(function () {
+//
+//        //var subnet_label = $(this).find("h3").text();
+//        var device_subnet = $(this).find("p").text();
+//        $("a span#device_subnet").text(device_subnet);
+//        localStorage.device_subnet = device_subnet;
+//        window.location.reload();
+//
+//    });
 
 });
 
