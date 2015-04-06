@@ -4,14 +4,15 @@ angular.module('dropDownDeviceSubnet', ['slimScroll', 'IMRService'])
             scope: {},
             templateUrl: 'js/ng/directives/drop-down-device-subnet.html',
             replace: true,
-            controller: 'DropDownDeviceSubnetCtrl'
+            controller: 'DropDownDeviceSubnetCtrl',
+            controllerAs: 'ctrl'
         };
     })
-    .controller('DropDownDeviceSubnetCtrl', ['$scope', 'IMRService', function($scope, IMRService) {
-        $scope.chosenSubnet = IMRService.GetChosenSubnet();
-        $scope.subnets = IMRService.GetSubnets();
-        $scope.subnetChanged = function(subnet) {
-            $scope.chosenSubnet = subnet;
+    .controller('DropDownDeviceSubnetCtrl', ['IMRService', function(IMRService) {
+        this.chosenSubnet = IMRService.GetChosenSubnet();
+        this.subnets = IMRService.GetSubnets();
+        this.subnetChanged = function(subnet) {
+            this.chosenSubnet = subnet;
             IMRService.SetChosenSubnet(subnet);
         };
     }]);

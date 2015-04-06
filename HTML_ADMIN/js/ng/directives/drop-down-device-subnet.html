@@ -1,13 +1,13 @@
 <li class="dropdown tasks-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <span style="margin-right:10px" id="device_subnet">{{chosenSubnet}}</span>
+        <span style="margin-right:10px" id="device_subnet">{{ctrl.chosenSubnet}}</span>
         <i class="fa fa-sitemap"></i>
     </a>
     <ul class="dropdown-menu">
         <li class="header">Choose subnet:</li>
         <li>
             <ul id="device_subnet_list" class="menu" slim-scroll>
-                <li ng-repeat="n in subnets"><a href="#" ng-click="subnetChanged(n.subnet)"><h3>{{n.subnetName}}</h3><p>{{n.subnet}}</p></a>
+                <li ng-repeat="n in ctrl.subnets"><a href="#" ng-click="ctrl.subnetChanged(n.subnet)"><h3>{{n.subnetName}}</h3><p>{{n.subnet}}</p></a>
                 </li>
             </ul>
         </li>
